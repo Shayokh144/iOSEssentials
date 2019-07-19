@@ -2,6 +2,7 @@
 
 
 ### Below objective C code will show/ remove a loading screen over the view
+``` objective C
 -(void) showLoadingIndicator{
 
     loadingView = [[UIView alloc] initWithFrame:self.view.frame];
@@ -31,3 +32,4 @@
     [spinner removeFromSuperview];
     [loadingView removeFromSuperview];
 }
+```
