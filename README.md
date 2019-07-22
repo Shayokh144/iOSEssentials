@@ -33,3 +33,10 @@
     [loadingView removeFromSuperview];
 }
 ```
+
+
+### TableRoWHeight / estimatedRowHeight
+Normally, a cell’s height is determined by the table view delegate’s tableView:heightForRowAtIndexPath:method. 
+To enable self-sizing table view cells, you must set the table view’s rowHeight property to UITableViewAutomaticDimension. You must also assign a value to the estimatedRowHeight property. As soon as both of these properties are set, the system uses Auto Layout to calculate the row’s actual height.
+* tableView.estimatedRowHeight = 85.0
+* tableView.rowHeight = UITableViewAutomaticDimension
