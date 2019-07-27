@@ -46,6 +46,7 @@ To enable self-sizing table view cells, you must set the table view’s rowHeig
 Save data in userdefault:
 ``` Swift
 UserDefaults.standard.set(IntegerData, forKey: "myIndex") // other datatypes can be saved also
+// key must be unique for each userDefault
 ```
 Then retrieve the data from any viewController:
 ``` Swift
