@@ -61,3 +61,6 @@ semanticContentAttribute can force an Item alignment
 Button.semanticContentAttribute = .forceLeftToRight
 //this will force "Button" to LeftToRight in any situation like RTL also
 ```
+
+### [content hugging and content compression resistance priorities](https://medium.com/@abhimuralidharan/ios-content-hugging-and-content-compression-resistance-priorities-476fb5828ef)
+
