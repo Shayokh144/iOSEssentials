@@ -54,3 +54,10 @@ If UserDefaults.standard.object(forKey: "myIndex"){
 	let savedIndexPAth = UserDefaults.standard.integer(forKey: "myIndex")
 }
 ```
+
+### semanticContentAttribute
+semanticContentAttribute can force an Item alignment
+``` Swift
+Button.semanticContentAttribute = .forceLeftToRight
+//this will force "Button" to LeftToRight in any situation like RTL also
+```
