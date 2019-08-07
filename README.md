@@ -64,3 +64,4 @@ Button.semanticContentAttribute = .forceLeftToRight
 
 ### [content hugging and content compression resistance priorities](https://medium.com/@abhimuralidharan/ios-content-hugging-and-content-compression-resistance-priorities-476fb5828ef)
 
+### [setNeedsLayout() layoutIfNeeded() layoutSubviews()](https://medium.com/@abhimuralidharan/ios-swift-setneedslayout-vs-layoutifneeded-vs-layoutsubviews-5a2b486da31c)
