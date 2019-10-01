@@ -55,6 +55,14 @@ If UserDefaults.standard.object(forKey: "myIndex"){
 }
 ```
 
+### CollectionView Scroll Direction 
+Change CollectionView Scroll Direction :
+``` Swift
+if let flowLayout = firstCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+       flowLayout.scrollDirection = .vertical // .horizontal
+}
+```
+
 ### semanticContentAttribute
 semanticContentAttribute can force an Item alignment
 ``` Swift
