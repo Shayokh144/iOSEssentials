@@ -86,3 +86,7 @@ override var preferredStatusBarStyle: UIStatusBarStyle {
     .lightContent
 }
 ```
+
+### What’s the difference between the frame and the bounds?
+The bounds of a UIView is the rectangle, expressed as a location (x,y) and size (width, height) relative to its own coordinate system (0,0).
+The frame of a UIView is the rectangle, expressed as a location (x,y) and size (width, height) relative to the superview it is contained within.
