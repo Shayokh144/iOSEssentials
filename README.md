@@ -90,3 +90,21 @@ override var preferredStatusBarStyle: UIStatusBarStyle {
 ### What’s the difference between the frame and the bounds?
 The bounds of a UIView is the rectangle, expressed as a location (x,y) and size (width, height) relative to its own coordinate system (0,0).
 The frame of a UIView is the rectangle, expressed as a location (x,y) and size (width, height) relative to the superview it is contained within.
+
+### Objective C Header Rule
+https://developer.apple.com/documentation/swift/imported_c_and_objective-c_apis/importing_swift_into_objective-c
+
+Include Swift Classes in Objective-C Headers Using Forward Declarations
+When declarations in an Objective-C header file refer to a Swift class or protocol that comes from the same target, importing the generated header creates a cyclical reference. To avoid this, use a forward declaration of the Swift class or protocol to reference it in an Objective-C interface.
+``` Objective-C
+// MyObjcClass.h
+@class MySwiftClass;
+@protocol MySwiftProtocol;
+
+@interface MyObjcClass : NSObject
+- (MySwiftClass *)returnSwiftClassInstance;
+- (id <MySwiftProtocol>)returnInstanceAdoptingSwiftProtocol;
+// ...
+@end
+```	
+# Forward declarations of Swift classes and protocols can be used only as types for method and property declarations.
