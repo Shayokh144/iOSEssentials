@@ -24,5 +24,12 @@ a .success(value), .completed or .error. If you need to implement an operation t
 - can act as both an observable and as an observer
 - 4 types of subjet
 ### PublishSubject
+- Starts empty and only emits new elements to subscribers.
 - like a newspaper publisher, it will receive information and then turn around and publish it to subscribers, possibly after modifying that information in some way first.
-- PublishSubject only emits to current subscribers. So if you weren’t subscribed to it when something was added to it previously, you don’t get it when you do subscribe. 
+- PublishSubject only emits to current subscribers. So if you weren’t subscribed to it when something was added to it previously, you don’t get it when you do subscribe.
+### BehaviorSubject
+- Starts with an initial value and replays it or the latest element to new subscribers.
+### ReplaySubject
+- Initialized with a buffer size and will maintain a buffer of elements up to that size and replay it to new subscribers.
+### AsyncSubject
+- Emits only the last .next event in the sequence, and only when the subject receives a .completed event. This is a seldom used kind of subject, and you won't use it in this book. It's listed here for the sake of completeness.
