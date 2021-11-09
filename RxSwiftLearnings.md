@@ -27,6 +27,21 @@ a .success(value), .completed or .error. If you need to implement an operation t
 - Starts empty and only emits new elements to subscribers.
 - like a newspaper publisher, it will receive information and then turn around and publish it to subscribers, possibly after modifying that information in some way first.
 - PublishSubject only emits to current subscribers. So if you weren’t subscribed to it when something was added to it previously, you don’t get it when you do subscribe.
+```swift
+let psubject = PublishSubject<String>()
+psubject.onNext("abcd")
+let psubjectSubscriber = psubject.subscribe(
+    onNext:{element in
+        print(element)
+    },
+    onCompleted: {
+        print("publishsubject onCompleted")
+    }
+)
+psubject.onNext("abcd was not printed as it appears before subscriber")
+psubject.onCompleted()
+psubject.dispose()
+```
 ### BehaviorSubject
 - Starts with an initial value and replays it or the latest element to new subscribers.
 ### ReplaySubject
