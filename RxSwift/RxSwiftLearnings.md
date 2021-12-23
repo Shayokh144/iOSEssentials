@@ -48,3 +48,9 @@ psubject.dispose()
 - Initialized with a buffer size and will maintain a buffer of elements up to that size and replay it to new subscribers.
 ### AsyncSubject
 - Emits only the last .next event in the sequence, and only when the subject receives a .completed event. This is a seldom used kind of subject, and you won't use it in this book. It's listed here for the sake of completeness.
+
+## Operator
+### IgnoreElement()
+- it can trigger completed event only.
+### ElementAt(position)
+- subscription only get called for given position.
