@@ -13,6 +13,7 @@
 		E004544E2778EA46004A11F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E004544D2778EA46004A11F1 /* Assets.xcassets */; };
 		E00454512778EA46004A11F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E004544F2778EA46004A11F1 /* LaunchScreen.storyboard */; };
 		E004545A2778EC05004A11F1 /* TaskListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00454592778EC05004A11F1 /* TaskListViewController.swift */; };
+		E0BEAD7C2785E35700DD6C93 /* AddTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BEAD7B2785E35700DD6C93 /* AddTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		E00454502778EA46004A11F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E00454522778EA46004A11F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E00454592778EC05004A11F1 /* TaskListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewController.swift; sourceTree = "<group>"; };
+		E0BEAD7B2785E35700DD6C93 /* AddTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				E00454592778EC05004A11F1 /* TaskListViewController.swift */,
+				E0BEAD7B2785E35700DD6C93 /* AddTaskViewController.swift */,
 			);
 			path = controllers;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E00454452778EA45004A11F1 /* AppDelegate.swift in Sources */,
+				E0BEAD7C2785E35700DD6C93 /* AddTaskViewController.swift in Sources */,
 				E00454472778EA45004A11F1 /* SceneDelegate.swift in Sources */,
 				E004545A2778EC05004A11F1 /* TaskListViewController.swift in Sources */,
 			);
