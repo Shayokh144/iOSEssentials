@@ -24,6 +24,9 @@
                                     <segment title="Mid"/>
                                     <segment title="Low"/>
                                 </segments>
+                                <connections>
+                                    <action selector="didChangePrioritySegmentWithSegmentControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="Pos-JA-3Bq"/>
+                                </connections>
                             </segmentedControl>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Wil-os-pu0">
                                 <rect key="frame" x="8" y="159" width="398" height="687"/>
@@ -101,8 +104,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add Task" id="VqC-ND-JR4">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Qub-rx-hG8"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Qub-rx-hG8">
+                            <connections>
+                                <action selector="saveData" destination="6p1-kp-UUq" id="W3g-F5-Na7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="segmentedControl" destination="eXa-O5-EEY" id="2ee-5Z-bMV"/>
+                        <outlet property="taskTextField" destination="2A8-yV-YMa" id="LxG-Lv-e4s"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HP2-s4-t9h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
