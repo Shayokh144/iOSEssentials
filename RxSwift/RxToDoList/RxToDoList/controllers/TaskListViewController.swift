@@ -45,6 +45,7 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
                 print(self?.filteredTaskList ?? "no task found")
             }).disposed(by: disposeBag)
         }
+        self.updateTableView()
     }
     
     @IBAction func didChangePrioritySegment(segmentControl : UISegmentedControl){
@@ -53,14 +54,21 @@ class TaskListViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     
+    private func updateTableView(){
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     // MARK: - TableView Delegates and DataSources
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return self.filteredTaskList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: tableCellId, for: indexPath)
+        cell.textLabel?.text = self.filteredTaskList[indexPath.row].title
         return cell
     }
     
