@@ -54,3 +54,6 @@ psubject.dispose()
 - it can trigger completed event only.
 ### ElementAt(position)
 - subscription only get called for given position.
+## BehaviorRelay
+- [BehaviorRelay over Variable](https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0)
+- in BehaviorRelay we can't use 'append()', we have to use 'accept()'
