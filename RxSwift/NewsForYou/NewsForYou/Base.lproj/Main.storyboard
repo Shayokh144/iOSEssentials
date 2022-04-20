@@ -15,10 +15,25 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="X2w-Vz-mwF">
+                                <rect key="frame" x="16" y="156" width="382" height="690"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="X2w-Vz-mwF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="JU9-ae-qvU"/>
+                            <constraint firstItem="X2w-Vz-mwF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="cfM-If-djh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="X2w-Vz-mwF" secondAttribute="bottom" constant="16" id="fqt-JR-eub"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="X2w-Vz-mwF" secondAttribute="trailing" constant="16" id="y8B-2U-XlL"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Today's News" id="9r7-t8-oTg"/>
+                    <connections>
+                        <outlet property="tableView" destination="X2w-Vz-mwF" id="DXb-xX-MQI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
