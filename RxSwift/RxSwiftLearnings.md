@@ -59,7 +59,20 @@ psubject.dispose()
 - in BehaviorRelay we can't use 'append()', we have to use 'accept()'
 
 ## Schedulers
-Schedulers are the Rx equivalent of dispatch queues or operation queues — just on steroids and much easier to use. They let you define the execution context of a specific piece of work.
-you can specify that you’d like to observe next events on a SerialDispatchQueueScheduler, which uses Grand Central Dispatch to run your code serially on a given queue.
-ConcurrentDispatchQueueScheduler will run your code concurrently, while OperationQueueScheduler will allow you to schedule your subscriptions on a given OperationQueue.
-RxSwift can schedule different pieces of work of the same subscription on different schedulers to achieve the best performance fitting your use-case.
+- Schedulers are the Rx equivalent of dispatch queues or operation queues — just on steroids and much easier to use. They let you define the execution context of a specific piece of work.
+- you can specify that you’d like to observe next events on a SerialDispatchQueueScheduler, which uses Grand Central Dispatch to run your code serially on a given queue.
+- ConcurrentDispatchQueueScheduler will run your code concurrently, while OperationQueueScheduler will allow you to schedule your subscriptions on a given OperationQueue.
+- RxSwift can schedule different pieces of work of the same subscription on different schedulers to achieve the best performance fitting your use-case.
+
+
+## RxCocoa
+- RxSwift is the implementation of the common, platform-agnostic, Rx specification. Therefore, it doesn’t know anything about any Cocoa or UIKit-specific classes. RxCocoa is RxSwift’s companion library holding all classes that specifically aid development for UIKit and Cocoa. Besides featuring some advanced classes, RxCocoa adds reactive extensions to many UI components so that you can subscribe to various UI events out of the box.
+- For example, it’s very easy to use RxCocoa to subscribe to the state changes of a UISwitch, like so:
+
+```swift
+toggleSwitch.rx.isOn
+  .subscribe(onNext: { isOn in
+    print(isOn ? "It's ON" : "It's OFF")
+  })
+
+```
