@@ -57,3 +57,9 @@ psubject.dispose()
 ## BehaviorRelay
 - [BehaviorRelay over Variable](https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0)
 - in BehaviorRelay we can't use 'append()', we have to use 'accept()'
+
+## Schedulers
+Schedulers are the Rx equivalent of dispatch queues or operation queues — just on steroids and much easier to use. They let you define the execution context of a specific piece of work.
+you can specify that you’d like to observe next events on a SerialDispatchQueueScheduler, which uses Grand Central Dispatch to run your code serially on a given queue.
+ConcurrentDispatchQueueScheduler will run your code concurrently, while OperationQueueScheduler will allow you to schedule your subscriptions on a given OperationQueue.
+RxSwift can schedule different pieces of work of the same subscription on different schedulers to achieve the best performance fitting your use-case.
