@@ -76,3 +76,4 @@ toggleSwitch.rx.isOn
   })
 
 ```
+RxCocoa adds the rx.isOn property (among others) to the UISwitch class so you can subscribe to useful events as reactive Observable sequences.
