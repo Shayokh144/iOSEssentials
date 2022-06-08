@@ -57,6 +57,9 @@ psubject.dispose()
 ## BehaviorRelay
 - [BehaviorRelay over Variable](https://medium.com/koolicar-engineering/rxswift-behaviorrelay-over-variable-182865ce10e0)
 - in BehaviorRelay we can't use 'append()', we have to use 'accept()'
+- Unlike other subjects — and observables in general — you add a value onto a relay by using the accept(_:) method. In other words, you don’t use onNext(_:). This is because relays can only accept values, i.e., **you cannot add an error or completed event onto them**
+- A PublishRelay wraps a PublishSubject and a BehaviorRelay wraps a BehaviorSubject. 
+- What sets relays apart from their wrapped subjects is that **they are guaranteed to never terminate.**
 
 ## Schedulers
 - Schedulers are the Rx equivalent of dispatch queues or operation queues — just on steroids and much easier to use. They let you define the execution context of a specific piece of work.
