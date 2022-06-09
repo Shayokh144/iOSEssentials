@@ -68,6 +68,9 @@ psubject.dispose()
 - ConcurrentDispatchQueueScheduler will run your code concurrently, while OperationQueueScheduler will allow you to schedule your subscriptions on a given OperationQueue.
 - RxSwift can schedule different pieces of work of the same subscription on different schedulers to achieve the best performance fitting your use-case.
 
+## Dispose Bag
+- it collects the garbage , so that memory leak won’t happen 
+- if we add a Dispose Bag in the vieewController then the dispose bag is owned by the view controller. As soon as the view controller is released all your observable subscriptions will be disposed as well
 
 ## RxCocoa
 - RxSwift is the implementation of the common, platform-agnostic, Rx specification. Therefore, it doesn’t know anything about any Cocoa or UIKit-specific classes. RxCocoa is RxSwift’s companion library holding all classes that specifically aid development for UIKit and Cocoa. Besides featuring some advanced classes, RxCocoa adds reactive extensions to many UI components so that you can subscribe to various UI events out of the box.
