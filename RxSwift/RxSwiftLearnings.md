@@ -61,6 +61,7 @@ psubject.dispose()
 - A PublishRelay wraps a PublishSubject and a BehaviorRelay wraps a BehaviorSubject. 
 - What sets relays apart from their wrapped subjects is that **they are guaranteed to never terminate.**
 - **A behavior relay’s special power is that you can ask it for its current value at any time**
+- the BehaviorRelay class works much like you’re used to with plain variables: you can manually change their value property any time you want. You will start with this simple example and later move on to subjects and custom observables.
 
 ## Schedulers
 - Schedulers are the Rx equivalent of dispatch queues or operation queues — just on steroids and much easier to use. They let you define the execution context of a specific piece of work.
