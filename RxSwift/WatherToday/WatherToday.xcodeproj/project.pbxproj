@@ -15,6 +15,7 @@
 		046A3DD32856531200185A41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 046A3DD22856531200185A41 /* Assets.xcassets */; };
 		046A3DD62856531200185A41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 046A3DD42856531200185A41 /* LaunchScreen.storyboard */; };
 		046B6F4E28579F1A005A2EAA /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046B6F4D28579F1A005A2EAA /* DataModel.swift */; };
+		048D03DE285F7E5B00593D32 /* URL+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048D03DD285F7E5B00593D32 /* URL+Extension.swift */; };
 		153FE49847C7727B441EB1AF /* Pods_WatherToday.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76015A4936A524A6AD57B839 /* Pods_WatherToday.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		046A3DD52856531200185A41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		046A3DD72856531200185A41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		046B6F4D28579F1A005A2EAA /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		048D03DD285F7E5B00593D32 /* URL+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extension.swift"; sourceTree = "<group>"; };
 		76015A4936A524A6AD57B839 /* Pods_WatherToday.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WatherToday.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E36B8757DD2F66C99692D3 /* Pods-WatherToday.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatherToday.release.xcconfig"; path = "Target Support Files/Pods-WatherToday/Pods-WatherToday.release.xcconfig"; sourceTree = "<group>"; };
 		A421A5AA253DCA2E8FB00329 /* Pods-WatherToday.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WatherToday.debug.xcconfig"; path = "Target Support Files/Pods-WatherToday/Pods-WatherToday.debug.xcconfig"; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				04232F452857A3D900A041B1 /* URLRequest+Extension.swift */,
+				048D03DD285F7E5B00593D32 /* URL+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				046B6F4E28579F1A005A2EAA /* DataModel.swift in Sources */,
 				046A3DCA2856531100185A41 /* AppDelegate.swift in Sources */,
 				046A3DCC2856531100185A41 /* SceneDelegate.swift in Sources */,
+				048D03DE285F7E5B00593D32 /* URL+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
