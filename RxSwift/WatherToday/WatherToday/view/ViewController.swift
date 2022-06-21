@@ -55,22 +55,22 @@ class ViewController: UIViewController {
             return
         }
         let resource = Resource<WeatherModel>(url: urlData)
-        URLRequest.load(resource: resource)
-            .observe(on: MainScheduler.instance)
-            .subscribe(
-                onNext: { [weak self] result in
-                    let weather = result.main
-                    self?.displayWeather(weatherData: weather)
-                },
-                onError: {error in
-                    print("Error: \(error.localizedDescription)")
-                    self.displayWeather(weatherData: nil)
-                },
-                onCompleted: {
-                    print("completed Data fetching")
-                }
-            )
-            .disposed(by: disposeBag)
+        let searchResult = URLRequest.load(resource: resource)
+            .observe(on: MainScheduler.instance).catchAndReturn(WeatherModel(main: Weather(temp: 999, humidity: 999)))
+        searchResult.map {
+            if $0.main.temp != 999 {
+                return "\($0.main.temp) _ ℃"
+            }
+            return "X _ ℃"
+        }
+        .bind(to: self.temperatureLabel.rx.text).disposed(by: disposeBag)
+        searchResult.map {
+            if $0.main.humidity != 999 {
+                return "\($0.main.humidity) %"
+            }
+            return "X _ %"
+        }
+        .bind(to: self.humidityLabel.rx.text).disposed(by: disposeBag)
     }
 
 }
