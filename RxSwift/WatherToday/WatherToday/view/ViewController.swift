@@ -8,6 +8,8 @@
 import UIKit
 import RxSwift
 
+let errorCode: Double = 999
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
@@ -15,6 +17,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var humidityLabel: UILabel!
 
     let disposeBag: DisposeBag = DisposeBag()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,22 +58,22 @@ class ViewController: UIViewController {
             return
         }
         let resource = Resource<WeatherModel>(url: urlData)
-        let searchResult = URLRequest.load(resource: resource)
-            .observe(on: MainScheduler.instance).catchAndReturn(WeatherModel(main: Weather(temp: 999, humidity: 999)))
-        searchResult.map {
-            if $0.main.temp != 999 {
+        let searchResultDriver = URLRequest.load(resource: resource)
+            .asObservable().asDriver(onErrorJustReturn: WeatherModel(main: Weather(temp: errorCode, humidity: errorCode)))
+        searchResultDriver.map {
+            if $0.main.temp != errorCode {
                 return "\($0.main.temp) _ ℃"
             }
             return "X _ ℃"
         }
-        .bind(to: self.temperatureLabel.rx.text).disposed(by: disposeBag)
-        searchResult.map {
-            if $0.main.humidity != 999 {
+        .drive(self.temperatureLabel.rx.text).disposed(by: disposeBag)
+        searchResultDriver.map {
+            if $0.main.humidity != errorCode {
                 return "\($0.main.humidity) %"
             }
             return "X _ %"
         }
-        .bind(to: self.humidityLabel.rx.text).disposed(by: disposeBag)
+        .drive(self.humidityLabel.rx.text).disposed(by: disposeBag)
     }
 
 }
