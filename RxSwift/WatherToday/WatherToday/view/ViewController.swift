@@ -61,7 +61,9 @@ class ViewController: UIViewController {
             .asObservable().asDriver(onErrorJustReturn: blankWeather)*/
 
         let searchResultDriver = URLRequest.loadOrThroughError(resource: resource)
-            .asObservable().catch { error in
+            .asObservable()
+            .retry(5)
+            .catch { error in
                 print(error.localizedDescription)
                 return Observable.just(blankWeather)
             }
