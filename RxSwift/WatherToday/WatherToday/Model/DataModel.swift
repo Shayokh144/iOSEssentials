@@ -2,7 +2,7 @@
 //  DataModel.swift
 //  WatherToday
 //
-//  Created by nimble on 13/6/22.
+//  Created by Taher on 13/6/22.
 //
 
 import Foundation
