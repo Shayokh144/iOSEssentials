@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 
 let errorCode: Double = 999
-
+let blankWeather = WeatherModel(main: Weather(temp: errorCode, humidity: errorCode))
 class ViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
@@ -21,7 +21,6 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         displayWeather(weatherData: nil)
         textField.rx.controlEvent(.editingDidEndOnExit)
             .asObservable()
@@ -58,15 +57,26 @@ class ViewController: UIViewController {
             return
         }
         let resource = Resource<WeatherModel>(url: urlData)
-        let searchResultDriver = URLRequest.load(resource: resource)
-            .asObservable().asDriver(onErrorJustReturn: WeatherModel(main: Weather(temp: errorCode, humidity: errorCode)))
+        /*let searchResultDriver = URLRequest.load(resource: resource)
+            .asObservable().asDriver(onErrorJustReturn: blankWeather)*/
+
+        let searchResultDriver = URLRequest.loadOrThroughError(resource: resource)
+            .asObservable().catch { error in
+                print(error.localizedDescription)
+                return Observable.just(blankWeather)
+            }
+            .asObservable()
+            .asDriver(onErrorJustReturn: blankWeather)
+
+
         searchResultDriver.map {
             if $0.main.temp != errorCode {
-                return "\($0.main.temp) _ ℃"
+                return "\($0.main.temp) ℃"
             }
             return "X _ ℃"
         }
         .drive(self.temperatureLabel.rx.text).disposed(by: disposeBag)
+
         searchResultDriver.map {
             if $0.main.humidity != errorCode {
                 return "\($0.main.humidity) %"
