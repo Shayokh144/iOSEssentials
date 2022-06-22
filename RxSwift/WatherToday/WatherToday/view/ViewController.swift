@@ -18,7 +18,6 @@ class ViewController: UIViewController {
 
     let disposeBag: DisposeBag = DisposeBag()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         displayWeather(weatherData: nil)
@@ -69,7 +68,6 @@ class ViewController: UIViewController {
             }
             .asObservable()
             .asDriver(onErrorJustReturn: blankWeather)
-
 
         searchResultDriver.map {
             if $0.main.temp != errorCode {
