@@ -185,7 +185,7 @@ Global variable in class is 10
 - gem dependency list or spec needs to be in a file called `Gemfile`
 - gem file contains the list of dependencies
 - after creating `Gemfile` need to run ***`bundle install`***, this will install all dependencies
-
+- use ***`bundle exec pod install`*** instead of *`pod install`* if you are using `Gemfile` as `pod install` will install the latest version not following the `Gemfile`.
 
 
 
