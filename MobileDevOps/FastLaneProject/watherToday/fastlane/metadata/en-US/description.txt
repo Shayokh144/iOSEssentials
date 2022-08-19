@@ -1,0 +1,1 @@
+this app will show temperature and humidity of a given valid city name
