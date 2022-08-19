@@ -26,6 +26,7 @@
 	- **Fastfile:** manages the lanes you’ll create to invoke fastlane actions. Fastfile example:
 ```
 # Fastfile example
+
 default_platform(:ios)
 
 platform :ios do
@@ -52,6 +53,7 @@ end
 
 ```ruby
 # Gymfile example
+
 scheme("WatherToday") # projects scheme name
 output_directory("./fastlane/builds")
 include_bitcode(false)
@@ -75,7 +77,7 @@ platform :ios do
   end
   desc "Create ipa"
   lane :build do
-    enable_automatic_code_signing
+    enable_automatic_code_signing # Enables automatic provisioning in Xcode.
     increment_build_number
     gym
   end
@@ -83,11 +85,37 @@ end
 
 ```
 
+- ***bundle exec fastlane build***
+	- this will execute the fast file to build and create `ipa`. Before running this command make sure to update signinginformation in xcode  `Signing & Capabilities` tab for both `Debug` and `Release`.
+	- `ipa` file will be in the `/fastlane/builds/` path
+- ***bundle exec fastlane upload***
+	- will upload files to app store with the help of `Deliverfile` and `Fastfile`.
 
+```ruby
+# deliver file example
 
+price_tier(0)
+submission_information({
+    export_compliance_encryption_updated: false,
+    export_compliance_uses_encryption: false,
+    content_rights_contains_third_party_content: false,
+    add_id_info_uses_idfa: false
+})
+app_rating_config_path("./fastlane/metadata/app_store_rating_config.json")
+ipa("./fastlane/builds/mZone Poker.ipa")
+submit_for_review(false) # true will automatically submit the app for review, as it is a test project I won't submit it
+automatic_release(false) # false to release the app manually after it’s accepted by app review
 
+```
 
+need to add below codes in `Fastfile` also
 
+``` ruby
+  desc "Upload to App Store"
+  lane :upload do
+    deliver
+  end
+```
 
 
 

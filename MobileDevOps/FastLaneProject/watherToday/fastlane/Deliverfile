@@ -1,3 +1,15 @@
 # The Deliverfile allows you to store various App Store Connect metadata
 # For more information, check out the docs
 # https://docs.fastlane.tools/actions/deliver/
+
+price_tier(0)
+submission_information({
+    export_compliance_encryption_updated: false,
+    export_compliance_uses_encryption: false,
+    content_rights_contains_third_party_content: false,
+    add_id_info_uses_idfa: false
+})
+app_rating_config_path("./fastlane/metadata/app_store_rating_config.json")
+ipa("./fastlane/builds/mZone Poker.ipa")
+submit_for_review(false) # true will automatically submit the app for review, as it is a test project I won't submit it
+automatic_release(false) # false to release the app manually after it’s accepted by app review
