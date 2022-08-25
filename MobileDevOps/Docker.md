@@ -42,6 +42,16 @@ Containers need a runnable image to exist. Containers are dependent on images, b
 
 - Applications with different operating system requirements cannot be hosted together on the same Docker Host. For example, let’s say we have 4 different applications, out of which 3 applications require a Linux-based operating system and the other application requires a Windows-based operating system. In such a scenario, the 3 applications that require Linux-based operating system can be hosted on a single Docker Host, whereas the application that requires a Windows-based operating system needs to be hosted on a different Docker Host.
 
+## commands
+
+- ***docker ps***
+    - show all containes
+- ***docker image ls***
+    - show all docker image
+- ***docker stop CONTAINER_HASH***
+    - stop a running container
+- ***docker image rm -f IMAGE_HASH***
+    - stop a running container
 
 
 

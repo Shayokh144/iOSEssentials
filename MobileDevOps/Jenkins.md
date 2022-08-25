@@ -25,13 +25,13 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - check if docker can pull image:
 	- ***docker run hello-world***
 - pull jenkins image:
-	- ***docker pull jenkins/jenkins:2.60.3***
+	- ***docker pull jenkins/jenkins:2.365***
 - run jenkins image:
-	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.60.3`***
+	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.365`***
 
-> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `93208da611b77d6f1d3a38a7d34174c131f0ef363ac93fe54bc308e6ca5e3161` for successful allocations.
+> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `4f7957e35aacb8b6468c4fc7fdb2228df3e02133bcc423d7789072cc41f089d2` for successful allocations.
 
-> If you have applications listening to these ports, you have to change ports or close them. Left side of the port assignment is host machine. For example, 80:8080 will forward 80 port of host machine to 8080 port of container. Now when you go to the address `http://localhost:8080` you will see the initial jenkins page like below:
+> If you have applications listening to these ports, you have to change ports or close them. Left side of the port assignment is host machine. For example, `80:8080` will forward 80 port of host machine to 8080 port of container. Now when you go to the address `http://localhost:8080` you will see the initial jenkins page like below:
 
 <img src="../staticresources/jenkins_starter.png" alt="jenkins starter page" style="height: 500px; width:500px;"/>
 
@@ -46,5 +46,10 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 - get initial admin password:
 	- ***cat /var/jenkins_home/secrets/initialAdminPassword***
+- Now login to jenkins.
+- Install recommended plugins.
+
+> if failed to install or getting error like `This Jenkins instance appears to be offline.` Try this solution.
+
 
 
