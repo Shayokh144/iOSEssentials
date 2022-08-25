@@ -6,7 +6,7 @@ Jenkins is a open source continuous integration server. It builds and tests your
 Jenkins Pipeline is a set of plugins for Jenkins to define CI/CD flows. Jenkins Pipeline definition can be written into a file named `Jenkinsfile` or put into Jenkins configurations.
 There are `two types` of Pipeline definitions. `Declarative` and `scripted`.
 
-## Installing Jenkins with Docker
+## Installing and Running Jenkins with Docker
 
 #### why Jenkins with Docker
 To install Jenkins, we used Docker containers. Our master Jenkins server sits inside the container and connects our build machine with SSH. The reason we choose this structure is the portability.
@@ -29,7 +29,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - run jenkins image:
 	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.365`***
 
-> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `4f7957e35aacb8b6468c4fc7fdb2228df3e02133bcc423d7789072cc41f089d2` for successful allocations.
+> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `959061691a0ba90f840a4509d737a2c4aeaa3931bc2267d1264caae2f8bf1952` for successful allocations.
 
 > If you have applications listening to these ports, you have to change ports or close them. Left side of the port assignment is host machine. For example, `80:8080` will forward 80 port of host machine to 8080 port of container. Now when you go to the address `http://localhost:8080` you will see the initial jenkins page like below:
 
@@ -46,10 +46,12 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 - get initial admin password:
 	- ***cat /var/jenkins_home/secrets/initialAdminPassword***
+- *if you don't find the initial page, you may get a login form. In taht case the username is `admin` and password will be the `initial admin password` from above.*
 - Now login to jenkins.
 - Install recommended plugins.
+- Currently we are using Linux, to enable MacOS we need to enable `Remote login` from Mac's `System Preference` -> `Sharing`
+- Now create a new node in jenkis for the mac pc from `Manage Jenkins` -> `Nodes` -> `New Node`
 
-> if failed to install or getting error like `This Jenkins instance appears to be offline.` Try this solution.
-
+<img src="../staticresources/jenkins_newnode.png" alt="jenkins starter page" style="height: 500px; width:800px;"/>
 
 
