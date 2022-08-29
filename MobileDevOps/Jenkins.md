@@ -29,7 +29,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - run jenkins image:
 	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.365`***
 
-> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `959061691a0ba90f840a4509d737a2c4aeaa3931bc2267d1264caae2f8bf1952` for successful allocations.
+> With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `b69490d09bd5a661749452352c047dc4e8d0768f988c99bbd8fa2ee812b97b68` for successful allocations.
 
 > If you have applications listening to these ports, you have to change ports or close them. Left side of the port assignment is host machine. For example, `80:8080` will forward 80 port of host machine to 8080 port of container. Now when you go to the address `http://localhost:8080` you will see the initial jenkins page like below:
 
@@ -52,6 +52,45 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - Currently we are using Linux, to enable MacOS we need to enable `Remote login` from Mac's `System Preference` -> `Sharing`
 - Now create a new node in jenkis for the mac pc from `Manage Jenkins` -> `Nodes` -> `New Node`
 
-<img src="../staticresources/jenkins_newnode.png" alt="jenkins starter page" style="height: 500px; width:800px;"/>
+<img src="../staticresources/jenkins_newnode.png" alt="jenkins starter page" style="height: 1200px; width:900px;"/>
+
+- fill all properties like the above image. If you don't find these properties, install `SSH` related plugins first.
+
+- the `Host` is your computers local address. You can find it from here:
+
+<img src="../staticresources/remote_login.png" alt="jenkins starter page" style="height: 500px; width:1100px;"/>
 
 
+- at this point we will get error when launching the new node.
+- now find the curent container id by running:
+	- ***docker ps***
+- now connect container to the host by running:
+	- ***docker exec -it PREVIOUS_CONTAINER_HASH bash***
+	- ***ssh username@docker.for.mac.localhost***
+	- ***ssh -o StrictHostKeyChecking=no username@docker.for.mac.localhost***
+
+- now launch the node 
+
+> :warning: **If you face any error like Java not found or Java version not found, please install install exact same version of java that is installed in jenkins. If the version not matched you will find more errors.**
+
+- Make your `ssh based plugins` in jenkins like below picture:
+
+<img src="../staticresources/ssh_plugin.png" alt="ssh plugin" style="height: 500px; width:1300px;"/>
+
+
+- Now try to relaunch the agent. You may find error like this:
+
+
+<img src="../staticresources/agent_error.png" alt="jenkins starter page" style="height: 500px; width:1300px;"/>
+
+
+- Now run below command following the error:
+
+		curl -sO http://localhost:8080/jnlpJars/agent.jar java -jar agent.jar -jnlpUrl http://localhost:8080/manage/computer/mac/jenkins-agent.jnlp -secret 0f13e879ddb87c78e9ebacb7153f63af1d596ec491dcd6596022c113623de4b6
+
+- Agent should launch successfully now
+
+<img src="../staticresources/agent_success.png" alt="jenkins agent success" style="height: 300px; width:500px;"/>
+
+
+> :warning: **Always use same container HASH**
