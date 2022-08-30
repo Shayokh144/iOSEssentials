@@ -97,7 +97,64 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 
 
-## Creating a job
+## Creating Jenkins job
+
+### FreeStyle Project with Git Hook
+- this time we will create a jenkins job that can be satrted to trigger iOS Project build and test from github events like commit, pr etc and can be started maually also
+- click to `new item` on the jenkins home page and select `FreeStyle Project`
+- then create and configure like below images:
+<img src="../staticresources/freestyle1.png" alt="build source" style="height: 1400px; width:1400px;"/>
+
+- `Restrict where this project can be run` will ensure the `mac node` that we created before will be used to run the build and test job
+
+<img src="../staticresources/freestyle2.png" alt="build source" style="height: 1400px; width:1400px;"/>
+
+- provide your github credentials
+
+<img src="../staticresources/freestyle3.png" alt="build source" style="height: 1400px; width:1400px;"/>
+
+- `GitHub hook trigger for GITScm polling` this plugin is used for making the github webhook work
+- don't select `Trigger builds remotely (e.g., from scripts)` for now
+
+<img src="../staticresources/freestyle4.png" alt="build source" style="height: 1400px; width:1400px;"/>
+
+- add build and test commands
+
+		xcrun xcodebuild -workspace SurveyApp.xcworkspace -scheme SurveyApp -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+
+		xcrun xcodebuild -workspace SurveyApp.xcworkspace -scheme SurveyAppTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.5' -derivedDataPath '.output' test
+
+
+<img src="../staticresources/freestyle5.png" alt="build source" style="height: 1400px; width:2200px;"/>
+
+- Now `Save` and go to dashboard. you can start a build manually by clicking `Buils Now`
+
+<img src="../staticresources/manual_build.png" alt="build source" style="height: 1200px; width:600px;"/>
+
+- Manual build output will look like below:
+
+<img src="../staticresources/manual_build_out.png" alt="build source" style="height: 700px; width:1100px;"/>
+
+- Now for get events from github we need this local jenkins surver accessible from internet. To make it public we will use `ngrok`.
+
+- Install `ngork` using following command from terminal:
+	-  ***brew install ngrok/ngrok/ngrok***
+- From terminal run and you will see new url like below image:
+	- ***ngrok http 8080***
+
+<img src="../staticresources/ngork_command.png" alt="build source" style="height: 700px; width:2400px;"/>
+
+- Now create a webhook using that url in your github repository:
+
+<img src="../staticresources/webhook.png" alt="build source" style="height: 1700px; width:1200px;"/>
+
+- Now push a commit to the repo and your jenkins node will trigger the free style job like below:
+
+<img src="../staticresources/githook_proof.png" alt="build source" style="height: 1000px; width:1800px;"/>
+
+
+
+### Multibranch Pipeline
 
 - click to `new item` on the jenkins home page and select `Multibranch Pipeline`
 - then create and configure like below images:
@@ -111,6 +168,8 @@ This easy setup process makes it possible to, in emergency situations, create a 
 **Build Configuration**
 <img src="../staticresources/build_configuration.png" alt="build config" style="height: 1300px; width:1100px;"/>
 
+
+https://localhost:8080/github-webhook/
 
 ### Resources
 
