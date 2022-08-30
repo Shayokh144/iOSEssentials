@@ -1,7 +1,7 @@
 # Jenkins
 Jenkins is a open source continuous integration server. It builds and tests your software continuously and monitors the execution and status of remote jobs, making it easier for team members and users to regularly obtain the latest stable code and deploy to pre-prod or prod.
 
-### Jenkins Pipeline
+## Jenkins Pipeline
 
 Jenkins Pipeline is a set of plugins for Jenkins to define CI/CD flows. Jenkins Pipeline definition can be written into a file named `Jenkinsfile` or put into Jenkins configurations.
 There are `two types` of Pipeline definitions. `Declarative` and `scripted`.
@@ -17,7 +17,7 @@ We can update Jenkins with just a few commands. Stop the container, pull the new
 
 This easy setup process makes it possible to, in emergency situations, create a build server inside any machine using macOS too.
 
-### Steps
+### Steps to launch a mac agent
 
 - [install docker](https://docs.docker.com/desktop/install/mac-install/)
 - check if docker installed by running:
@@ -25,9 +25,9 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - check if docker can pull image:
 	- ***docker run hello-world***
 - pull jenkins image:
-	- ***docker pull jenkins/jenkins:2.365***
+	- ***docker pull jenkins/jenkins***
 - run jenkins image:
-	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:2.365`***
+	- ***`docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins`***
 
 > With this command we are running a container with daemon mode. We are assigning a volume to “/var/jenkins_home” folder to sync Jenkins files with our host machine. We are assigning 8080 and 50000 ports of host machine to docker container. Docker will listen to these ports and forward them to container. Lastly, we are giving image tag. This command will produce an image hash like: `b69490d09bd5a661749452352c047dc4e8d0768f988c99bbd8fa2ee812b97b68` for successful allocations.
 
@@ -94,3 +94,17 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 
 > :warning: **Always use same container HASH**
+
+
+
+## Creating a job
+
+- click to `new item` on the jenkins home page and select `Multibranch Pipeline`
+
+
+
+
+### Resources
+
+- [jenkins+docker+android](https://medium.com/@carlitosdroid/dockerized-jenkins-for-mobile-ci-cd-part-2-7725f80006b)
+- [jenkins+docker+iOS](https://medium.com/multinetinventiv/ci-cd-with-jenkins-docker-and-fastlane-p2-jenkins-and-docker-45960d1958fd)
