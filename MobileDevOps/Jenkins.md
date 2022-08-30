@@ -100,8 +100,16 @@ This easy setup process makes it possible to, in emergency situations, create a 
 ## Creating a job
 
 - click to `new item` on the jenkins home page and select `Multibranch Pipeline`
+- then create and configure like below images:
 
+**Build Sourcces**
 
+<img src="../staticresources/branch_sources.png" alt="build source" style="height: 1500px; width:1400px;"/>
+
+<img src="../staticresources/branch_sources2.png" alt="build source cont" style="height: 1500px; width:1400px;"/>
+
+**Build Configuration**
+<img src="../staticresources/build_configuration.png" alt="build config" style="height: 1300px; width:1100px;"/>
 
 
 ### Resources
