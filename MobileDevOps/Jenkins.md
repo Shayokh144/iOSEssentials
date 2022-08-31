@@ -153,7 +153,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 <img src="../staticresources/githook_proof.png" alt="build source" style="height: 1000px; width:1800px;"/>
 
 
-
+<!---
 ### Multibranch Pipeline
 
 - click to `new item` on the jenkins home page and select `Multibranch Pipeline`
@@ -169,7 +169,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 <img src="../staticresources/build_configuration.png" alt="build config" style="height: 1300px; width:1100px;"/>
 
 
-https://localhost:8080/github-webhook/
+-->
 
 ### Resources
 
