@@ -129,11 +129,11 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 - Now `Save` and go to dashboard. you can start a build manually by clicking `Buils Now`
 
-<img src="../staticresources/manual_build.png" alt="build source" style="height: 700px; width:500px;"/>
+<img src="../staticresources/manual_build.png" alt="build source" style="height: 600px; width:400px;"/>
 
 - Manual build output will look like below:
 
-<img src="../staticresources/manual_build_out.png" alt="build source" style="height: 500px; width:800px;"/>
+<img src="../staticresources/manual_build_out.png" alt="build source" style="height: 450px; width:700px;"/>
 
 - Now for get events from github we need this local jenkins surver accessible from internet. To make it public we will use `ngrok`.
 
@@ -142,15 +142,15 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - From terminal run and you will see new url like below image:
 	- ***ngrok http 8080***
 
-<img src="../staticresources/ngork_command.png" alt="build source" style="height: 400px; width:800px;"/>
+<img src="../staticresources/ngork_command.png" alt="build source" style="height: 350px; width:700px;"/>
 
 - Now create a webhook using that url in your github repository:
 
-<img src="../staticresources/webhook.png" alt="build source" style="height: 800px; width:500px;"/>
+<img src="../staticresources/webhook.png" alt="build source" style="height: 600px; width:350px;"/>
 
 - Now push a commit to the repo and your jenkins node will trigger the free style job like below:
 
-<img src="../staticresources/githook_proof.png" alt="build source" style="height: 500px; width:800px;"/>
+<img src="../staticresources/githook_proof.png" alt="build source" style="height: 400px; width:700px;"/>
 
 
 <!---
