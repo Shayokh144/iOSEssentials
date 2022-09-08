@@ -1,0 +1,1 @@
+<img src="../staticresources/mutatingstruct.png" alt="mutating struct" style="height: 400px; width:600px;"/>
