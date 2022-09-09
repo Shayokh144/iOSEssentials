@@ -1,1 +1,2 @@
 <img src="../staticresources/mutatingstruct.png" alt="mutating struct" style="height: 400px; width:600px;"/>
+<img src="../staticresources/print_vs_dump.png" alt="print_vs_dump" style="height: 700px; width:600px;"/>
