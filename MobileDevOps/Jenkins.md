@@ -33,7 +33,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 > If you have applications listening to these ports, you have to change ports or close them. Left side of the port assignment is host machine. For example, `80:8080` will forward 80 port of host machine to 8080 port of container. Now when you go to the address `http://localhost:8080` you will see the initial jenkins page like below:
 
-<img src="../staticresources/jenkins_starter.png" alt="jenkins starter page" style="height: 500px; width:500px;"/>
+<img src="../staticresources/jenkins_starter.png" alt="jenkins starter page"/>
 
 - connect with container:
 	- ***docker exec -it image_hash bash***
@@ -52,13 +52,13 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - Currently we are using Linux, to enable MacOS we need to enable `Remote login` from Mac's `System Preference` -> `Sharing`
 - Now create a new node in jenkis for the mac pc from `Manage Jenkins` -> `Nodes` -> `New Node`
 
-<img src="../staticresources/jenkins_newnode.png" alt="jenkins starter page" style="height: 1200px; width:900px;"/>
+<img src="../staticresources/jenkins_newnode.png" alt="jenkins starter page"/>
 
 - fill all properties like the above image. If you don't find these properties, install `SSH` related plugins first.
 
 - the `Host` is your computers local address. You can find it from here:
 
-<img src="../staticresources/remote_login.png" alt="jenkins starter page" style="height: 500px; width:1100px;"/>
+<img src="../staticresources/remote_login.png" alt="jenkins starter page"/>
 
 
 - at this point we will get error when launching the new node.
@@ -75,13 +75,13 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 - Make your `ssh based plugins` in jenkins like below picture:
 
-<img src="../staticresources/ssh_plugin.png" alt="ssh plugin" style="height: 500px; width:1300px;"/>
+<img src="../staticresources/ssh_plugin.png" alt="ssh plugin"/>
 
 
 - Now try to relaunch the agent. You may find error like this:
 
 
-<img src="../staticresources/agent_error.png" alt="jenkins starter page" style="height: 500px; width:1300px;"/>
+<img src="../staticresources/agent_error.png" alt="jenkins starter page"/>
 
 
 - Now run below command following the error:
@@ -90,7 +90,7 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 - Agent should launch successfully now
 
-<img src="../staticresources/agent_success.png" alt="jenkins agent success" style="height: 300px; width:500px;"/>
+<img src="../staticresources/agent_success.png" alt="jenkins agent success"/>
 
 
 > :warning: **Always use same container HASH**
@@ -103,20 +103,20 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - this time we will create a jenkins job that can be satrted to trigger iOS Project build and test from github events like commit, pr etc and can be started maually also
 - click to `new item` on the jenkins home page and select `FreeStyle Project`
 - then create and configure like below images:
-<img src="../staticresources/freestyle1.png" alt="build source" style="height: 500px; width:400px;"/>
+<img src="../staticresources/freestyle1.png" alt="build source"/>
 
 - `Restrict where this project can be run` will ensure the `mac node` that we created before will be used to run the build and test job
 
-<img src="../staticresources/freestyle2.png" alt="build source" style="height: 500px; width:400px;"/>
+<img src="../staticresources/freestyle2.png" alt="build source"/>
 
 - provide your github credentials
 
-<img src="../staticresources/freestyle3.png" alt="build source" style="height: 500px; width:400px;"/>
+<img src="../staticresources/freestyle3.png" alt="build source"/>
 
 - `GitHub hook trigger for GITScm polling` this plugin is used for making the github webhook work
 - don't select `Trigger builds remotely (e.g., from scripts)` for now
 
-<img src="../staticresources/freestyle4.png" alt="build source" style="height: 500px; width:400px;"/>
+<img src="../staticresources/freestyle4.png" alt="build source"/>
 
 - add build and test commands
 
@@ -125,15 +125,15 @@ This easy setup process makes it possible to, in emergency situations, create a 
 		xcrun xcodebuild -workspace SurveyApp.xcworkspace -scheme SurveyAppTests -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.5' -derivedDataPath '.output' test
 
 
-<img src="../staticresources/freestyle5.png" alt="build source" style="height: 400px; width:700px;"/>
+<img src="../staticresources/freestyle5.png" alt="build source"/>
 
 - Now `Save` and go to dashboard. you can start a build manually by clicking `Buils Now`
 
-<img src="../staticresources/manual_build.png" alt="build source" style="height: 600px; width:400px;"/>
+<img src="../staticresources/manual_build.png" alt="build source"/>
 
 - Manual build output will look like below:
 
-<img src="../staticresources/manual_build_out.png" alt="build source" style="height: 450px; width:700px;"/>
+<img src="../staticresources/manual_build_out.png" alt="build source"/>
 
 - Now for get events from github we need this local jenkins surver accessible from internet. To make it public we will use `ngrok`.
 
@@ -142,15 +142,15 @@ This easy setup process makes it possible to, in emergency situations, create a 
 - From terminal run and you will see new url like below image:
 	- ***ngrok http 8080***
 
-<img src="../staticresources/ngork_command.png" alt="build source" style="height: 350px; width:700px;"/>
+<img src="../staticresources/ngork_command.png" alt="build source"/>
 
 - Now create a webhook using that url in your github repository:
 
-<img src="../staticresources/webhook.png" alt="build source" style="height: 600px; width:350px;"/>
+<img src="../staticresources/webhook.png" alt="build source"/>
 
 - Now push a commit to the repo and your jenkins node will trigger the free style job like below:
 
-<img src="../staticresources/githook_proof.png" alt="build source" style="height: 400px; width:700px;"/>
+<img src="../staticresources/githook_proof.png" alt="build source"/>
 
 
 <!---
@@ -161,12 +161,12 @@ This easy setup process makes it possible to, in emergency situations, create a 
 
 **Build Sourcces**
 
-<img src="../staticresources/branch_sources.png" alt="build source" style="height: 1500px; width:1400px;"/>
+<img src="../staticresources/branch_sources.png" alt="build source" />
 
-<img src="../staticresources/branch_sources2.png" alt="build source cont" style="height: 1500px; width:1400px;"/>
+<img src="../staticresources/branch_sources2.png" alt="build source cont"/>
 
 **Build Configuration**
-<img src="../staticresources/build_configuration.png" alt="build config" style="height: 1300px; width:1100px;"/>
+<img src="../staticresources/build_configuration.png" alt="build config"/>
 
 
 -->
