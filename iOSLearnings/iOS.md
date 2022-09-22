@@ -108,3 +108,6 @@ When declarations in an Objective-C header file refer to a Swift class or protoc
 @end
 ```	
 #### Forward declarations of Swift classes and protocols can be used only as types for method and property declarations.
+
+## Workspace Structure
+<img src="../staticresources/workspace_structure.png" alt="Workspace Structure" />
