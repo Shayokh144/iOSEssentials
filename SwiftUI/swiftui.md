@@ -5,9 +5,12 @@
 -  swiftui view [lifecycle](https://www.swiftbysundell.com/articles/the-lifecycle-and-semantics-of-a-swiftui-view/)
 - `onAppear` is similar of uikit's `viewWillAppear`
 
-> In general, whenever we need to use the **return** keyword within a SwiftUI body, we’re likely doing something wrong, as the role of that property is to describe our view hierarchy using SwiftUI’s DSL — not to perform operations, and not to trigger side effects.
+> :warning: In general, whenever we need to use the **return** keyword within a SwiftUI body, we’re likely doing something wrong, as the role of that property is to describe our view hierarchy using SwiftUI’s DSL — not to perform operations, and not to trigger side effects.
+
+> :warning: It’s important to remember that SwiftUI views are not references to the actual UI components that are being rendered on screen, but rather lightweight values that describe our UI — so they don’t have the same kind of lifecycle as something like a UIView instance has.
 
 - [state vs binding](https://stackoverflow.com/questions/59247183/swiftui-state-vs-binding)
+- [state management](https://www.swiftbysundell.com/articles/swiftui-state-management-guide/)**(must read)**
 
 ### @State
 
@@ -28,3 +31,8 @@
 - @EnvironmentObject is accessible for every view inside the Environment.
 - @EnvironmentObject Properties created elsewhere such as shared data. App crashes if it is missing.
 - The Environment is the right way of Dependency Injection with SwiftUI.
+
+
+## Resources
+
+- [sundell swiftui](https://www.swiftbysundell.com/tags/swiftui/)
