@@ -9,5 +9,13 @@ import SwiftUI
 import Combine
 
 class AuthViewModel: ObservableObject {
+
     @Published var userAuthData: UserAuthData = UserAuthData()
+    @Published var isUserLoginSuccessful = false
+
+    private var disposables = Set<AnyCancellable>()
+    
+    init() {
+
+    }
 }

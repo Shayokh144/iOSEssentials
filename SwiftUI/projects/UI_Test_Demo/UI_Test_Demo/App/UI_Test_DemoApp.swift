@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct UI_Test_DemoApp: App {
+
+    var viewModel = AuthViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            AuthView(viewModel: viewModel)
         }
     }
 }

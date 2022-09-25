@@ -17,7 +17,13 @@ let storedPassword = "a"
 
 struct AuthView: View {
 
+    @ObservedObject var viewModel: AuthViewModel
+
     @State var isLoggedIn: Bool = false
+
+    init(viewModel: AuthViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
 
@@ -69,7 +75,7 @@ struct LoginView : View {
                     }
                 }) {
                     LoginButtonContent()
-                }
+                }.accessibilityIdentifier("loginButtonIdentifier")
             }
             .padding()
             if authenticationDidSucceed {
