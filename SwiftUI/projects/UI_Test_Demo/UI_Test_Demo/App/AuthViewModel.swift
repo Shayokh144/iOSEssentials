@@ -10,7 +10,7 @@ import Combine
 
 class AuthViewModel: ObservableObject {
 
-    @Published var userAuthData: UserAuthData = UserAuthData()
+    @Published var userAuthData: UserAuthData = UserAuthData(userName: "", password: "")
     @Published var isUserLoginSuccessful = false
 
     private var disposables = Set<AnyCancellable>()

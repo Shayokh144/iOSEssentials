@@ -38,16 +38,15 @@ struct AuthView: View {
                 WelcomeText(message: "Nice to see you here...\n\nIn the dark side of the moon!")
             }
         } else {
-            LoginView(isLoggedIn: $isLoggedIn)
+            LoginView(isLoggedIn: $isLoggedIn, userData: $viewModel.userAuthData)
         }
     }
 }
 
 struct LoginView : View {
-    @Binding var isLoggedIn: Bool
 
-    @State var username: String = ""
-    @State var password: String = ""
+    @Binding var isLoggedIn: Bool
+    @Binding var userData: UserAuthData
 
     @State var authenticationDidFail: Bool = false
     @State var authenticationDidSucceed: Bool = false
@@ -55,18 +54,19 @@ struct LoginView : View {
     @State var editingMode: Bool = false
 
     var body: some View {
+
         ZStack {
             VStack {
                 WelcomeText(message: "Welcome")
-                UsernameTextField(username: $username, editingMode: $editingMode)
-                PasswordSecureField(password: $password, editingMode: $editingMode)
+                UsernameTextField(username: $userData.userName, editingMode: $editingMode)
+                PasswordSecureField(password: $userData.password, editingMode: $editingMode)
                 if authenticationDidFail {
                     Text("Username or password is wrong.Try again.")
                         .offset(y: -10)
                         .foregroundColor(.red)
                 }
                 Button(action: {
-                    if self.username == storedUsername && self.password == storedPassword {
+                    if self.userData.userName == storedUsername && self.userData.password == storedPassword {
                         self.isLoggedIn = true
                         self.authenticationDidSucceed = true
                         self.authenticationDidFail = false

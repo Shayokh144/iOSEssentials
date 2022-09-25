@@ -8,6 +8,6 @@
 import Foundation
 
 struct UserAuthData {
-    var userName: String?
-    var password: String?
+    var userName: String
+    var password: String
 }
