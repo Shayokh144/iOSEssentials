@@ -2,7 +2,7 @@
 //  LoadingView.swift
 //  UI_Test_Demo
 //
-//  Created by nimble on 26/9/22.
+//  Created by Taher on 26/9/22.
 //
 
 import Foundation
@@ -29,7 +29,7 @@ struct LoadingView: UIViewRepresentable {
         NSLayoutConstraint.activate([
             loadingViewInner.leadingAnchor.constraint(equalTo: loadingViewOuter.leadingAnchor),
             loadingViewInner.topAnchor.constraint(equalTo: loadingViewOuter.topAnchor),
-            loadingViewInner.widthAnchor.constraint(equalToConstant: 360.0),
+            loadingViewInner.widthAnchor.constraint(equalToConstant: 340.0),
             loadingViewInner.heightAnchor.constraint(equalTo: loadingViewOuter.heightAnchor)
         ])
         return loadingViewOuter
@@ -41,7 +41,9 @@ struct LoadingView: UIViewRepresentable {
             let animator = UIViewPropertyAnimator(duration: 5.5, curve: .linear, animations: {
                 uiView.layoutIfNeeded()
             })
-            animator.startAnimation()
+            if ProcessInfo.processInfo.environment["ENV_TEST_SHOULD_SHOW_ANIMATION"] == "YES" {
+                animator.startAnimation()
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 //  LoginUITest.swift
 //  AppUITests
 //
-//  Created by nimble on 25/9/22.
+//  Created by Taher on 25/9/22.
 //
 
 import XCTest
@@ -39,18 +39,22 @@ class LoginUITest: XCTestCase {
         XCTAssertEqual(loginButton.label, "LOGIN")
     }
 
-    /*func test_login_button_removal_from_view_after_tap() throws {
+    func test_login_button_removal_from_view_after_tap() throws {
+        app.terminate()
+        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "NO"]
+        app.launch()
+
         let loginButton = app.buttons["loginButtonIdentifier"]
         loginButton.tap()
         XCTAssertFalse(loginButton.exists)
-    }*/
+    }
 
     func test_login_failed_message_shown_for_wrong_data() throws {
         let loginButton = app.buttons["loginButtonIdentifier"]
         loginButton.tap()
 
         let failedMsg = app.staticTexts["loginFailedTextId"]
-        XCTAssert(failedMsg.waitForExistence(timeout: 10.0))
+        XCTAssert(failedMsg.waitForExistence(timeout: 7.0))
     }
 
     func test_login_flow_with_correct_data() throws {
@@ -77,6 +81,6 @@ class LoginUITest: XCTestCase {
         loginButton.tap()
 
         // check welcome text
-        XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].waitForExistence(timeout: 10.0))
+        XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].waitForExistence(timeout: 7.0))
     }
 }

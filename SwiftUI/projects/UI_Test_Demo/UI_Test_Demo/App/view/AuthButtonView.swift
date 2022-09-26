@@ -2,7 +2,7 @@
 //  AuthButtonView.swift
 //  UI_Test_Demo
 //
-//  Created by nimble on 26/9/22.
+//  Created by Taher on 26/9/22.
 //
 
 import SwiftUI

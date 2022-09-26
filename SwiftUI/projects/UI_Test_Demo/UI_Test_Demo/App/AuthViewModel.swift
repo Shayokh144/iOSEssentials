@@ -2,7 +2,7 @@
 //  LoginViewModel.swift
 //  UI_Test_Demo
 //
-//  Created by nimble on 23/9/22.
+//  Created by Taher on 23/9/22.
 //
 
 import SwiftUI
@@ -18,7 +18,6 @@ class AuthViewModel: ObservableObject {
     private var disposables = Set<AnyCancellable>()
     
     init() {
-
         didTapLoginButton.sink { [weak self] _ in
             self?.authState = .checking
             DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
@@ -30,7 +29,6 @@ class AuthViewModel: ObservableObject {
             }
 
         }.store(in: &disposables)
-
     }
 
     private func isLoginDataCorrect() -> Bool {
