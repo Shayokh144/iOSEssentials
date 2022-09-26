@@ -13,8 +13,8 @@ struct LoginButtonContent : View {
             .font(.headline)
             .foregroundColor(.white)
             .padding()
-            .frame(width: 220, height: 60)
+            .frame(width: 220.0, height: 50.0)
             .background(Color.green)
-            .cornerRadius(15.0)
+            .cornerRadius(7.0)
     }
 }

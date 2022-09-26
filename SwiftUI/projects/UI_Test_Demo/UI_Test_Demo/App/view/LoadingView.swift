@@ -16,7 +16,7 @@ struct LoadingView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
 
         let loadingViewOuter = UIView()
-        loadingViewOuter.backgroundColor = .clear
+        loadingViewOuter.backgroundColor = .gray
         loadingViewOuter.layer.cornerRadius = 3.0
         
         let loadingViewInner = UIView()
