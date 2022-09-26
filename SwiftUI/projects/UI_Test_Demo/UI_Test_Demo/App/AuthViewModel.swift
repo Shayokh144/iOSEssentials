@@ -21,8 +21,7 @@ class AuthViewModel: ObservableObject {
 
         didTapLoginButton.sink { [weak self] _ in
             self?.authState = .checking
-            print("xyz user data : \(self?.userAuthData)")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                 if self?.isLoginDataCorrect() ?? false {
                     self?.authState = .succeed
                 } else {

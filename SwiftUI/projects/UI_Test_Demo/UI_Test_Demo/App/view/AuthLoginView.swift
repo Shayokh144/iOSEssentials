@@ -24,7 +24,7 @@ struct LoginView : View {
                 PasswordSecureField(password: $userData.password, editingMode: $editingMode)
                 if viewModel.authState == .failed {
                     Text("Username or password is wrong.Try again.")
-                        .foregroundColor(.red).padding(.bottom, 20)
+                        .foregroundColor(.red).padding(.bottom, 20).accessibilityIdentifier("loginFailedTextId")
                 }
                 if viewModel.authState != .checking {
                     Button(action: {

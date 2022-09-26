@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04B298BF28E029F4004C95AB /* AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B298BE28E029F4004C95AB /* AppUITests.swift */; };
-		04B298C128E029F4004C95AB /* AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B298C028E029F4004C95AB /* AppUITestsLaunchTests.swift */; };
 		04B298CC28E02B18004C95AB /* LoginUITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B298CB28E02B18004C95AB /* LoginUITest.swift */; };
 		04BE902728DDA57A00C4334C /* UI_Test_DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE902628DDA57A00C4334C /* UI_Test_DemoApp.swift */; };
 		04BE902928DDA57A00C4334C /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE902828DDA57A00C4334C /* AuthView.swift */; };
@@ -35,8 +33,6 @@
 
 /* Begin PBXFileReference section */
 		04B298BC28E029F4004C95AB /* AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04B298BE28E029F4004C95AB /* AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITests.swift; sourceTree = "<group>"; };
-		04B298C028E029F4004C95AB /* AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		04B298CB28E02B18004C95AB /* LoginUITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITest.swift; sourceTree = "<group>"; };
 		04BE902328DDA57A00C4334C /* UI_Test_Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UI_Test_Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04BE902628DDA57A00C4334C /* UI_Test_DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI_Test_DemoApp.swift; sourceTree = "<group>"; };
@@ -84,8 +80,6 @@
 		04B298BD28E029F4004C95AB /* AppUITests */ = {
 			isa = PBXGroup;
 			children = (
-				04B298BE28E029F4004C95AB /* AppUITests.swift */,
-				04B298C028E029F4004C95AB /* AppUITestsLaunchTests.swift */,
 				04B298CB28E02B18004C95AB /* LoginUITest.swift */,
 			);
 			path = AppUITests;
@@ -240,9 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04B298C128E029F4004C95AB /* AppUITestsLaunchTests.swift in Sources */,
 				04B298CC28E02B18004C95AB /* LoginUITest.swift in Sources */,
-				04B298BF28E029F4004C95AB /* AppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

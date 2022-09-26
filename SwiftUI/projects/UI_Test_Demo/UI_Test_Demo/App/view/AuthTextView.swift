@@ -26,6 +26,7 @@ struct UsernameTextField : View {
         return TextField("", text: $username).placeholder(when: username.isEmpty) {
             Text("username").foregroundColor(.gray)
         }
+        .accessibilityIdentifier("usernameTextFieldId")
         .padding()
         .foregroundColor(.black)
         .background(Colors.lightGreyColor)
@@ -51,6 +52,7 @@ struct PasswordSecureField : View {
         .placeholder(when: password.isEmpty) {
             Text("password").foregroundColor(.gray)
         }
+        .accessibilityIdentifier("passwordSecureFieldId")
         .padding()
         .foregroundColor(.black)
         .background(Colors.lightGreyColor)

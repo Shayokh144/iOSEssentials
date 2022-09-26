@@ -18,7 +18,7 @@ struct LoadingView: UIViewRepresentable {
         let loadingViewOuter = UIView()
         loadingViewOuter.backgroundColor = .clear
         loadingViewOuter.layer.cornerRadius = 3.0
-
+        
         let loadingViewInner = UIView()
         loadingViewInner.backgroundColor = .green
         loadingViewInner.layer.cornerRadius = 3.0
@@ -38,7 +38,7 @@ struct LoadingView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {
         if let innerView = uiView.subviews.first {
             innerView.frame.size.width = 0
-            let animator = UIViewPropertyAnimator(duration: 10.0, curve: .linear, animations: {
+            let animator = UIViewPropertyAnimator(duration: 5.5, curve: .linear, animations: {
                 uiView.layoutIfNeeded()
             })
             animator.startAnimation()

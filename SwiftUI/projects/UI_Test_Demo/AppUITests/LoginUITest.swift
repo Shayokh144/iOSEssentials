@@ -38,4 +38,45 @@ class LoginUITest: XCTestCase {
         XCTAssert(loginButton.exists)
         XCTAssertEqual(loginButton.label, "LOGIN")
     }
+
+    /*func test_login_button_removal_from_view_after_tap() throws {
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        loginButton.tap()
+        XCTAssertFalse(loginButton.exists)
+    }*/
+
+    func test_login_failed_message_shown_for_wrong_data() throws {
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        loginButton.tap()
+
+        let failedMsg = app.staticTexts["loginFailedTextId"]
+        XCTAssert(failedMsg.waitForExistence(timeout: 10.0))
+    }
+
+    func test_login_flow_with_correct_data() throws {
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        let userNameTextField = app.textFields["usernameTextFieldId"]
+        let passwordTextField = app.secureTextFields["passwordSecureFieldId"]
+
+        // check existance of all elements
+        XCTAssert(loginButton.exists)
+        XCTAssert(userNameTextField.exists)
+        XCTAssert(passwordTextField.exists)
+
+        // write username
+        userNameTextField.tap()
+        userNameTextField.typeText("abc")
+        sleep(2) // optional delay
+
+        // write password
+        passwordTextField.tap()
+        passwordTextField.typeText("xyz")
+        sleep(2) // optional delay
+
+        // tap login button
+        loginButton.tap()
+
+        // check welcome text
+        XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].waitForExistence(timeout: 10.0))
+    }
 }
