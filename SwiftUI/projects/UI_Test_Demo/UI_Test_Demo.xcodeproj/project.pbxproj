@@ -17,6 +17,10 @@
 		04BE903528DDC9CD00C4334C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE903428DDC9CD00C4334C /* AuthViewModel.swift */; };
 		04BE903728DDCA7400C4334C /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE903628DDCA7400C4334C /* AuthModel.swift */; };
 		04D2C51A28E185B2001885E2 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C51928E185B2001885E2 /* LoadingView.swift */; };
+		04D2C51D28E19463001885E2 /* AuthLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C51C28E19463001885E2 /* AuthLoginView.swift */; };
+		04D2C51F28E19577001885E2 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C51E28E19577001885E2 /* ViewExtension.swift */; };
+		04D2C52128E195A5001885E2 /* AuthTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C52028E195A5001885E2 /* AuthTextView.swift */; };
+		04D2C52328E1961D001885E2 /* AuthButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C52228E1961D001885E2 /* AuthButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +46,10 @@
 		04BE903428DDC9CD00C4334C /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		04BE903628DDCA7400C4334C /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		04D2C51928E185B2001885E2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		04D2C51C28E19463001885E2 /* AuthLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLoginView.swift; sourceTree = "<group>"; };
+		04D2C51E28E19577001885E2 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		04D2C52028E195A5001885E2 /* AuthTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextView.swift; sourceTree = "<group>"; };
+		04D2C52228E1961D001885E2 /* AuthButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,11 +73,10 @@
 		04B298B228E02714004C95AB /* App */ = {
 			isa = PBXGroup;
 			children = (
+				04D2C51B28E193B7001885E2 /* view */,
 				04BE902628DDA57A00C4334C /* UI_Test_DemoApp.swift */,
-				04BE902828DDA57A00C4334C /* AuthView.swift */,
 				04BE903428DDC9CD00C4334C /* AuthViewModel.swift */,
 				04BE903628DDCA7400C4334C /* AuthModel.swift */,
-				04D2C51928E185B2001885E2 /* LoadingView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -118,6 +125,19 @@
 				04BE902D28DDA57C00C4334C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		04D2C51B28E193B7001885E2 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				04BE902828DDA57A00C4334C /* AuthView.swift */,
+				04D2C51928E185B2001885E2 /* LoadingView.swift */,
+				04D2C51C28E19463001885E2 /* AuthLoginView.swift */,
+				04D2C51E28E19577001885E2 /* ViewExtension.swift */,
+				04D2C52028E195A5001885E2 /* AuthTextView.swift */,
+				04D2C52228E1961D001885E2 /* AuthButtonView.swift */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,8 +250,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D2C51D28E19463001885E2 /* AuthLoginView.swift in Sources */,
+				04D2C52128E195A5001885E2 /* AuthTextView.swift in Sources */,
 				04BE902928DDA57A00C4334C /* AuthView.swift in Sources */,
+				04D2C52328E1961D001885E2 /* AuthButtonView.swift in Sources */,
 				04BE903728DDCA7400C4334C /* AuthModel.swift in Sources */,
+				04D2C51F28E19577001885E2 /* ViewExtension.swift in Sources */,
 				04BE902728DDA57A00C4334C /* UI_Test_DemoApp.swift in Sources */,
 				04D2C51A28E185B2001885E2 /* LoadingView.swift in Sources */,
 				04BE903528DDC9CD00C4334C /* AuthViewModel.swift in Sources */,
