@@ -27,7 +27,8 @@ struct AuthView: View {
 
     var body: some View {
 
-        if isLoggedIn {
+        switch viewModel.authState {
+        case .succeed:
             ZStack {
                 LinearGradient(
                     colors: [.black,.green, .black, .blue, .black],
@@ -37,7 +38,7 @@ struct AuthView: View {
                             .ignoresSafeArea()
                 WelcomeText(message: "Nice to see you here...\n\nIn the dark side of the moon!")
             }
-        } else {
+        default:
             LoginView(isLoggedIn: $isLoggedIn, userData: $viewModel.userAuthData)
         }
     }

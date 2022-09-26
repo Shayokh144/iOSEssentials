@@ -11,3 +11,10 @@ struct UserAuthData {
     var userName: String
     var password: String
 }
+
+enum AuthState {
+    case initial
+    case checking
+    case failed
+    case succeed
+}

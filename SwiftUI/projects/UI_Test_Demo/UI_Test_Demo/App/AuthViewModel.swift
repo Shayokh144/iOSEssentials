@@ -11,11 +11,18 @@ import Combine
 class AuthViewModel: ObservableObject {
 
     @Published var userAuthData: UserAuthData = UserAuthData(userName: "", password: "")
-    @Published var isUserLoginSuccessful = false
+    @Published var authState: AuthState = .initial
+
+    var  didTapLoginButton = PassthroughSubject<Void, Never>()
 
     private var disposables = Set<AnyCancellable>()
     
     init() {
+
+        didTapLoginButton.sink { [weak self] _ in
+            print("xyz user data : \(self?.userAuthData)")
+
+        }.store(in: &disposables)
 
     }
 }
