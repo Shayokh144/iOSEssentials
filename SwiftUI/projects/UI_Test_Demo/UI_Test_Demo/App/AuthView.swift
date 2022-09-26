@@ -32,20 +32,21 @@ struct AuthView: View {
             ZStack {
                 LinearGradient(
                     colors: [.black,.green, .black, .blue, .black],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                            .ignoresSafeArea()
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
                 WelcomeText(message: "Nice to see you here...\n\nIn the dark side of the moon!")
             }
         default:
-            LoginView(isLoggedIn: $isLoggedIn, userData: $viewModel.userAuthData)
+            LoginView(viewModel: viewModel, isLoggedIn: $isLoggedIn, userData: $viewModel.userAuthData)
         }
     }
 }
 
 struct LoginView : View {
 
+    var viewModel: AuthViewModel
     @Binding var isLoggedIn: Bool
     @Binding var userData: UserAuthData
 
@@ -61,32 +62,21 @@ struct LoginView : View {
                 WelcomeText(message: "Welcome")
                 UsernameTextField(username: $userData.userName, editingMode: $editingMode)
                 PasswordSecureField(password: $userData.password, editingMode: $editingMode)
-                if authenticationDidFail {
+                if viewModel.authState == .failed {
                     Text("Username or password is wrong.Try again.")
-                        .offset(y: -10)
-                        .foregroundColor(.red)
+                        .foregroundColor(.red).padding(.bottom, 20)
                 }
-                Button(action: {
-                    if self.userData.userName == storedUsername && self.userData.password == storedPassword {
-                        self.isLoggedIn = true
-                        self.authenticationDidSucceed = true
-                        self.authenticationDidFail = false
-                    } else {
-                        self.authenticationDidFail = true
-                    }
-                }) {
-                    LoginButtonContent()
-                }.accessibilityIdentifier("loginButtonIdentifier")
+                if viewModel.authState != .checking {
+                    Button(action: {
+                        viewModel.didTapLoginButton.send()
+                    }) {
+                        LoginButtonContent()
+                    }.accessibilityIdentifier("loginButtonIdentifier")
+                } else {
+                    LoadingView().frame(height: 6.0, alignment: .center)
+                }
             }
             .padding()
-            if authenticationDidSucceed {
-                Text("Login succeeded!")
-                    .font(.headline)
-                    .frame(width: 250, height: 80)
-                    .background(Color.green)
-                    .cornerRadius(20.0)
-                    .foregroundColor(.white)
-            }
         }
         .offset(y: editingMode ? -40 : 0)
     }

@@ -16,6 +16,7 @@
 		04BE902E28DDA57C00C4334C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04BE902D28DDA57C00C4334C /* Preview Assets.xcassets */; };
 		04BE903528DDC9CD00C4334C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE903428DDC9CD00C4334C /* AuthViewModel.swift */; };
 		04BE903728DDCA7400C4334C /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BE903628DDCA7400C4334C /* AuthModel.swift */; };
+		04D2C51A28E185B2001885E2 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C51928E185B2001885E2 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		04BE902D28DDA57C00C4334C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04BE903428DDC9CD00C4334C /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		04BE903628DDCA7400C4334C /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		04D2C51928E185B2001885E2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				04BE902828DDA57A00C4334C /* AuthView.swift */,
 				04BE903428DDC9CD00C4334C /* AuthViewModel.swift */,
 				04BE903628DDCA7400C4334C /* AuthModel.swift */,
+				04D2C51928E185B2001885E2 /* LoadingView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 				04BE902928DDA57A00C4334C /* AuthView.swift in Sources */,
 				04BE903728DDCA7400C4334C /* AuthModel.swift in Sources */,
 				04BE902728DDA57A00C4334C /* UI_Test_DemoApp.swift in Sources */,
+				04D2C51A28E185B2001885E2 /* LoadingView.swift in Sources */,
 				04BE903528DDC9CD00C4334C /* AuthViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -20,9 +20,24 @@ class AuthViewModel: ObservableObject {
     init() {
 
         didTapLoginButton.sink { [weak self] _ in
+            self?.authState = .checking
             print("xyz user data : \(self?.userAuthData)")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 7) {
+                if self?.isLoginDataCorrect() ?? false {
+                    self?.authState = .succeed
+                } else {
+                    self?.authState = .failed
+                }
+            }
 
         }.store(in: &disposables)
 
+    }
+
+    private func isLoginDataCorrect() -> Bool {
+        if self.userAuthData.userName == "abc" && self.userAuthData.password == "xyz" {
+            return true
+        }
+        return false
     }
 }
