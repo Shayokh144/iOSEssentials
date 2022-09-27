@@ -13,6 +13,7 @@ class LoginUITest: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "YES"]
         app.launch()
     }
 
@@ -70,17 +71,32 @@ class LoginUITest: XCTestCase {
         // write username
         userNameTextField.tap()
         userNameTextField.typeText("abc")
-        sleep(2) // optional delay
+        sleep(1) // optional delay
 
         // write password
         passwordTextField.tap()
         passwordTextField.typeText("xyz")
-        sleep(2) // optional delay
+        sleep(1) // optional delay
 
         // tap login button
         loginButton.tap()
 
         // check welcome text
         XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].waitForExistence(timeout: 7.0))
+    }
+
+    func test_swipe_gesture() {
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        let userNameTextField = app.textFields["usernameTextFieldId"]
+        let passwordTextField = app.secureTextFields["passwordSecureFieldId"]
+        userNameTextField.tap()
+        userNameTextField.typeText("abc")
+        passwordTextField.tap()
+        passwordTextField.typeText("xyz")
+        loginButton.tap()
+        app.swipeLeft()
+        XCTAssert(app.staticTexts["LEFT SWIPE"].exists)
+        app.swipeRight()
+        XCTAssert(app.staticTexts["RIGHT SWIPE"].exists)
     }
 }
