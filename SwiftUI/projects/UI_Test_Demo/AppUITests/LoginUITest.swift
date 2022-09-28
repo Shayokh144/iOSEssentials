@@ -14,6 +14,7 @@ class LoginUITest: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "YES"]
+        let app = XCUIApplication()
         app.launch()
     }
 
@@ -28,9 +29,16 @@ class LoginUITest: XCTestCase {
     }
 
     func test_static_button() throws {
+        // using text
         let loginButton = app.buttons["LOGIN"]
-
+        
         XCTAssert(loginButton.exists)
+
+        // using predicate
+        let predicate = NSPredicate(format: "label contains 'LOGIN'")
+        let loginButtonFromPredicate = app.buttons.element(matching: predicate)
+
+        XCTAssert(loginButtonFromPredicate.exists)
     }
 
     func test_ui_elements_with_accessibilityIdentifier() throws {
