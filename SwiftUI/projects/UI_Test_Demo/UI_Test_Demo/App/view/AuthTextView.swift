@@ -11,6 +11,7 @@ struct WelcomeText : View {
     var message: String!
     var body: some View {
         return Text(message)
+            .foregroundColor(.white)
             .font(.largeTitle)
             .fontWeight(.semibold)
             .padding(.bottom, 20)

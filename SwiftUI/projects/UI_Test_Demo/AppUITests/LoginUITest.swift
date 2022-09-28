@@ -94,6 +94,13 @@ class LoginUITest: XCTestCase {
         passwordTextField.tap()
         passwordTextField.typeText("xyz")
         loginButton.tap()
+        // screenshot
+        let mainScreenScreenshot = app.screenshot()
+        let attachment = XCTAttachment(screenshot: mainScreenScreenshot)
+        attachment.name = "Loading Animation Screen Shot"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+        //
         app.swipeLeft()
         XCTAssert(app.staticTexts["LEFT SWIPE"].exists)
         app.swipeRight()
