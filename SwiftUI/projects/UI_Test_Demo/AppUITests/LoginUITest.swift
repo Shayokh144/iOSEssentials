@@ -94,16 +94,45 @@ class LoginUITest: XCTestCase {
         passwordTextField.tap()
         passwordTextField.typeText("xyz")
         loginButton.tap()
-        // screenshot
-        let mainScreenScreenshot = app.screenshot()
-        let attachment = XCTAttachment(screenshot: mainScreenScreenshot)
-        attachment.name = "Loading Animation Screen Shot"
-        attachment.lifetime = .keepAlways
-        add(attachment)
-        //
         app.swipeLeft()
         XCTAssert(app.staticTexts["LEFT SWIPE"].exists)
         app.swipeRight()
         XCTAssert(app.staticTexts["RIGHT SWIPE"].exists)
+    }
+
+    func test_taking_screenshot_of_specific_element() {
+        // will take screenshot of login button only
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        let loginButtonScreenShot = loginButton.screenshot()
+        add(getAttachment(from: loginButtonScreenShot, name: "Login Button Screenshot"))
+    }
+
+    func test_taking_screenshot_of_full_screen() {
+        app.terminate()
+        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "NO"]
+        app.launch()
+        let loginButton = app.buttons["loginButtonIdentifier"]
+        let userNameTextField = app.textFields["usernameTextFieldId"]
+        let passwordTextField = app.secureTextFields["passwordSecureFieldId"]
+        userNameTextField.tap()
+        userNameTextField.typeText("abc")
+        passwordTextField.tap()
+        passwordTextField.typeText("xyz")
+
+        // will take screenshot of full window of login page after tap on login button
+        var fullWindowScreenshot = app.screenshot()
+        add(getAttachment(from: fullWindowScreenshot, name: "Full window screenshot before login button clicked"))
+
+        loginButton.tap()
+        
+        fullWindowScreenshot = app.screenshot()
+        add(getAttachment(from: fullWindowScreenshot, name: "Full window screenshot after login button clicked"))
+    }
+
+    func getAttachment(from screenShot: XCUIScreenshot, name: String) -> XCTAttachment {
+        let attachment = XCTAttachment(screenshot: screenShot)
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        return attachment
     }
 }
