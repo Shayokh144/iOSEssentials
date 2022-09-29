@@ -66,13 +66,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		041EC19E28E554B8005DADDC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				04BE903428DDC9CD00C4334C /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		041EC19F28E554CA005DADDC /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				04BE903628DDCA7400C4334C /* AuthModel.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		04B298B228E02714004C95AB /* App */ = {
 			isa = PBXGroup;
 			children = (
+				041EC19F28E554CA005DADDC /* Entity */,
+				041EC19E28E554B8005DADDC /* ViewModel */,
 				04D2C51B28E193B7001885E2 /* view */,
 				04BE902628DDA57A00C4334C /* UI_Test_DemoApp.swift */,
-				04BE903428DDC9CD00C4334C /* AuthViewModel.swift */,
-				04BE903628DDCA7400C4334C /* AuthModel.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
