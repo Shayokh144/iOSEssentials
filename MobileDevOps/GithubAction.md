@@ -11,7 +11,7 @@
 
 - Workflows are defined in the .github/workflows directory in a repository, and a repository can have multiple workflows, each of which can perform a different set of tasks. For example, you can have one workflow to build and test pull requests, another workflow to deploy your application every time a release is created, and still another workflow that adds a label every time someone opens a new issue.
 
-### [Worlflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#about-yaml-syntax-for-workflows)
+### [Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#about-yaml-syntax-for-workflows)
 
 ### name
 - The name of your workflow. GitHub displays the names of your workflows on your repository's actions page. If you omit name, GitHub sets it to the workflow file path relative to the root of the repository.
@@ -43,7 +43,7 @@ on:
 ```
 - Example of include and exclude branch at the same time is [here](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-including-and-excluding-branches)
 
-### [concurency](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency)
+### [concurrency](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency)
 - Use concurrency to ensure that only a single job or workflow using the same concurrency group will run at a time.
 
 ## Events
