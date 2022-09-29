@@ -18,7 +18,7 @@ struct LoadingView: UIViewRepresentable {
         let loadingViewOuter = UIView()
         loadingViewOuter.backgroundColor = .gray
         loadingViewOuter.layer.cornerRadius = 3.0
-        
+
         let loadingViewInner = UIView()
         loadingViewInner.backgroundColor = .green
         loadingViewInner.layer.cornerRadius = 3.0

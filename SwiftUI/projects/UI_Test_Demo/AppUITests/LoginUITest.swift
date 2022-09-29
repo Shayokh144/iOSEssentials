@@ -59,6 +59,9 @@ class LoginUITest: XCTestCase {
     }
 
     func test_login_failed_message_shown_for_wrong_data() throws {
+        app.terminate()
+        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "NO"]
+        app.launch()
         let loginButton = app.buttons["loginButtonIdentifier"]
         loginButton.tap()
 
@@ -90,7 +93,7 @@ class LoginUITest: XCTestCase {
         loginButton.tap()
 
         // check welcome text
-        XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].waitForExistence(timeout: 7.0))
+        XCTAssert(app.staticTexts["Nice to see you here...\n\nIn the dark side of the moon!"].exists)
     }
 
     func test_swipe_gesture() {
