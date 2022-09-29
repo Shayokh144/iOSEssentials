@@ -13,8 +13,8 @@ class LoginUITest: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
-        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "YES"]
         let app = XCUIApplication()
+        app.launchEnvironment = ["ENV_TEST_SHOULD_SHOW_ANIMATION" : "YES"]
         app.launch()
     }
 
