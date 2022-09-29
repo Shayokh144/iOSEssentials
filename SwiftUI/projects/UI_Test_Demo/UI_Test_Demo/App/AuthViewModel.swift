@@ -15,7 +15,7 @@ class AuthViewModel: ObservableObject {
     @Published var welcomeText: String = "Welcome"
 
     var  didTapLoginButton = PassthroughSubject<Void, Never>()
-    var  didSwipeView = PassthroughSubject<(Double, Double), Never>()
+    var  didSwipeView = PassthroughSubject<CGSize, Never>()
 
     private var disposables = Set<AnyCancellable>()
     
@@ -33,8 +33,9 @@ class AuthViewModel: ObservableObject {
 
         }.store(in: &disposables)
 
-        didSwipeView.sink { [weak self] data in
-            let (horizontalAmount, verticalAmount) = data
+        didSwipeView.sink { [weak self] translationData in
+            let horizontalAmount = translationData.width
+            let verticalAmount = translationData.height
             if abs(horizontalAmount) > abs(verticalAmount) {
                 if horizontalAmount < 0 {
                     self?.welcomeText = "LEFT SWIPE"

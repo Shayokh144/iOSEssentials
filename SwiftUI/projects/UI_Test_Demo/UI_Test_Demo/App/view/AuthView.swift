@@ -28,9 +28,7 @@ struct AuthView: View {
                 .ignoresSafeArea()
                 WelcomeText(message: viewModel.welcomeText)
             }.gesture(DragGesture(minimumDistance: 20.0, coordinateSpace: .global).onEnded { value in
-                let horizontalAmount = value.translation.width
-                let verticalAmount = value.translation.height
-                viewModel.didSwipeView.send((horizontalAmount,verticalAmount))
+                viewModel.didSwipeView.send(value.translation)
             })
         default:
             LoginView(viewModel: viewModel, userData: $viewModel.userAuthData)
