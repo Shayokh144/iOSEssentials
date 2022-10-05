@@ -1,0 +1,127 @@
+---
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: ios
+workflows:
+  deploy:
+    description: |
+      The workflow tests, builds and deploys the app using *Deploy to bitrise.io* step.
+
+      For testing the *retry_on_failure* test repetition mode is enabled.
+
+      Next steps:
+      - Set up [Connecting to an Apple service with API key](https://devcenter.bitrise.io/en/accounts/connecting-to-services/connecting-to-an-apple-service-with-api-key.html##).
+      - Or further customise code signing following our [iOS code signing](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html) guide.
+    steps:
+    - git-clone@6: {}
+    - cache-pull@2: {}
+    - cocoapods-install@2: {}
+    - xcode-test@4:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+        - test_repetition_mode: retry_on_failure
+    - xcode-archive@4:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - scheme: "$BITRISE_SCHEME"
+        - distribution_method: "$BITRISE_DISTRIBUTION_METHOD"
+        - automatic_code_signing: api-key
+    - cache-push@2: {}
+    - deploy-to-bitrise-io@2: {}
+  primary:
+    description: |
+      The workflow executes the tests. The *retry_on_failure* test repetition mode is enabled.
+
+      Next steps:
+      - Check out [Getting started with iOS apps](https://devcenter.bitrise.io/en/getting-started/getting-started-with-ios-apps.html).
+    steps:
+    - script@1:
+        title: Clean Directory Script
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # write your script here
+            if [ -d "xcov_report" ]
+            then
+              rm -r xcov_report
+            fi
+            if [ -d "result" ]
+            then
+              rm -r result
+            fi
+            if [ -d ".output" ]
+            then
+              rm -r .output
+            fi
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+    - git-clone@6: {}
+    - cache-pull@2: {}
+    - cocoapods-install@2: {}
+    - script@1:
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # write your script here
+            xcrun xcodebuild -workspace WeatherToday.xcworkspace -scheme WeatherToday -sdk iphoneos CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_BITCODE=NO clean build
+            xcrun xcodebuild -workspace WeatherToday.xcworkspace -scheme WeatherToday -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.5' -derivedDataPath '.output' test
+            mkdir result
+            find .output -iname '*.xcresult' |  xargs  -I _ cp -R _ result
+            find result -iname '*.xcresult' |  xargs  -I _ mv _ result/WeatherTestResult.xcresult
+            #cd result
+            #unzip Test-WeatherToday.xcresult.zip
+            #cd ..
+            # or run a script from your repository, like:
+            # bash ./path/to/script.sh
+            # not just bash, e.g.:
+            # ruby ./path/to/script.rb
+        title: Script After XcodeBuild
+    - danger@2:
+        inputs:
+        - github_api_token: "$DANGER_GITHUB_API_TOKEN"
+    - cache-push@2: {}
+    - deploy-to-bitrise-io@2: {}
+meta:
+  bitrise.io:
+    stack: osx-xcode-13.2.x
+    machine_type_id: g2.8core
+app:
+  envs:
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: WeatherToday.xcworkspace
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: WeatherToday
+  - opts:
+      is_expand: false
+    BITRISE_DISTRIBUTION_METHOD: development
+  - opts:
+      is_expand: false
+    BITRISE_DEPLOY_DIR: result
+  - opts:
+      is_expand: false
+    BITRISE_XCRESULT_PATH: result
+  - opts:
+      is_expand: false
+    BITRISE_XCODE_TEST_RESULT: result
+trigger_map:
+- pull_request_source_branch: "*"
+  workflow: primary

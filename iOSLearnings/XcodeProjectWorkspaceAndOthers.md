@@ -14,7 +14,7 @@
 - like workspace, an Xcode project is a bundle containing one or more files.
 - The most important and only required file is the project.pbxproj file.
 
-### Target
+### [Target](https://developer.apple.com/library/archive/featuredarticles/XcodeConcepts/Concept-Targets.html#//apple_ref/doc/uid/TP40009328-CH4-SW1)
 - Each project has one or more targets.
 	- Each target defines a list of build settings for that project
 	- Each target also defines a list of classes, resources, custom scripts etc to include/ use when building.
