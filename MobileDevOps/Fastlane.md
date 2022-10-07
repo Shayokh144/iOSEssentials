@@ -1,6 +1,7 @@
-# Fastlane
+# Fastlane Basics
 
-- ### used to automate deployment of app to the App Store
+- ### Fastlane is a tool that automates the build, test and deployment of mobile apps. It is an open source platform aimed at simplifying Android and iOS deployment. It lets you automate every aspect of your development and release workflow.
+- In other words, fastlane handles all the tedious tasks of automating code signing, App Store upload, etc. Most of the native iOS projects are currently using fastlane.
 
 ## Fastlane Toolchain
 - **produce:** creates new iOS apps in both App Store Connect and the Apple Developer Portal.
@@ -118,8 +119,13 @@ need to add below codes in `Fastfile` also
 ```
 
 
+# Fastlane From Scratch
 
+- Create a project
+- To initialize fastlane run below command inside the project folder:
 
+		fastlane init
+- Select manual setup
 
 
 
