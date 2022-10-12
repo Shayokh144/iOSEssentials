@@ -92,3 +92,46 @@ public enum ImaggaRouter: URLRequestConvertible {
 }
 
 ```
+
+## [Customizing Session](https://www.raywenderlich.com/11668143-alamofire-tutorial-for-ios-advanced-usage)
+
+Alamofire provides Session, which is similar to URLSession in terms of responsibility. It helps create and manage different requests and provides common functionality for all requests, such as interception, response caching and more.
+
+```swift
+// create session
+let sessionManager: Session = {
+  let configuration = URLSessionConfiguration.af.default
+  configuration.timeoutIntervalForRequest = 30
+  configuration.waitsForConnectivity = true // makes the session wait for network connectivity before making the request
+  return Session(configuration: configuration)
+}()
+
+// request using serrion
+sessionManager.request(url, parameters: queryParameters)
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
