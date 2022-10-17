@@ -28,3 +28,24 @@
 
 
 # Add Danger in Bitrise
+
+# [Bitrise Deploy to Firebase App Distribution](https://devcenter.bitrise.io/en/steps-and-workflows/workflow-recipes-for-ios-apps/-ios--deploy-to-firebase-app-distribution.html)
+
+## Docs
+- [Firebase doc for distributing app to testers](https://firebase.google.com/docs/app-distribution/set-up-alerts?authuser=0&platform=ios)
+- [Setting up Firebase CLI](https://firebase.google.com/docs/cli#install-cli-mac-linux)
+
+## Steps
+
+- Register app to app store connect
+- Register app to firebase using `Bundle id`, `App store id` from app store connect app info page
+- Download `GoogleServiceInfo.plist` and add to project
+- Enable `Firebase App Testers API` for the app from `Google Cloud Console`
+- Add `FirebaseAppDistribution` in Pod
+- Add code in your app delegate to configure firebase
+- Add code to check app update before installing for test
+- Install firebase CLI
+- Run `firebase login:ci` to generate firebase token
+- Add the token to the `Bitrise -> Workflow -> Secret`
+- Get your Firebase App ID from your project's General Settings page and pass this value as an input variable to the [BETA] Firebase App Distribution Step.
+- [Setup code signing in birise](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html)
