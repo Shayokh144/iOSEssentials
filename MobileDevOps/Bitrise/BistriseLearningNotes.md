@@ -34,6 +34,7 @@
 ## Docs
 - [Firebase doc for distributing app to testers](https://firebase.google.com/docs/app-distribution/set-up-alerts?authuser=0&platform=ios)
 - [Setting up Firebase CLI](https://firebase.google.com/docs/cli#install-cli-mac-linux)
+- [Setup code signing in birise](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html)
 
 ## Steps
 
@@ -48,4 +49,43 @@
 - Run `firebase login:ci` to generate firebase token
 - Add the token to the `Bitrise -> Workflow -> Secret`
 - Get your Firebase App ID from your project's General Settings page and pass this value as an input variable to the [BETA] Firebase App Distribution Step.
-- [Setup code signing in birise](https://devcenter.bitrise.io/en/code-signing/ios-code-signing.html)
+- [Follow below steps for code signing](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html):
+
+
+### iOS code signing with automatic provisioning
+#### code signing with [codesigndoc](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/collecting-and-exporting-code-signing-files-with-codesigndoc.html#collecting-and-uploading-the-files-with-codesigndoc)
+
+- Run below command from terminal from the same location of your `.xcodeproj` or `.xcworkspace` :
+
+		bash -l -c "$(curl -sfL https://raw.githubusercontent.com/bitrise-io/codesigndoc/master/_scripts/install_wrap-xcode.sh)"  
+
+- Now follow your terminal and this [document](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/collecting-and-exporting-code-signing-files-with-codesigndoc.html#collecting-and-uploading-the-files-with-codesigndoc)
+
+- After completing all the steps, go to `Code Signing` tab in your `Bitrise` workflow, you will find the necessary files are uploaded:
+
+<img src="screen_shots_bitrise/public/15.bitrise_code_signing.png" alt="code signing"/>
+
+- Now add `Xcode Archive & Export for iOS` and `[BETA] Firebase App Distribution` in Bitrise workflow
+
+<img src="screen_shots_bitrise/public/16.bitrise_xcarchive_firebase.png" alt="16.bitrise_xcarchive_firebase"/>
+
+- Need to provide value of input variables for `Xcode Archive & Export for iOS`
+- Follow this [document](https://devcenter.bitrise.io/en/accounts/connecting-to-services/connecting-to-an-apple-service-with-apple-id.html) to connect with `Apple Acccount`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

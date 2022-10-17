@@ -17,7 +17,7 @@
 	xcodebuild -exportArchive -archivePath PATH_TO_SAVED_ARCHIVE/NAME_OF_YOUR_ARCHIVE.xcarchive -exportPath  PATH_TO_SAVE_YOUR_IPA/WeatherToday.ipa -exportOptionsPlist  PATH_TO_EXPORT_OPTION_PLIST/ExportOptions.plist
 
 
-`We need to create this **ExportOptions.plist** file before running the above command. Easiest way to do this is to create ipa from Xcode once the in the ipa's folder you will find a ExportOptions.plist that you can use for future.`
+> We need to create this ExportOptions.plist file before running the above command. Easiest way to do this is to create ipa from Xcode once the in the ipa's folder you will find a ExportOptions.plist that you can use for future.
 
 
 ### Resources
