@@ -28,6 +28,7 @@
 
 
 # Add Danger in Bitrise
+# [Add Fastlane in Bitrise](https://support.bitrise.io/hc/en-us/articles/4413047188625)
 
 # [Bitrise Deploy to Firebase App Distribution](https://devcenter.bitrise.io/en/steps-and-workflows/workflow-recipes-for-ios-apps/-ios--deploy-to-firebase-app-distribution.html)
 
