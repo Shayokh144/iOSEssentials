@@ -37,6 +37,13 @@ platform :ios do
   end
 end
 ```
+- Update contents in app file to add apple id and bundle id of app
+```
+# App File example
+apple_dev_portal_id("[[APPLE_DEVELOPER_ACCOUNT_USERNAME]]")
+itunes_connect_id("[[APP_STORE_CONNECT_ACCOUNT_USERNAME]]")
+```
+
 - ***fastlane create_app***
 	- using previously generated file it will create new app on both App Store Connect and the Apple Developer Portal
 - ***bundle exec fastlane deliver***
@@ -119,14 +126,10 @@ need to add below codes in `Fastfile` also
 ```
 
 
-# Fastlane From Scratch
 
-- Create a project
-- To initialize fastlane run below command inside the project folder:
+## Other commands
 
-		fastlane init
-- Select manual setup
+- To find all available input output of fastlane action run:
 
-
-
-
+		fastlane action COMMAND_NAME
+example: `fastlane action gym`

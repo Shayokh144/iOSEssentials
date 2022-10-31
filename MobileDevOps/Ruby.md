@@ -188,16 +188,28 @@ Global variable in class is 10
 - use ***`bundle exec pod install`*** instead of *`pod install`* if you are using `Gemfile` as `pod install` will install the latest version not following the `Gemfile`.
 
 
+## Troubleshooting Bundler
+
+### Case: Afte updating to mac os 13.0, bbundler failed to install packages
+
+### Soluution: 
+- Install latest `ruby` and keep the old one also by [this doc](https://mac.install.guide/ruby/13.html) 
 
 
+		brew install ruby
+
+- Set the $PATH environment variable. Add this at the end of your ~/.zshrc file. On Mac Intel:
 
 
+		open -e ~/.zshrc
 
 
+- paste below codess on that file:
 
-
-
-
+		if [ -d "/usr/local/opt/ruby/bin" ]; then
+  		  export PATH=/usr/local/opt/ruby/bin:$PATH
+  		  export PATH=`gem environment gemdir`/bin:$PATH
+		fi
 
 
 

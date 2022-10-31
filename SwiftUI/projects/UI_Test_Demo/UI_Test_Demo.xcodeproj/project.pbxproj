@@ -104,9 +104,9 @@
 		04BE901A28DDA57A00C4334C = {
 			isa = PBXGroup;
 			children = (
-				04BE902528DDA57A00C4334C /* UI_Test_Demo */,
 				04B298BD28E029F4004C95AB /* AppUITests */,
 				04BE902428DDA57A00C4334C /* Products */,
+				04BE902528DDA57A00C4334C /* UI_Test_Demo */,
 			);
 			sourceTree = "<group>";
 		};
