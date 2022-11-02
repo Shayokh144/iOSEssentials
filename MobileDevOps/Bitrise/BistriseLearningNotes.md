@@ -14,23 +14,10 @@
 - If error occurs like this: `You don't have write permissions for the /Library/Ruby/Gems/2.3.0 directory.` check [here](https://stackoverflow.com/a/53949737/4245112).
 - [Use repository's yml file instead of bitrise's given one](https://www.youtube.com/watch?v=cpdoJ7wjiJY&list=PLbKJc0NMPDrBwlTzcBYbwJZDKIwyYRODG&index=5)
 
-# Add Danger locally
-- Follow this [link](https://blog.bitrise.io/post/danger-danger-uh-that-is-using-danger-with-bitrise) to install and run Danger
-- Make sure you run below command in your project folder to setup `Danger` loally. It will create `Danger` file in the folder.
 
-		bundle exec danger init
-- To run `Danger CI` locally first we need to add `DANGER_GITHUB_API_TOKEN` in out Envirnment variable using the below command:
-
-		export DANGER_GITHUB_API_TOKEN=GENERATED_API_KEY_FROM_GITHUB
-- To run `Danger CI` locally run below command, it will print warnins, failurs in your console:
-
-		bundle exec danger pr LINK_OF_YOUR_PR
-
-
-# Add Danger in Bitrise
 # [Add Fastlane in Bitrise](https://support.bitrise.io/hc/en-us/articles/4413047188625)
 
-# [Bitrise Deploy to Firebase App Distribution](https://devcenter.bitrise.io/en/steps-and-workflows/workflow-recipes-for-ios-apps/-ios--deploy-to-firebase-app-distribution.html)
+# Bitrise Deploy to Firebase App Distribution
 
 ## Docs
 - [Firebase doc for distributing app to testers](https://firebase.google.com/docs/app-distribution/set-up-alerts?authuser=0&platform=ios)
@@ -39,8 +26,10 @@
 
 ## Steps
 
+### Manage Firebase
+
 - Register app to app store connect
-- Register app to firebase using `Bundle id`, `App store id` from app store connect app info page
+- Register app to firebase using `Bundle id`, `App store id(optional)` from app store connect app info page
 - Download `GoogleServiceInfo.plist` and add to project
 - Enable `Firebase App Testers API` for the app from `Google Cloud Console`
 - Add `FirebaseAppDistribution` in Pod
@@ -50,30 +39,89 @@
 - Run `firebase login:ci` to generate firebase token
 - Add the token to the `Bitrise -> Workflow -> Secret`
 - Get your Firebase App ID from your project's General Settings page and pass this value as an input variable to the [BETA] Firebase App Distribution Step.
-- [Follow below steps for code signing](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/managing-ios-code-signing-files---automatic-provisioning.html):
+
+### Manage Bitrise workflow
+
+To distribute `ipa` from `bitrise` through `firebase` we need to generate `ipa` by `archiving` our app. To do this we need to install certificate and profile in bitrise. To do this we will use `Fastlane Match for type Adhoc by using a Match Repository`. We will follow below steps:
+
+- As we need to access match repository for fastlane match, we need to enable [ssh](https://www.bitrise.io/integrations/steps/activate-ssh-key) (for private bitrise workflow) or use [netrc step](https://github.com/bitrise-steplib/steps-authenticate-host-with-netrc) (for public bitrise workflow) for authenticating github.
+	- Example of netrc step:
+<img src="./screen_shots_bitrise/public/17. bitrise_netrc.png" alt="17. bitrise_netrc"/>
+	- Use `Bitrise Secrets` for these input variables
+
+- Add `repository clone` and `Pod install` step in workflow
+- Add `fastlane match` step for type `adhoc`, use `Bitrise Secrets` for the input variables
+- Add a `fastlane lane` in your projeccts `Fastfile` to generate `ipa`:
+	- Example [PR](https://github.com/nimblehq/ci-cd-sample-ios/pull/24/files) is here
+```
+default_platform(:ios)
+
+platform :ios do
+  desc "Generate IPA"
+  lane :build_and_generate_ipa do
+    build_app(
+      workspace: "Your_Wrokspace_Name",
+      scheme: "Scheme_Name",
+      export_method: "ad-hoc",
+      output_directory: "Directory_Name"
+    )
+  end
+end
+
+```
+- Add [fastlane](https://github.com/bitrise-io/steps-fastlane) step in bitrise, provide lane name from `Fastfile` that will generate ipa and provide other inputs
+
+- Add [Firebase App Distribution](https://github.com/guness/bitrise-step-firebase-app-distribution) setp in bitrise workflow, provides input variables
 
 
-### iOS code signing with automatic provisioning
-#### code signing with [codesigndoc](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/collecting-and-exporting-code-signing-files-with-codesigndoc.html#collecting-and-uploading-the-files-with-codesigndoc)
+```
+Use Bitrise secrets for sensitive info
 
-- Run below command from terminal from the same location of your `.xcodeproj` or `.xcworkspace` :
+```
 
-		bash -l -c "$(curl -sfL https://raw.githubusercontent.com/bitrise-io/codesigndoc/master/_scripts/install_wrap-xcode.sh)"  
+# Bitrise Troubleshooting
 
-- Now follow your terminal and this [document](https://devcenter.bitrise.io/en/code-signing/ios-code-signing/collecting-and-exporting-code-signing-files-with-codesigndoc.html#collecting-and-uploading-the-files-with-codesigndoc)
+## Fastlane step
+### Error: Apple Account Connection problem
+- Type 1
 
-- After completing all the steps, go to `Code Signing` tab in your `Bitrise` workflow, you will find the necessary files are uploaded:
+<img src="./screen_shots_bitrise/error/AuthError.png" alt="AuthError"/>
 
-<img src="screen_shots_bitrise/public/15.bitrise_code_signing.png" alt="code signing"/>
+- Type 2
 
-- Now add `Xcode Archive & Export for iOS` and `[BETA] Firebase App Distribution` in Bitrise workflow
-
-<img src="screen_shots_bitrise/public/16.bitrise_xcarchive_firebase.png" alt="16.bitrise_xcarchive_firebase"/>
-
-- Need to provide value of input variables for `Xcode Archive & Export for iOS`
-- Follow this [document](https://devcenter.bitrise.io/en/accounts/connecting-to-services/connecting-to-an-apple-service-with-apple-id.html) to connect with `Apple Acccount`
+<img src="./screen_shots_bitrise/error/AuthError2.png" alt="AuthError2"/>
 
 
+### Solution
+Need to fix inputs in `Fastlane` step related to apple authentication 
+- Set `Bitrise Apple Developer Connection's` value `automatic`
+
+
+		automatic: Use any enabled Apple Developer connection, either based on Apple ID authentication or API key authentication. Step inputs are only used as a fallback. API key authentication has priority over Apple ID authentication in both cases.
+
+- Leave these two inputs `API Key: Issuer ID` and `API Key: URL` empty
+- Provide `Apple ID: Email`, `Apple ID: Password` and `Apple ID: Application-specific password` through secret variable (these 3 inputs only used if authentication failed by `Apple Developer Connection with API key`)
+- [Follow this link to provide Apple Developer Connection with API key in Bitrise](https://devcenter.bitrise.io/en/accounts/connecting-to-services/connecting-to-an-apple-service-with-api-key.html)
+## Firebase App Distribution step
+
+### Error: ipa file not found in Firebase App Distribution step 
+
+<img src="./screen_shots_bitrise/error/Firebase_File_Not_Found.png" alt="Firebase_File_Not_Found"/>
+
+- Example log:
+
+		deploy failed, error: failed to create file artifact, error: failed to get file size, error: file not exist at: YOUR_GIVEN_PATH
+
+### Probable cause
+- IPA path is not correct
+
+### Solution
+
+<img src="./screen_shots_bitrise/error/APP_IPA_INPUT.png" alt="APP_IPA_INPUT"/>
+
+- You need to check the `output_directory:` parameter's value in your fastfile's generate ipa lane. Let's say :  `output_directory: "./GeneratedIpa"`
+- Check the generated ipa name by runnig the fastlane lane locally. 
+- In your `Firebase App Distribution` step's input `App Path` should contain full path of generated ipa file. For above case the input value will be `./GeneratedIpa/IpaName.ipa`.
 
 
 
