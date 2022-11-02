@@ -66,6 +66,29 @@ on:
 
 
 
+## Add SSH key for Github Action
+
+- Open terminal in local pc
+
+- run `cd ~/.ssh`
+- run `ssh-keygen -t rsa -b 4096 -C "YOUR EMAIL"`
+- provide a name like `github-action` to recognize it later
+- provide empty passphrase
+- copy newly generated public key by running `pbcopy < github-action.pub`
+- go to `github.com -> profile -> settings -> access -> SSH and GPG keys -> new ssh key`
+- paste the copied public key and save
+- now copy the privet key by running `pbcopy < github-action`
+- go to your `github repo -> settings -> secrets -> action -> New repository secret`
+- paste copied private key in `secret` field and in name filed add `SSH_PRIVATE_KEY`
+
+
+Add below code in your github action file:
+
+    - name: Install SSH key
+      uses: webfactory/ssh-agent@v0.4.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
 
 ## Resources
 - [Official doc](https://docs.github.com/en/actions/using-workflows)
