@@ -1,4 +1,5 @@
-# Fastlane Basics
+# iOS
+## Fastlane Basics
 
 - ### Fastlane is a tool that automates the build, test and deployment of mobile apps. It is an open source platform aimed at simplifying Android and iOS deployment. It lets you automate every aspect of your development and release workflow.
 - In other words, fastlane handles all the tedious tasks of automating code signing, App Store upload, etc. Most of the native iOS projects are currently using fastlane.
@@ -133,3 +134,23 @@ need to add below codes in `Fastfile` also
 
 		fastlane action COMMAND_NAME
 example: `fastlane action gym`
+
+
+# Android
+
+- For android follow [this](https://docs.fastlane.tools/getting-started/android/setup/) 
+- Everything is almost similar to iOS just we need `Google credentials` rather than Apple's
+- Run [tests](https://docs.fastlane.tools/getting-started/android/running-tests/)
+- Capture Screenshots [Automatically](https://docs.fastlane.tools/getting-started/android/screenshots/)
+
+
+
+
+
+
+
+
+
+
+
+

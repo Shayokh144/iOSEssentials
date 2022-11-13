@@ -11,6 +11,7 @@
 
 - [state vs binding](https://stackoverflow.com/questions/59247183/swiftui-state-vs-binding)
 - [state management](https://www.swiftbysundell.com/articles/swiftui-state-management-guide/)**(must read)**
+- [property wrappers details](https://swiftuipropertywrappers.com/)**(must read)**
 
 ### @State
 
