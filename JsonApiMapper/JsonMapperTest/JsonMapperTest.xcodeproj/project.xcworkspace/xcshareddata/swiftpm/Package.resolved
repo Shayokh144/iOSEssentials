@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "jsonmapper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nimblehq/JSONMapper.git",
+      "state" : {
+        "revision" : "d3666e6d2cbbbdaa709de61142d21d90626d67cd",
+        "version" : "1.1.1"
+      }
+    }
+  ],
+  "version" : 2
+}
