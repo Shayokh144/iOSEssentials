@@ -11,8 +11,7 @@ import JSONAPIMapper
 struct ContentView: View {
     var body: some View {
         VStack {
-            Text(getJsonString().0)
-            Text(getJsonString().1)
+            Text(exampleOfSingleObject().0)
         }
         .padding()
     }
@@ -25,13 +24,31 @@ struct ContentView: View {
 
     }
 
-    private func getJsonString() -> (String, String) {
+    private func exampleOfArrayOfObject() {
+        let decoder = JSONAPIDecoder()
+        let dataToParse = Data(JsonStringCollection.getSurveyString().utf8)
+        do {
+            let modelData = try decoder.decode([SurveyList].self, from: dataToParse)
+            print(modelData)
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    private func exampleOfSingleObject() -> (String, String) {
         let jsonString =
         """
-        {
-            "temp": 298.48,
-            "humidity": 64.9
-        }
+                {
+                  "data": {
+                    "type": "articles",
+                    "id": "1",
+                    "attributes": {
+                        "temp": 298.48,
+                        "humidity": 64.9
+                    }
+                  }
+                }
         """
         let decoder = JSONAPIDecoder()
         decoder.assumesTopLevelDictionary = true
@@ -44,18 +61,5 @@ struct ContentView: View {
             print(error.localizedDescription)
             return ("temp: _%", "humidity: _")
         }
-
-
     }
-}
-
-protocol Weather {
-    var temp: Double { get }
-    var humidity: Double { get }
-}
-
-struct WeatherApi: Decodable, Weather {
-
-    let temp: Double
-    let humidity: Double
 }
