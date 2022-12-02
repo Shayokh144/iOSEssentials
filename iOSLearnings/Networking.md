@@ -112,6 +112,17 @@ sessionManager.request(url, parameters: queryParameters)
 ```
 
 
+# [Moya](https://www.kodeco.com/5121-moya-tutorial-for-ios-getting-started)
+
+- Moya and Alamofire are tightly related simply by the fact that Moya doesn’t really do any networking by itself. It uses Alamofire’s battle-tested networking capabilities and simply provides additional abilities, types and concepts to further abstract Alamofire.
+
+## Moya’s Building Blocks
+
+<img src="../staticresources/MoyaBuildingBlock.png" alt="MoyaBuildingBlock" />
+
+- **Provider**: Moya’s MoyaProvider will be the main object that you’ll create and use when interacting with any network service. It’s a generic object that takes a Moya Target upon initialization.
+- **Target**: A Moya target usually describes an entire API service; in this case, a Marvel target and an Imgur target. Each of these targets describe the service, its possible endpoints, and the information required by each endpoint to perform a request. You define a target by conforming to the TargetType protocol.
+- **Endpoint**: Moya uses the semi-internal Endpoint object to describe the basic pieces of information required to perform a network request, e.g., HTTP method, request body, headers and more. Moya’s MoyaProvider transforms every target to an Endpoint, which is eventually transformed into a raw URLRequest. Endpoints are highly customizable but are out of scope for this tutorial as you won’t need any custom mappings.
 
 
 

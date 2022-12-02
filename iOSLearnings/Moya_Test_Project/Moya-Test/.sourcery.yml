@@ -1,0 +1,12 @@
+sources:
+  - MoyaTest/Sources
+templates:
+  - tools/sourcery/templates
+output:
+  MoyaTestTests/Sources/Mocks/Sourcery 
+args:
+  autoMockableTestableImports:
+    - MoyaTest
+  autoMockableImports:
+    - RxSwift
+    - RxCocoa
