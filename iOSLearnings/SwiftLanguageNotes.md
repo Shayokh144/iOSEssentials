@@ -3,7 +3,7 @@
 <img src="../staticresources/allocation_performance.png" alt="print_vs_dump" />
 <img src="../staticresources/allocation_performance2.png" alt="print_vs_dump" />
 
-## Extend UerDefaults to keep the keys
+## Extend UserDefaults to keep the keys
 <img src="../staticresources/ExtensionUserDefault.png" alt="ExtensionUserDefault" />
 
 ## [Compare Enums with associated values](https://stackoverflow.com/a/66062597/4245112)
@@ -14,3 +14,9 @@
 
 ## [JSON parsing with CodingKey](https://www.hackingwithswift.com/articles/119/codable-cheat-sheet)
 <img src="../staticresources/JsonParsing.png" alt="JsonParsing" />
+
+## [isEmpty vs count == 0](https://www.swiftbysundell.com/articles/count-vs-isEmpty/)
+
+- Using `isEmpty` and `count == 0` equivalent? Sometimes, yes (for example when working with a Set), but sometimes (like in the case of String), using count to determine whether a collection is empty is incredibly wasteful — given that the entire collection will be looped through, just so that we can then check if that count is equal to 0.
+
+- Always use `isEmpty` when you want to check whether a collection is or isn’t empty. It reads better, is more self-explanatory, and is always super fast. Only use `count` when you’re interested in the actual number of elements in the collection.
