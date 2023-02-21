@@ -117,3 +117,6 @@ When declarations in an Objective-C header file refer to a Swift class or protoc
 
 - [Working tutorial](https://lokalise.com/blog/getting-started-with-ios-localization/)
 - [Example commit](https://github.com/nimblehq/ci-cd-sample-ios/pull/20/commits/38dd159f8cd4d4214c6b445cfc3dd63c7149d808#diff-a4cdc98fadcdbada231e5334dd597e524e8fd8f55833c5c1473862c0333c6a12)
+
+## UIImageView ContentMode Examples
+- [Resource](https://useyourloaf.com/blog/stretching-redrawing-and-positioning-with-contentmode/)
