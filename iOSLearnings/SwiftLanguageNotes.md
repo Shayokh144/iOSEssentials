@@ -20,3 +20,49 @@
 - Using `isEmpty` and `count == 0` equivalent? Sometimes, yes (for example when working with a Set), but sometimes (like in the case of String), using count to determine whether a collection is empty is incredibly wasteful — given that the entire collection will be looped through, just so that we can then check if that count is equal to 0.
 
 - Always use `isEmpty` when you want to check whether a collection is or isn’t empty. It reads better, is more self-explanatory, and is always super fast. Only use `count` when you’re interested in the actual number of elements in the collection.
+
+## Class Reference & Copy
+
+- By default swift class is copied by reference. Example:
+
+```Swift
+class Human {
+
+    var age: Int = 1
+}
+
+let human = Human()
+let copyHuman = human
+copyHuman.age = 13
+print("human age: \(human.age)\ncopyHuman age: \(copyHuman.age)")
+```
+
+```
+output: 
+human age: 13
+copyHuman age: 13
+```
+- Here both object contain the same value that is assigned to the copy object.
+- If we want to get separate object by copying we have to use `copy`. For example:
+
+```Swift
+class Human: NSCopying {
+
+    var age: Int = 1
+
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Human()
+        return copy
+    }
+}
+
+let human = Human()
+let copyHuman = human.copy() as! Human
+copyHuman.age = 13
+print("human age: \(human.age)\ncopyHuman age: \(copyHuman.age)")
+```
+```
+output: 
+human age: 1
+copyHuman age: 13
+```
