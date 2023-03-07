@@ -120,3 +120,28 @@ When declarations in an Objective-C header file refer to a Swift class or protoc
 
 ## UIImageView ContentMode Examples
 - [Resource](https://useyourloaf.com/blog/stretching-redrawing-and-positioning-with-contentmode/)
+
+## How to install 3rd party library manually without Cocoapods and SPM
+
+- Navigate to github releases page, download `Lib_Name.xcframework.zip`, and unzip it.
+- Drag `Lib_Name.xcframework` to the `Frameworks, Libraries, and Embedded Content` section of your `Xcode project’s` `General settings`. Make sure to select `"Copy items if needed"`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
