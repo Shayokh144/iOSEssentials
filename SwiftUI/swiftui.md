@@ -33,6 +33,13 @@
 - @EnvironmentObject Properties created elsewhere such as shared data. App crashes if it is missing.
 - The Environment is the right way of Dependency Injection with SwiftUI.
 
+## Providing a binding varables value from Preview struct
+- Let's say binding variable type is `bool`, we should pass it like:
+
+`binding_variable_name: .constant(false)`
+
+## Common mistakes
+- [Swift UI common mistakes](https://www.hackingwithswift.com/articles/224/common-swiftui-mistakes-and-how-to-fix-them)
 
 ## Resources
 
