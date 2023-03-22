@@ -34,11 +34,33 @@ For a long time, in-house distribution was the only supported way to achieve lar
 
 Unlike in-house distribution, Custom App Distribution leverages the App Store’s tools and infrastructure, like TestFlight and App Store Connect. If you’re distributing an internal app for a large organization, Custom App Distribution should be at the top of your list.
 
+## Understanding Provision Profile and Certificate 
+- [Provision Profile and Certificate](https://www.youtube.com/watch?v=Ys2p5bFhgjI&t=156s)
+- [iOS App signing](https://www.youtube.com/watch?v=0lJvQ-442OY)
+- [iOS App Signing summary](https://www.youtube.com/watch?v=0lJvQ-442OY&t=650s)
+
+### Code signing
+- Code Signing is the process of digitally sign any form of code to ensue who writes the code and tho code has not been changed or corrupted when it was signed.
+
+### Certificate signing request (CSR)
+- A CSR is basically a message sent from ans applicant to a certificate authority in order to apply for a certificate.
+- A CSR is a block of encoded text that is given to a certificate authority when applying for a certificate.
+- Keychain Application will create a `private key` and a `certSigningRequest` file which will be then uploaded to Apple
+- Apple will proof the request and issue a certificate
+- The certificate will pushed to keychain and paired with private key to form the `Code Signing Identity`
+- Finally at the time of app installation the private key used to sign the app matches the public key in the certificate, if it fails app won't install in device.
+
+
+### Provision Profile
+- Provision profile act like a link between physical device and apple developer account. Without provision profile app cannot be installed on physical device. `It decides which devices can run the app and what services (like push notifications) it can be accessed.` 
+- Provision profile contains 3 things: `Development Certificates`, `UDID of devices` that can run the app, `App Id`(it is a two part string used to identify one or more apps from a single development teams)
+
+
 ## [Create distribution profile](https://blog.instabug.com/how-to-submit-app-to-app-store/#codesigning) 
 
 ## App Release
 
-- [Bump build version] (https://www.raywenderlich.com/books/ios-app-distribution-best-practices/v1.0/chapters/3-submitting-your-first-app-for-review#toc-chapter-009-anchor-005)
+- [Bump build version](https://www.raywenderlich.com/books/ios-app-distribution-best-practices/v1.0/chapters/3-submitting-your-first-app-for-review#toc-chapter-009-anchor-005)
     - Semantic versioning, is a three-component number in the format of A.B.C, where:
 
         “A” represents a major version, e.g., when you add a new feature. “B” represents a minor version, e.g., when you enhance an existing feature.“C” represents a patch, e.g., a bug fix. Example: 1.0.1
