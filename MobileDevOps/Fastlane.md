@@ -19,6 +19,12 @@
 - **match:** syncs certificates and provisioning profiles across your team, using Git.
 - **scan:** runs tests on your apps.
 
+## Fastlane Cert and Sigh
+- [Resource](https://www.youtube.com/watch?v=90hJDqbUyqM)
+
+## Fastlane match
+- [Resource](https://youtu.be/Edr88s5YlH4)
+
 ## Fastlane Commands
 - ***fastlane init***
 	- it will initiate the fastlane, creating some files llike `Gemfile`, `Fastfile`, `Appfile`. 
