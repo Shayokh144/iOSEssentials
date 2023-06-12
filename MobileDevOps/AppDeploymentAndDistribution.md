@@ -43,7 +43,7 @@ Unlike in-house distribution, Custom App Distribution leverages the App Store’
 - Code Signing is the process of digitally sign any form of code to ensue who writes the code and tho code has not been changed or corrupted when it was signed.
 
 ### Certificate signing request (CSR)
-- A CSR is basically a message sent from ans applicant to a certificate authority in order to apply for a certificate.
+- A CSR is basically a message sent from an applicant to a certificate authority in order to apply for a certificate.
 - A CSR is a block of encoded text that is given to a certificate authority when applying for a certificate.
 - Keychain Application will create a `private key` and a `certSigningRequest` file which will be then uploaded to Apple
 - Apple will proof the request and issue a certificate

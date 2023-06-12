@@ -66,3 +66,35 @@ output:
 human age: 1
 copyHuman age: 13
 ```
+
+
+## Lazy in collection
+
+
+when using high order functions. Lazy, of course, will delay the evaluation until the higher order function is needed. This will save you from creating arrays unnecessarily.
+
+```Swift
+let newCars = allCars.lazy.filter({$0.isNew})
+```
+
+## Iteration on optional
+
+```Swift
+//Prefer
+for case let pet? in pets {
+}
+
+//Avoid
+for pet in pets {
+  if let pet = pet {
+  }
+}
+```
+
+
+
+
+
+
+
+

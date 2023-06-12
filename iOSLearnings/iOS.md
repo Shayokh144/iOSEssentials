@@ -127,7 +127,12 @@ When declarations in an Objective-C header file refer to a Swift class or protoc
 - Drag `Lib_Name.xcframework` to the `Frameworks, Libraries, and Embedded Content` section of your `Xcode project’s` `General settings`. Make sure to select `"Copy items if needed"`.
 
 
+# Share data between apps of same company
+- Use [App group](https://www.appcoda.com/app-group-macos-ios-communication/)
 
+# Managing different screen size UIkit
+
+- [Manage using ratio](https://medium.com/fantageek/auto-layout-with-different-screen-sizes-in-ios-954c780b2884)
 
 
 

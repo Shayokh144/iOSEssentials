@@ -89,6 +89,8 @@ Add below code in your github action file:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+## Run github action locally
+- [Resource](https://github.com/nektos/act)
 
 ## Resources
 - [Official doc](https://docs.github.com/en/actions/using-workflows)
