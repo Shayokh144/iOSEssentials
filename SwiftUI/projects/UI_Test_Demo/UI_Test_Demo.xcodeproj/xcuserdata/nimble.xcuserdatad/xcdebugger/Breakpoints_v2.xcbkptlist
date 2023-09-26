@@ -81,6 +81,36 @@
                   endingLineNumber = "85"
                   offsetFromSymbolStart = "196">
                </Location>
+               <Location
+                  uuid = "C73F6F36-B379-41DE-9465-9CD627B7A1F0 - 1109c1a00128a0d4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Combine.Subscribers.Completion&lt;Swift.Error&gt;) -&gt; () in UI_Test_Demo.AuthViewModel.isLoginDataCorrect() -&gt; Swift.Bool"
+                  moduleName = "UI_Test_Demo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimble/Documents/MyProjects/GIT_HUB/iosessential/iOSEssentials/SwiftUI/projects/UI_Test_Demo/UI_Test_Demo/App/ViewModel/AuthViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "155">
+               </Location>
+               <Location
+                  uuid = "C73F6F36-B379-41DE-9465-9CD627B7A1F0 - 1109c1a00128a0d4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Combine.Subscribers.Completion&lt;Swift.Error&gt;) -&gt; () in UI_Test_Demo.AuthViewModel.isLoginDataCorrect() -&gt; Swift.Bool"
+                  moduleName = "UI_Test_Demo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nimble/Documents/MyProjects/GIT_HUB/iosessential/iOSEssentials/SwiftUI/projects/UI_Test_Demo/UI_Test_Demo/App/ViewModel/AuthViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "178">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

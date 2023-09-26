@@ -136,7 +136,8 @@ When declarations in an Objective-C header file refer to a Swift class or protoc
 
 
 
-
+# Static valiable
+- Static variables are like singleton, the object will remain in memory while the app is running
 
 
 
