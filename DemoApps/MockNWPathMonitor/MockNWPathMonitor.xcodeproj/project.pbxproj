@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04869A7D2AE76D7800109D86 /* NetworkPathMonitorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04869A7C2AE76D7800109D86 /* NetworkPathMonitorProtocol.swift */; };
+		04869A7F2AE76DB400109D86 /* NetworkPathMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04869A7E2AE76DB400109D86 /* NetworkPathMonitor.swift */; };
+		04869A822AE7817900109D86 /* MockNetworkPathMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04869A812AE7817900109D86 /* MockNetworkPathMonitor.swift */; };
 		04B68CAB2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */; };
 		04B68CAD2AE6E57900B7EC28 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CAC2AE6E57900B7EC28 /* AppView.swift */; };
 		04B68CAF2AE6E57A00B7EC28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */; };
 		04B68CB22AE6E57A00B7EC28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B68CB12AE6E57A00B7EC28 /* Preview Assets.xcassets */; };
-		04B68CBC2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */; };
 		04B68CD52AE6E6F400B7EC28 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CD42AE6E6F400B7EC28 /* AppViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -26,13 +28,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04869A7C2AE76D7800109D86 /* NetworkPathMonitorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPathMonitorProtocol.swift; sourceTree = "<group>"; };
+		04869A7E2AE76DB400109D86 /* NetworkPathMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPathMonitor.swift; sourceTree = "<group>"; };
+		04869A812AE7817900109D86 /* MockNetworkPathMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkPathMonitor.swift; sourceTree = "<group>"; };
 		04B68CA72AE6E57900B7EC28 /* MockNWPathMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MockNWPathMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNWPathMonitorApp.swift; sourceTree = "<group>"; };
 		04B68CAC2AE6E57900B7EC28 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04B68CB12AE6E57A00B7EC28 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		04B68CB72AE6E57B00B7EC28 /* MockNWPathMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockNWPathMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNWPathMonitorTests.swift; sourceTree = "<group>"; };
 		04B68CD42AE6E6F400B7EC28 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +67,23 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
+		04869A7B2AE7670300109D86 /* NetworkMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				04869A7C2AE76D7800109D86 /* NetworkPathMonitorProtocol.swift */,
+				04869A7E2AE76DB400109D86 /* NetworkPathMonitor.swift */,
+			);
+			path = NetworkMonitor;
+			sourceTree = "<group>";
+		};
+		04869A802AE7816900109D86 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				04869A812AE7817900109D86 /* MockNetworkPathMonitor.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		04B68C9E2AE6E57900B7EC28 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +105,7 @@
 		04B68CA92AE6E57900B7EC28 /* MockNWPathMonitor */ = {
 			isa = PBXGroup;
 			children = (
+				04869A7B2AE7670300109D86 /* NetworkMonitor */,
 				04869A782AE763DB00109D86 /* Presentation */,
 				04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */,
 				04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */,
@@ -103,7 +125,7 @@
 		04B68CBA2AE6E57B00B7EC28 /* MockNWPathMonitorTests */ = {
 			isa = PBXGroup;
 			children = (
-				04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */,
+				04869A802AE7816900109D86 /* Mock */,
 			);
 			path = MockNWPathMonitorTests;
 			sourceTree = "<group>";
@@ -208,8 +230,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04869A7D2AE76D7800109D86 /* NetworkPathMonitorProtocol.swift in Sources */,
 				04B68CAD2AE6E57900B7EC28 /* AppView.swift in Sources */,
 				04B68CAB2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift in Sources */,
+				04869A7F2AE76DB400109D86 /* NetworkPathMonitor.swift in Sources */,
 				04B68CD52AE6E6F400B7EC28 /* AppViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,7 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04B68CBC2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift in Sources */,
+				04869A822AE7817900109D86 /* MockNetworkPathMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

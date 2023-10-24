@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  AppView.swift
 //  MockNWPathMonitor
 //
 //  Created by Taher on 24/10/23.
@@ -8,13 +8,25 @@
 import SwiftUI
 
 struct AppView: View {
+
+    @ObservedObject var viewModel: AppViewModel
+    @State var counter = 0
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+            switch viewModel.networkStatus {
+            case .undetermined:
+                Text("UDETERMINED..")
+                    .foregroundColor(.blue)
+            case .notConnected:
+                Text("DISCONNECTED..")
+                    .foregroundColor(.red)
+            case .connected:
+                Text("CONNECTED..")
+                    .foregroundColor(.green)
+            }
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black)
     }
 }
