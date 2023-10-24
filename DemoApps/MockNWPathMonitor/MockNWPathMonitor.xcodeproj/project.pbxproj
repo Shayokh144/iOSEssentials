@@ -7,50 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		041539822A94B59D001B1150 /* NetworkMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041539812A94B59D001B1150 /* NetworkMonitorApp.swift */; };
-		041539842A94B59D001B1150 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041539832A94B59D001B1150 /* ContentView.swift */; };
-		041539862A94B59F001B1150 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041539852A94B59F001B1150 /* Assets.xcassets */; };
-		041539892A94B59F001B1150 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 041539882A94B59F001B1150 /* Preview Assets.xcassets */; };
-		041539902A94BA3A001B1150 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0415398F2A94BA3A001B1150 /* ContentViewModel.swift */; };
-		041539932A94BADC001B1150 /* NetworkPathMonitorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041539922A94BADC001B1150 /* NetworkPathMonitorProtocol.swift */; };
-		041539952A94BB47001B1150 /* NetworkPathMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041539942A94BB47001B1150 /* NetworkPathMonitor.swift */; };
-		041598A22AE6BABD00BDED65 /* ContentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041598A12AE6BABD00BDED65 /* ContentViewModelTests.swift */; };
-		042A69E62AE6850E00CA63B6 /* MockNetworkPathMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042A69E52AE6850E00CA63B6 /* MockNetworkPathMonitor.swift */; };
+		04B68CAB2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */; };
+		04B68CAD2AE6E57900B7EC28 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CAC2AE6E57900B7EC28 /* AppView.swift */; };
+		04B68CAF2AE6E57A00B7EC28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */; };
+		04B68CB22AE6E57A00B7EC28 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B68CB12AE6E57A00B7EC28 /* Preview Assets.xcassets */; };
+		04B68CBC2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */; };
+		04B68CD52AE6E6F400B7EC28 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B68CD42AE6E6F400B7EC28 /* AppViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		042A69DF2AE67A8100CA63B6 /* PBXContainerItemProxy */ = {
+		04B68CB82AE6E57B00B7EC28 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 041539762A94B59D001B1150 /* Project object */;
+			containerPortal = 04B68C9F2AE6E57900B7EC28 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0415397D2A94B59D001B1150;
-			remoteInfo = "Network Monitor";
+			remoteGlobalIDString = 04B68CA62AE6E57900B7EC28;
+			remoteInfo = MockNWPathMonitor;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0415397E2A94B59D001B1150 /* Network Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Network Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		041539812A94B59D001B1150 /* NetworkMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitorApp.swift; sourceTree = "<group>"; };
-		041539832A94B59D001B1150 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		041539852A94B59F001B1150 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		041539882A94B59F001B1150 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		0415398F2A94BA3A001B1150 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
-		041539922A94BADC001B1150 /* NetworkPathMonitorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPathMonitorProtocol.swift; sourceTree = "<group>"; };
-		041539942A94BB47001B1150 /* NetworkPathMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPathMonitor.swift; sourceTree = "<group>"; };
-		041598A12AE6BABD00BDED65 /* ContentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModelTests.swift; sourceTree = "<group>"; };
-		042A69DB2AE67A8100CA63B6 /* Network MonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Network MonitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		042A69E52AE6850E00CA63B6 /* MockNetworkPathMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkPathMonitor.swift; sourceTree = "<group>"; };
+		04B68CA72AE6E57900B7EC28 /* MockNWPathMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MockNWPathMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNWPathMonitorApp.swift; sourceTree = "<group>"; };
+		04B68CAC2AE6E57900B7EC28 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
+		04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04B68CB12AE6E57A00B7EC28 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04B68CB72AE6E57B00B7EC28 /* MockNWPathMonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MockNWPathMonitorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNWPathMonitorTests.swift; sourceTree = "<group>"; };
+		04B68CD42AE6E6F400B7EC28 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0415397B2A94B59D001B1150 /* Frameworks */ = {
+		04B68CA42AE6E57900B7EC28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		042A69D82AE67A8100CA63B6 /* Frameworks */ = {
+		04B68CB42AE6E57B00B7EC28 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,129 +54,118 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		041539752A94B59D001B1150 = {
+		04869A782AE763DB00109D86 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				041539802A94B59D001B1150 /* Network Monitor */,
-				042A69DC2AE67A8100CA63B6 /* Network MonitorTests */,
-				0415397F2A94B59D001B1150 /* Products */,
+				04B68CD42AE6E6F400B7EC28 /* AppViewModel.swift */,
+				04B68CAC2AE6E57900B7EC28 /* AppView.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		04B68C9E2AE6E57900B7EC28 = {
+			isa = PBXGroup;
+			children = (
+				04B68CA92AE6E57900B7EC28 /* MockNWPathMonitor */,
+				04B68CBA2AE6E57B00B7EC28 /* MockNWPathMonitorTests */,
+				04B68CA82AE6E57900B7EC28 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		0415397F2A94B59D001B1150 /* Products */ = {
+		04B68CA82AE6E57900B7EC28 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0415397E2A94B59D001B1150 /* Network Monitor.app */,
-				042A69DB2AE67A8100CA63B6 /* Network MonitorTests.xctest */,
+				04B68CA72AE6E57900B7EC28 /* MockNWPathMonitor.app */,
+				04B68CB72AE6E57B00B7EC28 /* MockNWPathMonitorTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		041539802A94B59D001B1150 /* Network Monitor */ = {
+		04B68CA92AE6E57900B7EC28 /* MockNWPathMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				041539912A94BABF001B1150 /* Network */,
-				041539812A94B59D001B1150 /* NetworkMonitorApp.swift */,
-				041539832A94B59D001B1150 /* ContentView.swift */,
-				0415398F2A94BA3A001B1150 /* ContentViewModel.swift */,
-				041539852A94B59F001B1150 /* Assets.xcassets */,
-				041539872A94B59F001B1150 /* Preview Content */,
+				04869A782AE763DB00109D86 /* Presentation */,
+				04B68CAA2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift */,
+				04B68CAE2AE6E57A00B7EC28 /* Assets.xcassets */,
+				04B68CB02AE6E57A00B7EC28 /* Preview Content */,
 			);
-			path = "Network Monitor";
+			path = MockNWPathMonitor;
 			sourceTree = "<group>";
 		};
-		041539872A94B59F001B1150 /* Preview Content */ = {
+		04B68CB02AE6E57A00B7EC28 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				041539882A94B59F001B1150 /* Preview Assets.xcassets */,
+				04B68CB12AE6E57A00B7EC28 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		041539912A94BABF001B1150 /* Network */ = {
+		04B68CBA2AE6E57B00B7EC28 /* MockNWPathMonitorTests */ = {
 			isa = PBXGroup;
 			children = (
-				041539922A94BADC001B1150 /* NetworkPathMonitorProtocol.swift */,
-				041539942A94BB47001B1150 /* NetworkPathMonitor.swift */,
+				04B68CBB2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift */,
 			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		042A69DC2AE67A8100CA63B6 /* Network MonitorTests */ = {
-			isa = PBXGroup;
-			children = (
-				042A69E42AE684DA00CA63B6 /* Mock */,
-				041598A12AE6BABD00BDED65 /* ContentViewModelTests.swift */,
-			);
-			path = "Network MonitorTests";
-			sourceTree = "<group>";
-		};
-		042A69E42AE684DA00CA63B6 /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				042A69E52AE6850E00CA63B6 /* MockNetworkPathMonitor.swift */,
-			);
-			path = Mock;
+			path = MockNWPathMonitorTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0415397D2A94B59D001B1150 /* Network Monitor */ = {
+		04B68CA62AE6E57900B7EC28 /* MockNWPathMonitor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0415398C2A94B59F001B1150 /* Build configuration list for PBXNativeTarget "Network Monitor" */;
+			buildConfigurationList = 04B68CCB2AE6E57B00B7EC28 /* Build configuration list for PBXNativeTarget "MockNWPathMonitor" */;
 			buildPhases = (
-				0415397A2A94B59D001B1150 /* Sources */,
-				0415397B2A94B59D001B1150 /* Frameworks */,
-				0415397C2A94B59D001B1150 /* Resources */,
+				04B68CA32AE6E57900B7EC28 /* Sources */,
+				04B68CA42AE6E57900B7EC28 /* Frameworks */,
+				04B68CA52AE6E57900B7EC28 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Network Monitor";
-			productName = "Network Monitor";
-			productReference = 0415397E2A94B59D001B1150 /* Network Monitor.app */;
+			name = MockNWPathMonitor;
+			productName = MockNWPathMonitor;
+			productReference = 04B68CA72AE6E57900B7EC28 /* MockNWPathMonitor.app */;
 			productType = "com.apple.product-type.application";
 		};
-		042A69DA2AE67A8100CA63B6 /* Network MonitorTests */ = {
+		04B68CB62AE6E57B00B7EC28 /* MockNWPathMonitorTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 042A69E32AE67A8100CA63B6 /* Build configuration list for PBXNativeTarget "Network MonitorTests" */;
+			buildConfigurationList = 04B68CCE2AE6E57B00B7EC28 /* Build configuration list for PBXNativeTarget "MockNWPathMonitorTests" */;
 			buildPhases = (
-				042A69D72AE67A8100CA63B6 /* Sources */,
-				042A69D82AE67A8100CA63B6 /* Frameworks */,
-				042A69D92AE67A8100CA63B6 /* Resources */,
+				04B68CB32AE6E57B00B7EC28 /* Sources */,
+				04B68CB42AE6E57B00B7EC28 /* Frameworks */,
+				04B68CB52AE6E57B00B7EC28 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				042A69E02AE67A8100CA63B6 /* PBXTargetDependency */,
+				04B68CB92AE6E57B00B7EC28 /* PBXTargetDependency */,
 			);
-			name = "Network MonitorTests";
-			productName = "Network MonitorTests";
-			productReference = 042A69DB2AE67A8100CA63B6 /* Network MonitorTests.xctest */;
+			name = MockNWPathMonitorTests;
+			productName = MockNWPathMonitorTests;
+			productReference = 04B68CB72AE6E57B00B7EC28 /* MockNWPathMonitorTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		041539762A94B59D001B1150 /* Project object */ = {
+		04B68C9F2AE6E57900B7EC28 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					0415397D2A94B59D001B1150 = {
+					04B68CA62AE6E57900B7EC28 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
-					042A69DA2AE67A8100CA63B6 = {
+					04B68CB62AE6E57B00B7EC28 = {
 						CreatedOnToolsVersion = 14.3.1;
-						TestTargetID = 0415397D2A94B59D001B1150;
+						TestTargetID = 04B68CA62AE6E57900B7EC28;
 					};
 				};
 			};
-			buildConfigurationList = 041539792A94B59D001B1150 /* Build configuration list for PBXProject "Network Monitor" */;
+			buildConfigurationList = 04B68CA22AE6E57900B7EC28 /* Build configuration list for PBXProject "MockNWPathMonitor" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -190,28 +173,28 @@
 				en,
 				Base,
 			);
-			mainGroup = 041539752A94B59D001B1150;
-			productRefGroup = 0415397F2A94B59D001B1150 /* Products */;
+			mainGroup = 04B68C9E2AE6E57900B7EC28;
+			productRefGroup = 04B68CA82AE6E57900B7EC28 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0415397D2A94B59D001B1150 /* Network Monitor */,
-				042A69DA2AE67A8100CA63B6 /* Network MonitorTests */,
+				04B68CA62AE6E57900B7EC28 /* MockNWPathMonitor */,
+				04B68CB62AE6E57B00B7EC28 /* MockNWPathMonitorTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0415397C2A94B59D001B1150 /* Resources */ = {
+		04B68CA52AE6E57900B7EC28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				041539892A94B59F001B1150 /* Preview Assets.xcassets in Resources */,
-				041539862A94B59F001B1150 /* Assets.xcassets in Resources */,
+				04B68CB22AE6E57A00B7EC28 /* Preview Assets.xcassets in Resources */,
+				04B68CAF2AE6E57A00B7EC28 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		042A69D92AE67A8100CA63B6 /* Resources */ = {
+		04B68CB52AE6E57B00B7EC28 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -221,39 +204,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0415397A2A94B59D001B1150 /* Sources */ = {
+		04B68CA32AE6E57900B7EC28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				041539932A94BADC001B1150 /* NetworkPathMonitorProtocol.swift in Sources */,
-				041539842A94B59D001B1150 /* ContentView.swift in Sources */,
-				041539822A94B59D001B1150 /* NetworkMonitorApp.swift in Sources */,
-				041539952A94BB47001B1150 /* NetworkPathMonitor.swift in Sources */,
-				041539902A94BA3A001B1150 /* ContentViewModel.swift in Sources */,
+				04B68CAD2AE6E57900B7EC28 /* AppView.swift in Sources */,
+				04B68CAB2AE6E57900B7EC28 /* MockNWPathMonitorApp.swift in Sources */,
+				04B68CD52AE6E6F400B7EC28 /* AppViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		042A69D72AE67A8100CA63B6 /* Sources */ = {
+		04B68CB32AE6E57B00B7EC28 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				042A69E62AE6850E00CA63B6 /* MockNetworkPathMonitor.swift in Sources */,
-				041598A22AE6BABD00BDED65 /* ContentViewModelTests.swift in Sources */,
+				04B68CBC2AE6E57B00B7EC28 /* MockNWPathMonitorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		042A69E02AE67A8100CA63B6 /* PBXTargetDependency */ = {
+		04B68CB92AE6E57B00B7EC28 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0415397D2A94B59D001B1150 /* Network Monitor */;
-			targetProxy = 042A69DF2AE67A8100CA63B6 /* PBXContainerItemProxy */;
+			target = 04B68CA62AE6E57900B7EC28 /* MockNWPathMonitor */;
+			targetProxy = 04B68CB82AE6E57B00B7EC28 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0415398A2A94B59F001B1150 /* Debug */ = {
+		04B68CC92AE6E57B00B7EC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -313,7 +293,7 @@
 			};
 			name = Debug;
 		};
-		0415398B2A94B59F001B1150 /* Release */ = {
+		04B68CCA2AE6E57B00B7EC28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -367,14 +347,14 @@
 			};
 			name = Release;
 		};
-		0415398D2A94B59F001B1150 /* Debug */ = {
+		04B68CCC2AE6E57B00B7EC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Network Monitor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MockNWPathMonitor/Preview Content\"";
 				DEVELOPMENT_TEAM = 6J7HMSP4RZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -383,13 +363,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.taher.co.Network-Monitor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.taher.co.MockNWPathMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -397,14 +376,14 @@
 			};
 			name = Debug;
 		};
-		0415398E2A94B59F001B1150 /* Release */ = {
+		04B68CCD2AE6E57B00B7EC28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Network Monitor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MockNWPathMonitor/Preview Content\"";
 				DEVELOPMENT_TEAM = 6J7HMSP4RZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -413,13 +392,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.taher.co.Network-Monitor";
+				PRODUCT_BUNDLE_IDENTIFIER = com.taher.co.MockNWPathMonitor;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -427,73 +405,77 @@
 			};
 			name = Release;
 		};
-		042A69E12AE67A8100CA63B6 /* Debug */ = {
+		04B68CCF2AE6E57B00B7EC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6J7HMSP4RZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.taher.co.Network-MonitorTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.taher.co.MockNWPathMonitorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Network Monitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Network Monitor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MockNWPathMonitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MockNWPathMonitor";
 			};
 			name = Debug;
 		};
-		042A69E22AE67A8100CA63B6 /* Release */ = {
+		04B68CD02AE6E57B00B7EC28 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6J7HMSP4RZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.taher.co.Network-MonitorTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.taher.co.MockNWPathMonitorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Network Monitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Network Monitor";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MockNWPathMonitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MockNWPathMonitor";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		041539792A94B59D001B1150 /* Build configuration list for PBXProject "Network Monitor" */ = {
+		04B68CA22AE6E57900B7EC28 /* Build configuration list for PBXProject "MockNWPathMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0415398A2A94B59F001B1150 /* Debug */,
-				0415398B2A94B59F001B1150 /* Release */,
+				04B68CC92AE6E57B00B7EC28 /* Debug */,
+				04B68CCA2AE6E57B00B7EC28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0415398C2A94B59F001B1150 /* Build configuration list for PBXNativeTarget "Network Monitor" */ = {
+		04B68CCB2AE6E57B00B7EC28 /* Build configuration list for PBXNativeTarget "MockNWPathMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0415398D2A94B59F001B1150 /* Debug */,
-				0415398E2A94B59F001B1150 /* Release */,
+				04B68CCC2AE6E57B00B7EC28 /* Debug */,
+				04B68CCD2AE6E57B00B7EC28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		042A69E32AE67A8100CA63B6 /* Build configuration list for PBXNativeTarget "Network MonitorTests" */ = {
+		04B68CCE2AE6E57B00B7EC28 /* Build configuration list for PBXNativeTarget "MockNWPathMonitorTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				042A69E12AE67A8100CA63B6 /* Debug */,
-				042A69E22AE67A8100CA63B6 /* Release */,
+				04B68CCF2AE6E57B00B7EC28 /* Debug */,
+				04B68CD02AE6E57B00B7EC28 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 041539762A94B59D001B1150 /* Project object */;
+	rootObject = 04B68C9F2AE6E57900B7EC28 /* Project object */;
 }

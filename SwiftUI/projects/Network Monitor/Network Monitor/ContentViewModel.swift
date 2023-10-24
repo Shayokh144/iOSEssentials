@@ -7,23 +7,29 @@
 
 import Foundation
 
+enum NetworkStatus {
+
+    case undetermined
+    case notConnected
+    case connected
+}
+
 final class ContentViewModel: ObservableObject {
 
-    @Published var isConnected = false
+    @Published var networkStatus: NetworkStatus = .undetermined
     var networkMonitor: NetworkPathMonitorProtocol
 
-    init(networkMonitor: NetworkPathMonitorProtocol) {
+    public init(networkMonitor: NetworkPathMonitorProtocol) {
         self.networkMonitor = networkMonitor
         self.networkMonitor.pathUpdateHandler = { [weak self] status in
             print("THREAD : \(Thread.isMainThread)")
-            guard let owner = self else { return }
             if status == .satisfied {
                 print("CONNECTED")
             } else {
                 print("DISCONNECTED")
             }
             DispatchQueue.main.async { [weak self] in
-                self?.isConnected = status == .satisfied
+                self?.networkStatus = status == .satisfied ? .connected : .notConnected
             }
         }
         self.networkMonitor.start(queue: DispatchQueue.global())

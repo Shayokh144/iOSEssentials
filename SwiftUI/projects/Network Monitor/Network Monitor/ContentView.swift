@@ -12,12 +12,16 @@ struct ContentView: View {
     @State var counter = 0
     var body: some View {
         VStack {
-            if viewModel.isConnected {
-                Text("CONNECTED..")
-                    .foregroundColor(.green)
-            } else {
+            switch viewModel.networkStatus {
+            case .undetermined:
+                Text("UDETERMINED..")
+                    .foregroundColor(.blue)
+            case .notConnected:
                 Text("DISCONNECTED..")
                     .foregroundColor(.red)
+            case .connected:
+                Text("CONNECTED..")
+                    .foregroundColor(.green)
             }
             Button {
                 counter += 1

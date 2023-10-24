@@ -31,4 +31,3 @@ final class NetworkPathMonitor : NetworkPathMonitorProtocol {
         monitor.cancel()
     }
 }
-
