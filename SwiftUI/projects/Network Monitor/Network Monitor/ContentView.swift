@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+
     @ObservedObject var viewModel: ContentViewModel
     @State var counter = 0
+
+    var hasHomeButton: Bool {
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+        guard let safeAreaBottom =  window?.safeAreaInsets.bottom else {
+            return false
+        }
+        print(safeAreaBottom)
+        return safeAreaBottom <= 0
+    }
     var body: some View {
         VStack {
             switch viewModel.networkStatus {
@@ -33,5 +48,13 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.black)
+        .onAppear {
+            print("has home: \(hasHomeButton)")
+        }
+    }
+
+    init(viewModel: ContentViewModel) {
+        self.viewModel = viewModel
+        print("has home: \(hasHomeButton)")
     }
 }
