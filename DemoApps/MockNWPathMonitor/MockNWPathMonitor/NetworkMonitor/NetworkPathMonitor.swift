@@ -9,17 +9,14 @@ import Network
 
 final class NetworkPathMonitor : NetworkPathMonitorProtocol {
 
-    var currentPath: NWPath
     var pathUpdateHandler: ((NWPath.Status) -> Void)?
     let monitor : NWPathMonitor
 
     init(monitor : NWPathMonitor = NWPathMonitor()) {
         self.monitor = monitor
-        currentPath = monitor.currentPath
         monitor.pathUpdateHandler = { [weak self] path in
             guard let owner = self else { return }
             owner.pathUpdateHandler?(path.status)
-            owner.currentPath = path
         }
     }
 

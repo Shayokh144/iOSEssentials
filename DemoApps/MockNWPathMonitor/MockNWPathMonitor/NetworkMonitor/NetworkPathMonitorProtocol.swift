@@ -15,4 +15,3 @@ protocol NetworkPathMonitorProtocol {
     func start(queue: DispatchQueue)
     func cancel()
 }
-
