@@ -301,7 +301,7 @@ A state diagram consists of states, transitions, events, and activities. You use
 
 - **Requirements Analysis:** State diagrams are used during requirements analysis to capture and refine the behavior and functionality of a system. They help in identifying the different states that the system can be in, the events that trigger state transitions, and the actions that occur in each state.
 
-- **User Interface Design: **State diagrams help in designing the user interface of the system by specifying the different states and transitions that the user interface can go through. They provide insights into the user's interactions with the system and help in designing intuitive and user-friendly interfaces.
+- **User Interface Design:** State diagrams help in designing the user interface of the system by specifying the different states and transitions that the user interface can go through. They provide insights into the user's interactions with the system and help in designing intuitive and user-friendly interfaces.
 
 - **Communication with Stakeholders:** State diagrams serve as a means of communication between developers, designers, testers, and other stakeholders involved in the project. They provide a visual representation of the system's behavior and interactions in a format that is easily understandable by both technical and non-technical stakeholders.
 
@@ -327,3 +327,54 @@ A state diagram consists of states, transitions, events, and activities. You use
 
 - **Action:** Represents a behavior or activity that occurs in response to a state transition. Actions specify the operations or tasks that are performed when a transition occurs and can include updates to internal data, interactions with external systems, or changes to the system's behavior. Actions are associated with transitions and are executed when the transition is triggered by an event.
 
+- [Example](https://www.lucidchart.com/pages/uml-state-machine-diagram)
+
+
+
+### Activity Diagram
+
+Activity Diagrams describe how activities are coordinated to provide a service which can be at different levels of abstraction. Typically, an event needs to be achieved by some operations, particularly where the operation is intended to achieve a number of different things that require coordination, or how the events in a single use case relate to one another, in particular, use cases where activities may overlap and require coordination.
+UML Activity diagrams are particularly useful in several scenarios:
+
+
+#### When do we need Activity Diagram
+
+- **Business Process Modeling:** Activity diagrams are commonly used in business process modeling to visualize and understand the flow of activities within an organization. They help in documenting, analyzing, and optimizing business processes, such as order processing, customer service, and supply chain management.
+
+- **Software Development:** Activity diagrams are useful in software development to model the behavior of a system or software application. They can represent the flow of activities, actions, and decision points within a use case, scenario, or operation. Activity diagrams help in understanding and communicating the logic and sequence of steps involved in performing a particular task or functionality.
+
+- **Workflow Modeling:** Activity diagrams are employed in workflow modeling to represent the sequence of activities and decision points in a workflow or business process. They help in designing, analyzing, and automating workflows in various domains, such as project management, document approval, and software development lifecycle.
+
+- **User Interface Design:** Activity diagrams can be used in user interface design to illustrate the navigation and interaction flow within a software application or website. They help in designing intuitive and user-friendly interfaces by visualizing the sequence of screens, forms, and user interactions required to accomplish a task or achieve a goal.
+
+- **System Analysis and Design:** Activity diagrams play a significant role in system analysis and design to model the behavior of a system or subsystem. They help in identifying the sequence of actions, conditions, and decision points involved in various system processes, such as data processing, system operation, and control flow.
+
+- **Requirement Analysis:** Activity diagrams are beneficial in requirement analysis to specify and refine the functional requirements of a system or software application. They help in capturing and documenting the desired behavior and functionality of the system, facilitating discussions and agreement among stakeholders.
+
+- **Testing and Validation:** Activity diagrams can be utilized in testing and validation to design test cases, scenarios, and scripts based on the expected behavior of the system. They help in ensuring that the system or software application performs as intended and meets the specified requirements and user expectations.
+
+
+#### Main components of Activity diagram
+
+- **Initial Node:** Represents the starting point of the activity diagram, indicating where the execution of the activities begins. It is typically depicted as a solid filled circle with an arrow pointing outward.
+
+- **Activity:** Represents a task, action, or operation that is performed within the system or process being modeled. Activities are depicted as rounded rectangles with descriptive text inside, indicating the name or description of the activity.
+
+- **Action:** Represents a specific executable step or behavior within an activity. Actions can be atomic (simple) or complex (composed of multiple sub-actions). They are depicted as rectangles with rounded corners and may include a descriptive label.
+
+- **Decision Node (Decision Point):** Represents a point in the activity flow where a decision is made based on a condition or criteria. It is used to model branching behavior in the activity diagram. Decision nodes are depicted as diamonds, with incoming and outgoing branches representing alternative paths.
+
+- **Merge Node:** Represents a point in the activity flow where multiple paths merge back into a single path. It is used to model the convergence of multiple branches in the activity diagram. Merge nodes are depicted as diamonds with multiple incoming branches and a single outgoing branch.
+
+- **Fork Node:** Represents a point in the activity flow where a single path splits into multiple concurrent paths. It is used to model parallel behavior in the activity diagram. Fork nodes are depicted as solid bars with multiple outgoing branches.
+
+- **Join Node:** Represents a point in the activity flow where multiple concurrent paths converge back into a single path. It is used to model the synchronization of multiple branches in the activity diagram. Join nodes are depicted as solid bars with multiple incoming branches.
+
+- **Final Node:** Represents the endpoint of the activity diagram, indicating where the execution of the activities terminates. It is typically depicted as a solid filled circle with no outgoing arrows.
+
+- **Flow Edge (Control Flow):** Represents the flow of control or sequence of execution between different activities, nodes, or decision points in the activity diagram. Flow edges are depicted as arrows connecting the components of the activity diagram and indicate the order in which activities are performed.
+
+- **Object Node:** Represents an instance or object that is involved in the execution of an activity. Object nodes are used to model the input, output, or intermediate results of activities and may contain tokens representing the state of the object during execution.
+
+
+- [Example](https://www.lucidchart.com/pages/uml-activity-diagram)
