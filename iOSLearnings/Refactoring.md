@@ -536,22 +536,491 @@ class Report {
 ```
 
 
+### [Self Encapsulate Field](https://refactoring.guru/self-encapsulate-field)
+
+- Problem
+    - You use direct access to private fields inside a class.
+
+
+```swift
+
+class Range {
+    private var low: Int
+    private var high: Int
+    
+    init(low: Int, high: Int) {
+        self.low = low
+        self.high = high
+    }
+    
+    func includes(arg: Int) -> Bool {
+        return arg >= low && arg <= high
+    }
+}
+
+```
+
+- Solution
+    - Create a getter and setter for the field, and use only them for accessing the field.
+
+```swift
+
+class Range {
+    private var low: Int
+    private var high: Int
+    
+    init(low: Int, high: Int) {
+        self.low = low
+        self.high = high
+    }
+    
+    func includes(arg: Int) -> Bool {
+        return arg >= getLow() && arg <= getHigh()
+    }
+    
+    func getLow() -> Int {
+        return low
+    }
+    
+    func getHigh() -> Int {
+        return high
+    }
+}
+
+```
+
+### [Replace Data Value with Object](https://refactoring.guru/replace-data-value-with-object)
+
+- Problem
+    - A class (or group of classes) contains a data field. The field has its own behavior and associated data.
+
+```swift
+class Order {
+
+    private let customerName: String
+    ....
+}
+
+```
+- Solution
+    - Create a new class, place the old field and its behavior in the class, and store the object of the class in the original class.
+
+```swift
+class Order {
+
+    ....
+}
+
+class Customer {
+
+    private let name: String
+}
+```
+
+
+### [Replace Array with Object](https://refactoring.guru/replace-array-with-object)
+
+- Problem
+    - You have an array that contains various types of data.
+
+```swift
+var row = [String](repeating: "", count: 2)
+row[0] = "Liverpool"
+row[1] = "15"
+
+```
+
+- Solution
+    - Replace the array with an object that will have separate fields for each element.
+
+```swift
+let row = Performance()
+row.setName("Liverpool")
+row.setWins("15")
+```
+
+### [Duplicate Observed Data](https://refactoring.guru/duplicate-observed-data)
+- Problem
+    - Is domain data stored in classes responsible for the GUI?
+
+```swift
+
+class IntervalWindow {
+    
+    var startField: UITextField
+    var endField: UITextField
+    var lengthField: UITextField
+    
+    func StartField_FocusLost() {}
+    func EndField_FocusLost() {}
+    func LengthField_FocusLost() {}
+    func calculateLength() {}
+    func calculateEnd() {}
+}
+
+```
+
+- Solution
+    - Then it’s a good idea to separate the data into separate classes, ensuring connection and synchronization between the domain class and the GUI.
+
+
+```swift
+class IntervalWindow {
+    
+    var startField: UITextField
+    var endField: UITextField
+    var lengthField: UITextField
+    var interval: Interval
+    
+    func StartField_FocusLost() {}
+    func EndField_FocusLost() {}
+    func LengthField_FocusLost() {}
+}
+
+class Interval {
+    
+    var start: String
+    var end: String
+    var length: String
+    
+    func calculateLength() {}
+    func calculateEnd() {}
+}
+
+```
+
+### [Replace Magic Number with Symbolic Constant](https://refactoring.guru/replace-magic-number-with-symbolic-constant)
+
+- Problem
+    - Your code uses a number that has a certain meaning to it.
+```swift
+func potentialEnergy(mass: Double, height: Double) -> Double {
+    return mass * height * 9.81
+}
+
+```
+
+- Solution
+    - Replace this number with a constant that has a human-readable name explaining the meaning of the number.
+
+```swift
+let GRAVITATIONAL_CONSTANT = 9.81
+
+func potentialEnergy(mass: Double, height: Double) -> Double {
+    return mass * height * GRAVITATIONAL_CONSTANT
+}
+
+```
+
+### [Encapsulate Field](https://refactoring.guru/encapsulate-field)
+
+- Problem
+    - You have a public field.
+```swift
+func potentialEnergy(mass: Double, height: Double) -> Double {
+    return mass * height * 9.81
+}
+
+```
+
+- Solution
+    - Make the field private and create access methods for it.
+
+```swift
+class Person {
+  private var name: String?
+
+  func getName() -> String? {
+    return name
+  }
+
+  func setName(_ arg: String) {
+    name = arg
+  }
+}
+
+```
+
+### [Decompose Conditional](https://refactoring.guru/decompose-conditional)
+
+
+- Problem
+    - You have a complex conditional (if-then/else or switch).
+
+```swift
+if date < SUMMER_START || date > SUMMER_END {
+    charge = quantity * winterRate + winterServiceCharge
+} else {
+    charge = quantity * summerRate
+}
+
+```
+
+- Solution
+    - Decompose the complicated parts of the conditional into separate methods: the condition, then and else.
+
+```swift
+if isSummer(date) {
+    charge = summerCharge(quantity)
+} else {
+    charge = winterCharge(quantity)
+}
+
+```
+
+### [Consolidate Conditional Expression](https://refactoring.guru/consolidate-conditional-expression)
+
+- Problem
+    - You have multiple conditionals that lead to the same result or action.
+
+```swift
+func disabilityAmount(seniority: Int, monthsDisabled: Int, isPartTime: Bool) -> Double {
+    if seniority < 2 {
+        return 0
+    }
+    if monthsDisabled > 12 {
+        return 0
+    }
+    if isPartTime {
+        return 0
+    }
+    // Compute the disability amount.
+    // ...
+    return 0 // Placeholder for computed disability amount
+}
+
+```
+
+- Solution
+    - Consolidate all these conditionals in a single expression.
+
+```swift
+func disabilityAmount() -> Double {
+    if isNotEligibleForDisability() {
+        return 0
+    }
+    // Compute the disability amount.
+    // ...
+    return 0 // Placeholder for computed disability amount
+}
+
+```
+
+
+### [Consolidate Duplicate Conditional Fragments](https://refactoring.guru/consolidate-duplicate-conditional-fragments)
+
+
+- Problem
+    - Identical code can be found in all branches of a conditional.
+
+
+```swift
+if isSpecialDeal() {
+    total = price * 0.95
+    send()
+} else {
+    total = price * 0.98
+    send()
+}
+
+```
+
+- Solution
+    - Move the code outside of the conditional.
+
+```swift
+if isSpecialDeal() {
+    total = price * 0.95
+} else {
+    total = price * 0.98
+}
+send()
+
+```
 
 
 
+### [Remove Control Flag](https://refactoring.guru/remove-control-flag)
+
+- Problem
+    - You have a boolean variable that acts as a control flag for multiple boolean expressions.
+
+```swift
+func processItems(items: [Int]) {
+    var controlFlag = false
+
+    for item in items {
+        if item < 0 {
+            controlFlag = true
+        }
+
+        if controlFlag {
+            // Perform some action
+            print("Negative number found, stopping further processing.")
+            break
+        }
+
+        // Other processing logic
+        print("Processing item: \(item)")
+    }
+    
+    if controlFlag {
+        // Additional actions if control flag is set
+        print("Processing stopped due to control flag.")
+    } else {
+        print("All items processed without issues.")
+    }
+}
+
+```
 
 
+- Solution
+    - Instead of the variable, use break, continue and return. 
+
+```swift
+func processItems(items: [Int]) {
+    for item in items {
+        if item < 0 {
+            // Perform some action
+            print("Negative number found, stopping further processing.")
+            break
+        }
+
+        // Other processing logic
+        print("Processing item: \(item)")
+    }
+
+    // Checking if the loop completed without finding a negative number
+    if items.allSatisfy({ $0 >= 0 }) {
+        print("All items processed without issues.")
+    } else {
+        print("Processing stopped due to a negative number.")
+    }
+}
+
+```
+
+### [Replace Nested Conditional with Guard Clauses](https://refactoring.guru/replace-nested-conditional-with-guard-clauses)
+
+- Problem
+    - You have a group of nested conditionals and it’s hard to determine the normal flow of code execution.
+
+```swift
+public func getPayAmount() -> Double {
+    var result: Double
+    if isDead {
+        result = deadAmount()
+    } else {
+        if isSeparated {
+            result = separatedAmount()
+        } else {
+            if isRetired {
+                result = retiredAmount()
+            } else {
+                result = normalPayAmount()
+            }
+        }
+    }
+    return result
+}
+
+```
+
+- Solution
+    - Isolate all special checks and edge cases into separate clauses and place them before the main checks. Ideally, you should have a “flat” list of conditionals, one after the other.
+
+```swift
+public func getPayAmount() -> Double {
+    if isDead {
+        return deadAmount()
+    }
+    if isSeparated {
+        return separatedAmount()
+    }
+    if isRetired {
+        return retiredAmount()
+    }
+    return normalPayAmount()
+}
+
+```
+
+### [Replace Conditional with Polymorphism](https://refactoring.guru/replace-conditional-with-polymorphism)
+
+- Problem
+    - You have a conditional that performs various actions depending on object type or properties.
+
+```swift
+class Bird {
+    // ...
+    func getSpeed() -> Double {
+        switch type {
+        case .EUROPEAN:
+            return getBaseSpeed()
+        case .AFRICAN:
+            return getBaseSpeed() - getLoadFactor() * numberOfCoconuts
+        case .NORWEGIAN_BLUE:
+            return isNailed ? 0 : getBaseSpeed(voltage)
+        default:
+            fatalError("Should be unreachable")
+        }
+    }
+}
+
+```
 
 
+- Solution
+    - Create subclasses matching the branches of the conditional. In them, create a shared method and move code from the corresponding branch of the conditional to it. Then replace the conditional with the relevant method call. The result is that the proper implementation will be attained via polymorphism depending on the object class. 
 
 
+```swift
+protocol Bird {
+  func getSpeed() -> Double
+}
+
+class European: Bird {
+  func getSpeed() -> Double {
+    return getBaseSpeed()
+  }
+  
+  func getBaseSpeed() -> Double {
+    // Implement base speed logic
+  }
+}
+
+class African: Bird {
+  var numberOfCoconuts: Double = 0
+  
+  func getSpeed() -> Double {
+    return getBaseSpeed() - getLoadFactor() * numberOfCoconuts
+  }
+  
+  func getBaseSpeed() -> Double {
+    // Implement base speed logic
+  }
+  
+  func getLoadFactor() -> Double {
+    // Implement load factor logic
+  }
+}
+
+class NorwegianBlue: Bird {
+  var isNailed: Bool = false
+  var voltage: Double = 0
+  
+  func getSpeed() -> Double {
+    return isNailed ? 0 : getBaseSpeed()
+  }
+  
+  func getBaseSpeed() -> Double {
+    // Implement base speed logic
+  }
+}
 
 
-
-
-
-
-
+```
 
 
 
