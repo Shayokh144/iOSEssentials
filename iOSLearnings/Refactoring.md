@@ -1022,6 +1022,358 @@ class NorwegianBlue: Bird {
 
 ```
 
+## Simplifying Method Calls
+
+### [Rename Method](https://refactoring.guru/rename-method)
+
+- Problem
+    - The name of a method doesn’t explain what the method does.
+
+- Solution
+    - Rename the method.
+
+
+### [Add Parameter](https://refactoring.guru/add-parameter)
+
+
+- Problem
+    - A method doesn’t have enough data to perform certain actions.
+
+- Solution
+    - Create a new parameter to pass the necessary data.
+
+
+### [Remove Parameter](https://refactoring.guru/remove-parameter)
+- Problem
+    - A parameter isn’t used in the body of a method.
+
+- Solution
+    - Remove the unused parameter.
+
+### [Separate Query from Modifier](https://refactoring.guru/separate-query-from-modifier)
+
+- Problem
+    - Do you have a method that returns a value but also changes something inside an object?
+
+```swift
+func getTotalOutstandingAndSetReadyForSummaries() -> Double
+```
+
+- Solution
+    - Split the method into two separate methods. As you would expect, one of them should return the value and the other one modifies the object.
+```swift
+func getTotalOutstanding() -> Double
+func setReadyForSummaries()
+```
+
+### [Parameterize Method](https://refactoring.guru/parameterize-method)
+
+- Problem
+    - Multiple methods perform similar actions that are different only in their internal values, numbers or operations.
+
+```swift
+func fivePercentRaise()
+func tenPercentRaise()
+```
+
+- Solution
+    - Combine these methods by using a parameter that will pass the necessary special value.
+```swift
+func percentRaise(percentValue: Double)
+
+```
+
+### [Replace Parameter with Explicit Methods](https://refactoring.guru/replace-parameter-with-explicit-methods)
+
+
+- Problem
+    - A method is split into parts, each of which is run depending on the value of a parameter.
+```swift
+func setValue(name: String, value: Int) {
+  if name == "height" {
+    height = value
+    return
+  }
+  if name == "width" {
+    width = value
+    return
+  }
+  assert(false, "Should never reach here")
+}
+
+```
+
+- Solution
+    - Extract the individual parts of the method into their own methods and call them instead of the original method.
+```swift
+func setHeight(arg: Int) {
+  height = arg
+}
+
+func setWidth(arg: Int) {
+  width = arg
+}
+
+```
+
+
+### [Preserve Whole Object](https://refactoring.guru/preserve-whole-object)
+- Problem
+    - You get several values from an object and then pass them as parameters to a method.
+```swift
+let low = daysTempRange.getLow()
+let high = daysTempRange.getHigh()
+let withinPlan = plan.withinRange(low: low, high: high)
+```
+
+- Solution
+    - Instead, try passing the whole object.
+```swift
+let withinPlan = plan.withinRange(daysTempRange: daysTempRange)
+```
+
+### [Replace Parameter with Method Call](https://refactoring.guru/replace-parameter-with-method-call)
+
+- Problem
+    - Calling a query method and passing its results as the parameters of another method, while that method could call the query directly.
+```swift
+let basePrice = quantity * itemPrice
+let seasonDiscount = self.getSeasonalDiscount()
+let fees = self.getFees()
+let finalPrice = discountedPrice(basePrice: basePrice, seasonDiscount: seasonDiscount, fees: fees)
+
+```
+
+- Solution
+    - Instead of passing the value through a parameter, try placing a query call inside the method body.
+```swift
+let basePrice = quantity * itemPrice
+let finalPrice = discountedPrice(basePrice: basePrice)
+```
+
+### [Introduce Parameter Object](https://refactoring.guru/introduce-parameter-object)
+
+- Problem
+    - Your methods contain a repeating group of parameters.
+```swift
+func amountInvoice(start: Date, end: Date)
+func amountReceive(start: Date, end: Date)
+```
+
+- Solution
+    - Replace these parameters with an object.
+```swift
+func amountInvoice(dateRange: Date, end: Date)
+func amountReceive(start: Date, end: Date)
+```
+
+### [Replace Constructor with Factory Method](https://refactoring.guru/replace-constructor-with-factory-method)
+
+- Problem
+    - You have a complex constructor that does something more than just setting parameter values in object fields.
+```swift
+class Employee {
+    var type: Int
+    
+    init(type: Int) {
+        self.type = type
+    }
+    // ...
+}
+
+```
+
+- Solution
+    - Create a factory method and use it to replace constructor calls.
+```swift
+class Employee {
+    static func create(type: Int) -> Employee {
+        let employee = Employee(type: type)
+        // do some heavy lifting.
+        return employee
+    }
+    // ...
+}
+```
+
+### [Replace Error Code with Exception](https://refactoring.guru/replace-error-code-with-exception)
+
+- Problem
+    - A method returns a special value that indicates an error?
+```swift
+func withdraw(amount: Int) -> Int {
+    if amount > _balance {
+        return -1
+    } else {
+        _balance -= amount
+        return 0
+    }
+}
+
+```
+
+- Solution
+    - Throw an exception instead.
+```swift
+func withdraw(amount: Int) throws {
+    if amount > _balance {
+        throw BalanceException()
+    }
+    _balance -= amount
+}
+
+```
+
+
+### [Replace Exception with Test](https://refactoring.guru/replace-exception-with-test)
+
+- Problem
+    - You throw an exception in a place where a simple test would do the job?
+```swift
+func getValueForPeriod(periodNumber: Int) -> Double {
+    do {
+        return values[periodNumber]
+    } catch {
+        return 0
+    }
+}
+
+
+```
+
+- Solution
+    - Replace the exception with a condition test.
+```swift
+func getValueForPeriod(periodNumber: Int) -> Double {
+    if periodNumber >= values.count {
+        return 0
+    }
+    return values[periodNumber]
+}
+
+```
+
+## Dealing with Generalization
+
+
+### [Pull Up Field](https://refactoring.guru/pull-up-field)
+- Problem
+    - Two classes have the same field.
+
+- Solution
+    - Remove the field from subclasses and move it to the superclass.
+
+
+
+
+### [Pull Up Method](https://refactoring.guru/pull-up-method)
+- Problem
+    - Your subclasses have methods that perform similar work.
+
+- Solution
+    - Make the methods identical and then move them to the relevant superclass.
+
+### [Pull Up Constructor Body](https://refactoring.guru/pull-up-constructor-body)
+- Problem
+    - Your subclasses have constructors with code that’s mostly identical.
+```swift
+class Manager: Employee {
+    var name: String
+    var id: String
+    var grade: Int
+    
+    init(name: String, id: String, grade: Int) {
+        self.name = name
+        self.id = id
+        self.grade = grade
+        super.init() // Call the initializer of the superclass (Employee)
+    }
+    // ...
+}
+
+```
+
+- Solution
+    - Create a superclass constructor and move the code that’s the same in the subclasses to it. Call the superclass constructor in the subclass constructors.
+
+```swift
+class Manager: Employee {
+    var grade: Int
+    
+    init(name: String, id: String, grade: Int) {
+        self.grade = grade
+        super.init(name: name, id: id)
+    }
+    // ...
+}
+```
+
+
+### [Push Down Method](https://refactoring.guru/push-down-method)
+- Problem
+    - Is behavior implemented in a superclass used by only one (or a few) subclasses?
+
+
+- Solution
+    - Move this behavior to the subclasses.
+
+
+### [Push Down Field](https://refactoring.guru/push-down-field)
+- Problem
+    - Is a field used only in a few subclasses?
+
+
+- Solution
+    - Move the field to these subclasses.
+
+
+### [Extract Subclass](https://refactoring.guru/extract-subclass)
+- Problem
+    - A class has features that are used only in certain cases.
+
+
+- Solution
+    - Create a subclass and use it in these cases.
+
+
+### [Extract Superclass](https://refactoring.guru/extract-superclass)
+- Problem
+    - You have two classes with common fields and methods.
+
+
+- Solution
+    - Create a shared superclass for them and move all the identical fields and methods to it.
+
+### [Extract Interface](https://refactoring.guru/extract-interface)
+
+
+- Problem
+    - Multiple clients are using the same part of a class interface. Another case: part of the interface in two classes is the same.
+
+
+- Solution
+    - Move this identical portion to its own interface.
+
+### [Form Template Method](https://refactoring.guru/form-template-method)
+
+
+- Problem
+    - Your subclasses implement algorithms that contain similar steps in the same order.
+
+
+- Solution
+    - Move the algorithm structure and identical steps to a superclass, and leave implementation of the different steps in the subclasses.
+
+
+### [Replace Delegation with Inheritance](https://refactoring.guru/replace-delegation-with-inheritance)
+
+
+- Problem
+    - A class contains many simple methods that delegate to all methods of another class.
+
+
+- Solution
+    - Make the class a delegate inheritor, which makes the delegating methods unnecessary.
 
 
 
