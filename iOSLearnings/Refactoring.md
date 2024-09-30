@@ -1,5 +1,7 @@
 # Refactoring techniques
 
+## Composing Methods
+
 ### [Extract Method](https://refactoring.guru/extract-method)
 
 - Problem
@@ -140,6 +142,7 @@ func basePrice() -> Double {
 }
 ```
 
+
 ### [Split Temporary Variable](https://refactoring.guru/split-temporary-variable)
 
 - Problem
@@ -208,7 +211,43 @@ class PriceCalculator {
     }
 }
 ```
+### [Substitute Algorithm](https://refactoring.guru/substitute-algorithm)
 
+- Problem
+
+```swift
+func foundPerson(_ people: [String]) -> String {
+    for person in people {
+        if person == "Don" {
+            return "Don"
+        }
+        if person == "John" {
+            return "John"
+        }
+        if person == "Kent" {
+            return "Kent"
+        }
+    }
+    return ""
+}
+```
+
+
+- Solution
+
+```swift
+func foundPerson(_ people: [String]) -> String {
+    let candidates = ["Don", "John", "Kent"]
+    for person in people {
+        if candidates.contains(person) {
+            return person
+        }
+    }
+    return ""
+}
+```
+
+## Remove Assignments to Parameters
 
 ### [Move Method](https://refactoring.guru/move-method)
 
@@ -535,6 +574,82 @@ class Report {
 
 ```
 
+### [Introduce Local Extension](https://refactoring.guru/introduce-local-extension)
+
+- Problem:
+    - A utility class doesn’t contain some methods that you need. But you can’t add these methods to the class.
+
+```swift
+class UtilityClass {
+    func existingMethod() {
+        print("This is the only method available in UtilityClass.")
+    }
+}
+
+// You need to add a new method to this class, but you're not allowed to modify it directly.
+
+// Usage
+let utility = UtilityClass()
+utility.existingMethod()
+
+// You need a new method, but you can't modify UtilityClass to add it.
+
+```
+- Solution
+    - Create a new class containing the methods and make it either the child or wrapper of the utility class.
+- Subclassing the Utility Class
+```swift
+class UtilityClass {
+    func existingMethod() {
+        print("This is an existing method.")
+    }
+}
+
+class ExtendedUtilityClass: UtilityClass {
+    func newMethod() {
+        print("This is a new method added by subclassing.")
+    }
+}
+
+// Usage
+let utility = ExtendedUtilityClass()
+utility.existingMethod() // Prints: This is an existing method.
+utility.newMethod()      // Prints: This is a new method added by subclassing.
+
+```
+- Wrapping the Utility Class
+```swift
+class UtilityClass {
+    func existingMethod() {
+        print("This is an existing method.")
+    }
+}
+
+class UtilityWrapper {
+    private let utility: UtilityClass
+    
+    init(utility: UtilityClass) {
+        self.utility = utility
+    }
+    
+    func existingMethod() {
+        utility.existingMethod()
+    }
+    
+    func newMethod() {
+        print("This is a new method added by wrapping.")
+    }
+}
+
+// Usage
+let utility = UtilityClass()
+let wrapper = UtilityWrapper(utility: utility)
+wrapper.existingMethod() // Prints: This is an existing method.
+wrapper.newMethod()      // Prints: This is a new method added by wrapping.
+
+```
+
+## Organizing Data
 
 ### [Self Encapsulate Field](https://refactoring.guru/self-encapsulate-field)
 
@@ -689,6 +804,19 @@ class Interval {
 
 ```
 
+### [Change Unidirectional Association to Bidirectional](https://refactoring.guru/change-unidirectional-association-to-bidirectional)
+- Problem
+    - You have two classes that each need to use the features of the other, but the association between them is only unidirectional.
+
+- Solution
+    - Add the missing association to the class that needs it.
+
+### [Change Bidirectional Association to Unidirectional](https://refactoring.guru/change-bidirectional-association-to-unidirectional)
+- Problem
+    - You have a bidirectional association between classes, but one of the classes doesn’t use the other’s features.
+- Solution
+    - Remove the unused association.
+
 ### [Replace Magic Number with Symbolic Constant](https://refactoring.guru/replace-magic-number-with-symbolic-constant)
 
 - Problem
@@ -740,6 +868,41 @@ class Person {
 }
 
 ```
+
+### [Replace Type Code with Subclasses](https://refactoring.guru/replace-type-code-with-subclasses)
+
+
+- Problem
+    - You have a coded type that directly affects program behavior (values of this field trigger various code in conditionals).
+
+```swift
+class Employee {
+
+	let engineer: Int
+	let salesMan: Int
+	let type: Int
+}
+```
+
+- Solution
+    - Create subclasses for each value of the coded type. Then extract the relevant behaviors from the original class to these subclasses. Replace the control flow code with polymorphism.
+
+```swift
+enum EmployeeType {
+	case engineer, salesMan
+}
+class Employee {
+
+	let type: EmployeeType
+	init(type: EmployeeType) {
+		self.type = type
+	}
+}
+
+class Engineer: Employee {}
+class SalesMan: Employee {}
+```
+## Simplifying Conditional Expressions
 
 ### [Decompose Conditional](https://refactoring.guru/decompose-conditional)
 
@@ -1022,6 +1185,42 @@ class NorwegianBlue: Bird {
 
 ```
 
+### [Introduce Null Object](https://refactoring.guru/introduce-null-object)
+
+- Problem
+    - Since some methods return null instead of real objects, you have many checks for null in your code.
+
+```swift
+if customer == nil {
+  plan = BillingPlan.basic()
+}
+else {
+  plan = customer.getPlan()
+}
+```
+
+- Solution
+    - Instead of null, return a null object that exhibits the default behavior.
+
+```swift
+class NullCustomer: Customer {
+    override var isNull: Bool {
+        return true
+    }
+    
+    override func getPlan() -> Plan {
+        return NullPlan()
+    }
+    // Some other NULL functionality.
+}
+
+// Replace null values with Null-object.
+let customer = (order.customer != nil) ? order.customer! : NullCustomer()
+
+// Use Null-object as if it's a normal subclass.
+let plan = customer.getPlan()
+```
+
 ## Simplifying Method Calls
 
 ### [Rename Method](https://refactoring.guru/rename-method)
@@ -1166,6 +1365,12 @@ func amountReceive(start: Date, end: Date)
 func amountInvoice(dateRange: Date, end: Date)
 func amountReceive(start: Date, end: Date)
 ```
+
+### [Hide Method](https://refactoring.guru/hide-method)
+- Problem
+    - A method isn’t used by other classes or is used only inside its own class hierarchy.
+- Solution
+    - Make the method private or protected.
 
 ### [Replace Constructor with Factory Method](https://refactoring.guru/replace-constructor-with-factory-method)
 
@@ -1364,6 +1569,39 @@ class Manager: Employee {
 - Solution
     - Move the algorithm structure and identical steps to a superclass, and leave implementation of the different steps in the subclasses.
 
+### [Replace Inheritance with Delegation](https://refactoring.guru/replace-inheritance-with-delegation)
+
+- Problem
+    - You have a subclass that uses only a portion of the methods of its superclass (or it’s not possible to inherit superclass data).
+
+```swift
+class Vector {
+
+	func isEmpty() -> Bool {}
+}
+
+class Stack: Vector {}
+
+```
+- Solution
+    - Create a field and put a superclass object in it, delegate methods to the superclass object, and get rid of inheritance.
+
+```swift
+class Vector {
+
+	func isEmpty() -> Bool {}
+}
+
+class Stack {
+
+	let vector: Vector
+
+	func isEmpty() -> Bool {
+		vector.isEmpty()
+	}
+}
+
+```
 
 ### [Replace Delegation with Inheritance](https://refactoring.guru/replace-delegation-with-inheritance)
 
