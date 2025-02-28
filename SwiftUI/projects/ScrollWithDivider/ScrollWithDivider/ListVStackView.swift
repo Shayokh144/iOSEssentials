@@ -42,7 +42,8 @@ struct ListVStackView: View {
                         Text("\(num)")
                             .id(num)
                         Divider()
-                            .background(Color.black)
+                            .frame(height: 1.0)
+                            .background(Color.red)
                             .padding(.vertical)
                     }
                     .listRowSpacing(0)
@@ -86,7 +87,8 @@ struct VStackForEachScrollView: View {
                             Text("\(num)")
                                 .id(num)
                             Divider()
-                                .background(Color.black)
+                                .frame(height: 1.0)
+                                .background(Color.red)
                                 .padding(.vertical)
                         }
                     }
