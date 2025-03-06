@@ -1,0 +1,652 @@
+.
+├── Accessibility
+│   └── SpeechManager.swift
+├── AppLaunch
+│   ├── AppDelegate.swift
+│   ├── AppEnvironment.swift
+│   ├── LaunchJobs.swift
+│   ├── LoadingViewController.swift
+│   ├── MainAppContext.swift
+│   └── SignalApp.swift
+├── Attachments
+│   └── AttachmentDownloadRetryRunner.swift
+├── Calls
+│   ├── AdHocCallStateObserver.swift
+│   ├── AudioSession+WebRTC.swift
+│   ├── AudioSource.swift
+│   ├── CallAudioService.swift
+│   ├── CallKitCallManager.swift
+│   ├── CallKitIdStore.swift
+│   ├── CallLinkAdminManager.swift
+│   ├── CallLinkCall.swift
+│   ├── CallLinkFetchJobRunner.swift
+│   ├── CallLinkManager.swift
+│   ├── CallLinkStateUpdater.swift
+│   ├── CallLinkUpdateMessageSender.swift
+│   ├── CallRecordLoader.swift
+│   ├── CallService.swift
+│   ├── CallServiceState.swift
+│   ├── CallStarter.swift
+│   ├── CallStrings.swift
+│   ├── CallTarget.swift
+│   ├── CommonCallState.swift
+│   ├── CurrentCall.swift
+│   ├── GroupCall.swift
+│   ├── GroupCallAccessoryMessageDelegate.swift
+│   ├── GroupCallRecordRingingCleanupManager.swift
+│   ├── GroupCallRemoteVideoManager.swift
+│   ├── GroupThreadCall.swift
+│   ├── IndividualCall.swift
+│   ├── IndividualCallService.swift
+│   ├── RTCIceServerFetcher.swift
+│   ├── SignalCall.swift
+│   ├── UserInterface
+│   │   ├── CallButton.swift
+│   │   ├── CallControls.swift
+│   │   ├── CallControlsConfirmationToast.swift
+│   │   ├── CallControlsOverflowView.swift
+│   │   ├── CallDrawerSheet.swift
+│   │   ├── CallDrawerSheetDataSource.swift
+│   │   ├── CallHeader.swift
+│   │   ├── CallKitCallUIAdaptee.swift
+│   │   ├── CallLinkApprovalRequestDetailsSheet.swift
+│   │   ├── CallLinkApprovalRequestView.swift
+│   │   ├── CallLinkApprovalViewModel.swift
+│   │   ├── CallLinkBulkApprovalSheet.swift
+│   │   ├── CallLinkDeleter.swift
+│   │   ├── CallLinkProfileKeySharingManager.swift
+│   │   ├── CallLinkViewController.swift
+│   │   ├── CallMemberCameraOffView.swift
+│   │   ├── CallMemberChromeOverlayView.swift
+│   │   ├── CallMemberVideoView.swift
+│   │   ├── CallMemberView.swift
+│   │   ├── CallMemberWaitingAndErrorView.swift
+│   │   ├── CallUIAdapter.swift
+│   │   ├── CallsListViewController+Strings.swift
+│   │   ├── CallsListViewController+ViewModelLoader.swift
+│   │   ├── CallsListViewController.swift
+│   │   ├── CreateCallLinkViewController.swift
+│   │   ├── EditCallLinkNameViewController.swift
+│   │   ├── FlipCameraTooltip.swift
+│   │   ├── GroupCallErrorView.swift
+│   │   ├── GroupCallNotificationView.swift
+│   │   ├── GroupCallSwipeToastView.swift
+│   │   ├── GroupCallTooltip.swift
+│   │   ├── GroupCallVideoGrid.swift
+│   │   ├── GroupCallVideoGridLayout.swift
+│   │   ├── GroupCallVideoOverflow.swift
+│   │   ├── GroupCallViewController.swift
+│   │   ├── IncomingCallControls.swift
+│   │   ├── IncomingReactionsView.swift
+│   │   ├── IndividualCallViewController.swift
+│   │   ├── LocalVideoView.swift
+│   │   ├── NewCallViewController.swift
+│   │   ├── RaisedHandsToast.swift
+│   │   ├── ReactionsBurstView.swift
+│   │   ├── ReactionsSink.swift
+│   │   ├── RemoteVideoView.swift
+│   │   ├── ReturnToCallViewController.swift
+│   │   ├── SimulatorCallUIAdaptee.swift
+│   │   └── SupplementalCallControlsForFullscreenLocalMember.swift
+│   └── WebRTCCallMessageHandler.swift
+├── Contacts
+│   ├── AuthorMergeHelperBuilder.swift
+│   └── NameCollisionFinder.swift
+├── ConversationView
+│   ├── AudioMessagePresenter.swift
+│   ├── AudioPresentation.swift
+│   ├── BlockingAnnouncementOnlyView.swift
+│   ├── BlockingLegacyGroupView.swift
+│   ├── CVAttachments.swift
+│   ├── CVAudioPlayback.swift
+│   ├── CVBackgroundContainer.swift
+│   ├── CVCell.swift
+│   ├── CVItemViewModelImpl.swift
+│   ├── CVMediaCache.swift
+│   ├── CVNode.swift
+│   ├── CVViewState+Banners.swift
+│   ├── CVViewState.swift
+│   ├── CellViews
+│   │   ├── AudioMessagePlaybackRateView.swift
+│   │   ├── AudioMessageView.swift
+│   │   ├── AudioWaveformProgressView.swift
+│   │   ├── CVAttachmentProgressView.swift
+│   │   ├── CVColorOrGradientView.swift
+│   │   ├── CVContactShareView.swift
+│   │   ├── CVMediaAlbumView.swift
+│   │   ├── CVMediaView.swift
+│   │   ├── CVReactionCountsView.swift
+│   │   ├── CVStackView.swift
+│   │   ├── CVWallpaperBlurView.swift
+│   │   ├── GiftBadgeView.swift
+│   │   ├── LoadMoreMessagesView.swift
+│   │   ├── MessageSelectionView.swift
+│   │   ├── MessageTimerView.swift
+│   │   ├── QuotedMessageView.swift
+│   │   ├── ReusableMediaView.swift
+│   │   └── SmsLockIconView.swift
+│   ├── Components
+│   │   ├── CVComponent.swift
+│   │   ├── CVComponentArchivedPayment.swift
+│   │   ├── CVComponentAudioAttachment.swift
+│   │   ├── CVComponentBodyMedia.swift
+│   │   ├── CVComponentBodyText.swift
+│   │   ├── CVComponentBottomButtons.swift
+│   │   ├── CVComponentContactShare.swift
+│   │   ├── CVComponentDateHeader.swift
+│   │   ├── CVComponentDelegate.swift
+│   │   ├── CVComponentFooter.swift
+│   │   ├── CVComponentGenericAttachment.swift
+│   │   ├── CVComponentGiftBadge.swift
+│   │   ├── CVComponentLinkPreview.swift
+│   │   ├── CVComponentMessage.swift
+│   │   ├── CVComponentPaymentAttachment.swift
+│   │   ├── CVComponentQuotedReply.swift
+│   │   ├── CVComponentReactions.swift
+│   │   ├── CVComponentSenderName.swift
+│   │   ├── CVComponentState+GroupLink.swift
+│   │   ├── CVComponentState.swift
+│   │   ├── CVComponentSticker.swift
+│   │   ├── CVComponentSystemMessage.swift
+│   │   ├── CVComponentThreadDetails.swift
+│   │   ├── CVComponentTypingIndicator.swift
+│   │   ├── CVComponentUndownloadableAttachment.swift
+│   │   ├── CVComponentUnreadIndicator.swift
+│   │   ├── CVComponentViewOnce.swift
+│   │   └── PersistableGroupUpdateItem+CVComponentSystemMessageAction.swift
+│   ├── ConversationCollectionView.swift
+│   ├── ConversationHeaderView.swift
+│   ├── ConversationInputTextView.swift
+│   ├── ConversationInputToolbar+QuotedReplyPreview.swift
+│   ├── ConversationInputToolbar.swift
+│   ├── ConversationScrollButton.swift
+│   ├── ConversationViewController+Banners.swift
+│   ├── ConversationViewController+BodyRangesTextViewDelegate.swift
+│   ├── ConversationViewController+BodyTextItems.swift
+│   ├── ConversationViewController+BottomBar.swift
+│   ├── ConversationViewController+CVC.swift
+│   ├── ConversationViewController+CVComponentDelegate.swift
+│   ├── ConversationViewController+Calls.swift
+│   ├── ConversationViewController+ConversationInputToolbarDelegate.swift
+│   ├── ConversationViewController+Delegates.swift
+│   ├── ConversationViewController+GestureRecognizers.swift
+│   ├── ConversationViewController+GiftBadges.swift
+│   ├── ConversationViewController+LastVisibleSortId.swift
+│   ├── ConversationViewController+MessageActions.swift
+│   ├── ConversationViewController+MessageActionsDelegate.swift
+│   ├── ConversationViewController+MessageRequest.swift
+│   ├── ConversationViewController+Misc.swift
+│   ├── ConversationViewController+Notifications.swift
+│   ├── ConversationViewController+OWS.swift
+│   ├── ConversationViewController+Scroll.swift
+│   ├── ConversationViewController+Selection.swift
+│   ├── ConversationViewController+SystemMessageItems.swift
+│   ├── ConversationViewController+UI.swift
+│   ├── ConversationViewController+UIScrollView.swift
+│   ├── ConversationViewController+VoiceMessage.swift
+│   ├── ConversationViewController+Wallpaper.swift
+│   ├── ConversationViewController.swift
+│   ├── ConversationViewLayout.swift
+│   ├── ConversationViewModel.swift
+│   ├── DoubleTapToEdit
+│   │   ├── DoubleTapToEditOnboardingController.swift
+│   │   └── SingleOrDoubleTapGestureRecognizer.swift
+│   ├── DynamicInteractions
+│   │   ├── DateHeaderInteraction.swift
+│   │   ├── DefaultDisappearingMessageTimerInteraction.swift
+│   │   ├── ThreadDetailsInteraction.swift
+│   │   ├── TypingIndicatorInteraction.swift
+│   │   ├── UnknownThreadWarningInteraction.swift
+│   │   └── UnreadIndicatorInteraction.swift
+│   ├── LinkPreviewCallLink.swift
+│   ├── LinkPreviewGroupLink.swift
+│   ├── Loading
+│   │   ├── CVAvatarBuilder.swift
+│   │   ├── CVItemModel.swift
+│   │   ├── CVItemViewState.swift
+│   │   ├── CVLoadContext.swift
+│   │   ├── CVLoadCoordinator.swift
+│   │   ├── CVLoadRequest.swift
+│   │   ├── CVLoader.swift
+│   │   ├── CVRenderItem.swift
+│   │   ├── CVRenderState.swift
+│   │   ├── CVUpdate.swift
+│   │   ├── CVViewStateSnapshot.swift
+│   │   └── MessageLoader.swift
+│   ├── MemberRequestView.swift
+│   ├── MessageActions.swift
+│   ├── MessageRequestView.swift
+│   ├── Reactions
+│   │   ├── EmojiCountsCollectionView.swift
+│   │   ├── EmojiReactorsTableView.swift
+│   │   ├── InteractionReactionState.swift
+│   │   └── ReactionsDetailSheet.swift
+│   ├── TSInteraction+DeleteActionSheet.swift
+│   └── VoiceMessage
+│       ├── VoiceMessageInProgressDraft.swift
+│       ├── VoiceMessageInterruptedDraft.swift
+│       └── VoiceMessageSendableDraft.swift
+├── DeleteForMe
+│   ├── DeleteForMeInfoSheetCoordinator.swift
+│   └── DeleteForMeSyncMessageInfoSheet.swift
+├── DeviceTransfer
+│   ├── DeviceTransferOperation.swift
+│   ├── DeviceTransferService+Manifest.swift
+│   ├── DeviceTransferService+MultipeerDelegates.swift
+│   ├── DeviceTransferService+Restore.swift
+│   ├── DeviceTransferService+State.swift
+│   ├── DeviceTransferService+URL.swift
+│   ├── DeviceTransferService.swift
+│   ├── OutgoingDeviceTransferInitialViewController.swift
+│   ├── OutgoingDeviceTransferNavigationController.swift
+│   ├── OutgoingDeviceTransferProgressViewController.swift
+│   ├── OutgoingDeviceTransferQRScanningViewController.swift
+│   └── SelfSignedIdentity.swift
+├── Emoji
+│   ├── Emoji+Available.swift
+│   ├── Emoji+Category.swift
+│   ├── Emoji+Name.swift
+│   ├── Emoji+SkinTones.swift
+│   ├── Emoji.swift
+│   ├── EmojiPickerCollectionView.swift
+│   ├── EmojiPickerSectionToolbar.swift
+│   ├── EmojiPickerSheet.swift
+│   ├── EmojiReactionPickerConfigViewController.swift
+│   ├── EmojiSkinTonePicker.swift
+│   ├── EmojiWithSkinTones+String.swift
+│   └── EmojiWithSkinTones.swift
+├── Expiration
+│   ├── AppUpdateNag.swift
+│   ├── OsExpiry.swift
+│   └── UIDevice+CanUpgradeOperatingSystem.swift
+├── Megaphones
+│   ├── ExperienceUpgradeManager.swift
+│   ├── RemoteMegaphoneFetcher.swift
+│   └── UserInterface
+│       ├── ContactPermissionReminderMegaphone.swift
+│       ├── CreateUsernameMegaphone.swift
+│       ├── InactiveLinkedDeviceReminderMegaphone.swift
+│       ├── IntroducingPINs.swift
+│       ├── MegaphoneView.swift
+│       ├── NewLinkedDeviceNotificationMegaphone.swift
+│       ├── NotificationPermissionReminderMegaphone.swift
+│       ├── PinReminderMegaphone.swift
+│       ├── RemoteMegaphone.swift
+│       └── SplashViewController.swift
+├── NSE-Images.xcassets
+│   ├── Contents.json
+│   ├── group-placeholder-56.imageset
+│   │   ├── Contents.json
+│   │   └── group-avatar-placeholder.pdf
+│   └── profile-placeholder-56.imageset
+│       ├── Contents.json
+│       └── avatar-profile.pdf
+├── Notifications
+│   ├── AppIconBadgeUpdater.swift
+│   ├── BadgeManager.swift
+│   ├── NotificationActionHandler.swift
+│   └── PushRegistrationManager.swift
+├── OrphanData
+│   └── OWSOrphanDataCleaner.swift
+├── Preconditions
+│   └── AppActivePrecondition.swift
+├── PrivacyInfo.xcprivacy
+├── Profiles
+│   └── StaleProfileFetcher.swift
+├── Provisioning
+│   ├── DeviceProvisioningURL.swift
+│   ├── ProvisioningCoordinator+Shims.swift
+│   ├── ProvisioningCoordinator.swift
+│   ├── ProvisioningCoordinatorImpl+Service.swift
+│   ├── ProvisioningCoordinatorImpl.swift
+│   └── UserInterface
+│       ├── LinkAndSyncProvisioningProgressViewController.swift
+│       ├── ProvisioningBaseViewController.swift
+│       ├── ProvisioningController.swift
+│       ├── ProvisioningModeSwitchConfirmationViewController.swift
+│       ├── ProvisioningPermissionsViewController.swift
+│       ├── ProvisioningPrepViewController.swift
+│       ├── ProvisioningQRCodeViewController.swift
+│       ├── ProvisioningSetDeviceNameViewController.swift
+│       ├── ProvisioningSplashViewController.swift
+│       ├── ProvisioningTransferChoiceViewController.swift
+│       ├── ProvisioningTransferProgressViewController.swift
+│       └── ProvisioningTransferQRCodeViewController.swift
+├── Registration
+│   ├── PhoneNumberValidator.swift
+│   ├── RegistrationCoodinatorShims.swift
+│   ├── RegistrationCoordinator.swift
+│   ├── RegistrationCoordinatorDependencies.swift
+│   ├── RegistrationCoordinatorImpl+Service.swift
+│   ├── RegistrationCoordinatorImpl.swift
+│   ├── RegistrationCoordinatorLoader.swift
+│   ├── RegistrationMode.swift
+│   ├── RegistrationStep.swift
+│   ├── RegistrationUtils.swift
+│   └── UserInterface
+│       ├── RegistrationCaptchaViewController.swift
+│       ├── RegistrationChangeNumberSplashViewController.swift
+│       ├── RegistrationChangePhoneNumberConfirmationViewController.swift
+│       ├── RegistrationChangePhoneNumberViewController.swift
+│       ├── RegistrationConfirmModeSwitchViewController.swift
+│       ├── RegistrationEnterBackupKeyViewController.swift
+│       ├── RegistrationLoadingViewController.swift
+│       ├── RegistrationNavigationController.swift
+│       ├── RegistrationPermissionsView.swift
+│       ├── RegistrationPhoneNumberDiscoverabilityViewController.swift
+│       ├── RegistrationPhoneNumberInputView.swift
+│       ├── RegistrationPhoneNumberViewController.swift
+│       ├── RegistrationPhoneNumberViewState.swift
+│       ├── RegistrationPinAttemptsExhaustedAndMustCreateNewPinViewController.swift
+│       ├── RegistrationPinViewController.swift
+│       ├── RegistrationProfileViewController.swift
+│       ├── RegistrationQuickRestoreQRCodeViewController.swift
+│       ├── RegistrationReglockTimeoutViewController.swift
+│       ├── RegistrationRestoreFromBackupViewController.swift
+│       ├── RegistrationSplashViewController.swift
+│       ├── RegistrationTransferChoiceViewController.swift
+│       ├── RegistrationTransferProgressViewController.swift
+│       ├── RegistrationTransferQRCodeViewController.swift
+│       ├── RegistrationVerificationCodeView.swift
+│       ├── RegistrationVerificationViewController.swift
+│       └── RegistrationViewUtil.swift
+├── Settings.bundle
+│   ├── Acknowledgements.plist
+│   ├── Root.plist
+│   └── en.lproj
+│       └── Root.strings
+├── Sharing
+│   └── AttachmentSharing.swift
+├── Signal-AppStore.entitlements
+├── Signal-Info.plist
+├── Signal-Prefix.pch
+├── Signal.entitlements
+├── SignalTSan.supp
+├── SignalUBSan.supp
+├── Storage
+│   └── FullTextSearchOptimizer.swift
+├── URLs
+│   └── UrlOpener.swift
+├── Usernames
+│   ├── Links
+│   │   ├── UsernameLinkPresentQRCodeViewController.swift
+│   │   ├── UsernameLinkQRCodeColorPickerViewController.swift
+│   │   ├── UsernameLinkQRCodeContentController.swift
+│   │   ├── UsernameLinkScanQRCodeSheet.swift
+│   │   ├── UsernameLinkScanQRCodeViewController.swift
+│   │   ├── UsernameLinkShareSheetViewController.swift
+│   │   └── UsernameLinkTooltipView.swift
+│   ├── Selection
+│   │   ├── UsernameSelectionCoordinator.swift
+│   │   ├── UsernameSelectionViewController+HeaderView.swift
+│   │   ├── UsernameSelectionViewController+UsernameTextField.swift
+│   │   └── UsernameSelectionViewController.swift
+│   ├── UsernameChangeDelegate.swift
+│   └── UsernameEducationViewController.swift
+├── folder_structure.txt
+├── iTunesArtwork@3x.png
+└── src
+    ├── AttachmentValidationBackfillRunner.swift
+    ├── BGProcessingTaskRunner.swift
+    ├── IncrementalMessageTSAttachmentMigrationRunner.swift
+    ├── MessageFetchBGRefreshTask.swift
+    ├── QRCodes
+    │   ├── Bitmaps
+    │   │   ├── Bitmaps+Image.swift
+    │   │   ├── Bitmaps+LineDrawing.swift
+    │   │   ├── Bitmaps+Shapes.swift
+    │   │   ├── Bitmaps.swift
+    │   │   └── CGContext+LineDrawing.swift
+    │   ├── QRCodeGenerator.swift
+    │   └── QRCodeView.swift
+    ├── ResendMessagePromptBuilder.swift
+    ├── ShareActivityUtil.swift
+    ├── UserInterface
+    │   ├── ConversationSearch.swift
+    │   └── OWSLayerView.swift
+    ├── ViewControllerContext
+    │   └── ViewControllerContext.swift
+    ├── ViewControllers
+    │   ├── ActionSheetContentBuilder.swift
+    │   ├── AppSettings
+    │   │   ├── AppSettingsViewController.swift
+    │   │   ├── AppSettingsViewsUtil.swift
+    │   │   ├── ChatsSettingsViewController.swift
+    │   │   ├── ComposeSupportEmailOperation.swift
+    │   │   ├── ContactSupportViewController.swift
+    │   │   ├── CurrencyPickerViewController.swift
+    │   │   └── HelpViewController.swift
+    │   ├── Attachment Keyboard
+    │   │   ├── AttachmentFormatPickerView.swift
+    │   │   ├── AttachmentKeyboard.swift
+    │   │   └── RecentPhotoCollectionView.swift
+    │   ├── Avatars
+    │   │   ├── AvatarEditViewController.swift
+    │   │   ├── AvatarHistoryManager.swift
+    │   │   └── AvatarSettingsViewController.swift
+    │   ├── CameraFirstCaptureSendFlow.swift
+    │   ├── Categories
+    │   │   ├── UIApplication+OWS.swift
+    │   │   ├── UIResponder+OWS.swift
+    │   │   └── UIStoryboard+OWS.swift
+    │   ├── ContactShareViewHelper.swift
+    │   ├── ContactViewController.swift
+    │   ├── ContextMenus
+    │   │   └── ContextMenuButton.swift
+    │   ├── CropScaleImageViewController.swift
+    │   ├── DatabaseRecoveryViewController.swift
+    │   ├── DebugUI
+    │   │   ├── DebugContactsUtils.swift
+    │   │   ├── DebugUI.swift
+    │   │   ├── DebugUICalling.swift
+    │   │   ├── DebugUICallsTab.swift
+    │   │   ├── DebugUIContacts.swift
+    │   │   ├── DebugUIDiskUsage.swift
+    │   │   ├── DebugUIFileBrowser.swift
+    │   │   ├── DebugUIGroupsV2.swift
+    │   │   ├── DebugUIMessages.swift
+    │   │   ├── DebugUIMessagesAction.swift
+    │   │   ├── DebugUIMessagesAssetLoader.swift
+    │   │   ├── DebugUIMisc.swift
+    │   │   ├── DebugUIPage.swift
+    │   │   ├── DebugUIPayments.swift
+    │   │   ├── DebugUISessionState.swift
+    │   │   ├── DebugUIStress.swift
+    │   │   ├── DebugUISyncMessages.swift
+    │   │   ├── DebugUITableViewController.swift
+    │   │   ├── LogViewController.swift
+    │   │   └── SpoilerAnimationTestController.swift
+    │   ├── Donations
+    │   │   ├── BadgeDetailsSheet.swift
+    │   │   ├── BadgeGiftingAlreadyRedeemedSheet.swift
+    │   │   ├── BadgeGiftingThanksSheet.swift
+    │   │   ├── BadgeIssueSheet.swift
+    │   │   ├── BadgeThanksSheet.swift
+    │   │   ├── BadgeThanksSheetPresenter.swift
+    │   │   ├── BankTransferMandateViewController.swift
+    │   │   ├── DonateChoosePaymentMethodSheet.swift
+    │   │   ├── DonateViewController+DonationMode.swift
+    │   │   ├── DonateViewController+MonthlyApplePayDonation.swift
+    │   │   ├── DonateViewController+MonthlyPaypalDonation.swift
+    │   │   ├── DonateViewController+MonthlySubscriptionLevelView.swift
+    │   │   ├── DonateViewController+OneTimeApplePayDonation.swift
+    │   │   ├── DonateViewController+OneTimePaypalDonation.swift
+    │   │   ├── DonateViewController+PKPaymentAuthorizationControllerDelegate.swift
+    │   │   ├── DonateViewController+State.swift
+    │   │   ├── DonateViewController.swift
+    │   │   ├── DonationHeroView.swift
+    │   │   ├── DonationPaymentDetailsFindAccountInfoSheetViewController.swift
+    │   │   ├── DonationPaymentDetailsReadMoreSheetViewController.swift
+    │   │   ├── DonationPaymentDetailsSelectIdealBankViewController.swift
+    │   │   ├── DonationPaymentDetailsViewController+3DSecure.swift
+    │   │   ├── DonationPaymentDetailsViewController+DonationMode.swift
+    │   │   ├── DonationPaymentDetailsViewController+FormFieldView.swift
+    │   │   ├── DonationPaymentDetailsViewController+FormState.swift
+    │   │   ├── DonationPaymentDetailsViewController+GiftDonation.swift
+    │   │   ├── DonationPaymentDetailsViewController+MonthlyDonation.swift
+    │   │   ├── DonationPaymentDetailsViewController+OneTimeDonation.swift
+    │   │   ├── DonationPaymentDetailsViewController.swift
+    │   │   ├── DonationReadMoreSheetViewController.swift
+    │   │   ├── DonationViewsUtil+Gifting.swift
+    │   │   ├── DonationViewsUtil+IDEAL.swift
+    │   │   ├── DonationViewsUtil+LocalizedStripeError.swift
+    │   │   ├── DonationViewsUtil+PaymentInProgressView.swift
+    │   │   ├── DonationViewsUtil+Paypal.swift
+    │   │   ├── DonationViewsUtil+WaitForSubscriptionJob.swift
+    │   │   ├── DonationViewsUtil.swift
+    │   │   └── OneTimeDonationCustomAmountTextField.swift
+    │   ├── EditHistoryTableSheetViewController.swift
+    │   ├── ForwardMessageViewController.swift
+    │   ├── GetStartedBannerViewController.swift
+    │   ├── GifPicker
+    │   │   ├── GifPickerCell.swift
+    │   │   ├── GifPickerLayout.swift
+    │   │   └── GifPickerViewController.swift
+    │   ├── GroupInviteLinksUI.swift
+    │   ├── GroupLinkPromotionActionSheet.swift
+    │   ├── HomeView
+    │   │   ├── ConversationSplitViewController.swift
+    │   │   ├── HomeTabBarController.swift
+    │   │   └── HomeTabViewController.swift
+    │   ├── LegacyGroupLearnMoreViewController.swift
+    │   ├── LinkPreviewAttachmentViewController.swift
+    │   ├── LocationPicker.swift
+    │   ├── LongTextViewController.swift
+    │   ├── MediaGallery
+    │   │   ├── AllMediaViewController.swift
+    │   │   ├── JournalingOrderedDictionary.swift
+    │   │   ├── MediaCaptionView.swift
+    │   │   ├── MediaControlPanelView.swift
+    │   │   ├── MediaGallery.swift
+    │   │   ├── MediaGalleryAccessoriesHelper.swift
+    │   │   ├── MediaGalleryCellItem.swift
+    │   │   ├── MediaGalleryCollectionViewUpdater.swift
+    │   │   ├── MediaGallerySections.swift
+    │   │   ├── MediaItemViewController.swift
+    │   │   ├── MediaPageViewController.swift
+    │   │   ├── MediaTileScrollFlag.swift
+    │   │   ├── MediaTileViewController.swift
+    │   │   ├── SquareMediaTileViewLayout.swift
+    │   │   ├── VideoPlaybackControls.swift
+    │   │   └── WideMediaTileViewLayout.swift
+    │   ├── MessageActionsToolbar.swift
+    │   ├── MessageBackup
+    │   │   └── MessageBackupInternalErrorViewController.swift
+    │   ├── MessageDetailViewController.swift
+    │   ├── MessageReactionPicker.swift
+    │   ├── NameEditorViewController.swift
+    │   ├── NewGroupView
+    │   │   ├── BaseGroupMemberViewController.swift
+    │   │   ├── NewGroupConfirmViewController.swift
+    │   │   ├── NewGroupMembersViewController.swift
+    │   │   └── NewGroupState.swift
+    │   ├── OWSImagePickerController.swift
+    │   ├── OWSPinConfirmationViewController.swift
+    │   ├── OWSPinReminderViewController.swift
+    │   ├── OWSPinSetupViewController.swift
+    │   ├── Payments
+    │   │   ├── SendPaymentCompletionActionSheet.swift
+    │   │   ├── SendPaymentHelper.swift
+    │   │   ├── SendPaymentMemoViewController.swift
+    │   │   └── SendPaymentViewController.swift
+    │   ├── Photos
+    │   │   ├── AvatarViewController.swift
+    │   │   ├── CameraCaptureSession.swift
+    │   │   ├── ImagePickerController.swift
+    │   │   ├── MediaControls.swift
+    │   │   ├── PhotoAlbumPickerViewController.swift
+    │   │   ├── PhotoCaptureDismiss.swift
+    │   │   ├── PhotoCaptureViewController.swift
+    │   │   ├── PhotoLibrary.swift
+    │   │   ├── QRCodeScanOrPickDelegate.swift
+    │   │   └── SendMediaNavigationController.swift
+    │   ├── ProxyLinkSheetViewController.swift
+    │   ├── RecipientPicker
+    │   │   ├── AddToBlockListViewController.swift
+    │   │   └── ComposeViewController.swift
+    │   ├── SafetyTipsViewController.swift
+    │   ├── SendMessageFlow.swift
+    │   ├── Stickers
+    │   │   ├── ManageStickersViewController.swift
+    │   │   └── StickerPackViewController.swift
+    │   ├── ThreadSettings
+    │   │   ├── AddGroupMembersViewController.swift
+    │   │   ├── AddToGroupViewController.swift
+    │   │   ├── AvatarViewPresentationContextProvider.swift
+    │   │   ├── ContactAboutSheet.swift
+    │   │   ├── ContactNoteSheet.swift
+    │   │   ├── ConversationHeaderBuilder.swift
+    │   │   ├── ConversationInternalViewController.swift
+    │   │   ├── ConversationSettingsViewController+Contents.swift
+    │   │   ├── ConversationSettingsViewController+LegacyGroups.swift
+    │   │   ├── ConversationSettingsViewController.swift
+    │   │   ├── DisappearingMessagesTimerSettingsViewController.swift
+    │   │   ├── GroupAttributesEditorHelper.swift
+    │   │   ├── GroupAttributesViewController.swift
+    │   │   ├── GroupDescriptionViewController.swift
+    │   │   ├── GroupLinkQRCodeViewController.swift
+    │   │   ├── GroupLinkViewController.swift
+    │   │   ├── GroupMemberRequestsAndInvitesViewController.swift
+    │   │   ├── GroupNameViewController.swift
+    │   │   ├── GroupPermissionsSettingsViewController.swift
+    │   │   ├── GroupViewHelper+MemberActionSheet.swift
+    │   │   ├── GroupViewHelper.swift
+    │   │   ├── MemberActionSheet.swift
+    │   │   ├── NameCollisionResolutionViewController.swift
+    │   │   ├── NicknameEditorViewController.swift
+    │   │   ├── ReplaceAdminViewController.swift
+    │   │   ├── SoundAndNotificationsSettingsViewController.swift
+    │   │   └── UpdateSystemContacts.swift
+    │   ├── ViewOnceMessageViewController.swift
+    │   └── Wallpapers
+    │       ├── ChatColorViewController.swift
+    │       ├── ColorAndWallpaperSettingsViewController.swift
+    │       ├── CustomColorViewController.swift
+    │       ├── PreviewWallpaperViewController.swift
+    │       └── SetWallpaperViewController.swift
+    ├── WindowManager.swift
+    ├── util
+    │   ├── ASWebAuthenticationSession+Util.swift
+    │   ├── BatchUpdate.swift
+    │   ├── ContactSupportActionSheet.swift
+    │   ├── DebugLogger+MainApp.swift
+    │   ├── DebugLogs.swift
+    │   ├── DisplayableText.swift
+    │   ├── DonationJobError.swift
+    │   ├── Launch Screen.storyboard
+    │   ├── PaymentDetailsValidity.swift
+    │   ├── Progress+Signal.swift
+    │   ├── ProxyConnectionChecker.swift
+    │   ├── RingerSwitch.swift
+    │   ├── ScreenLockUI.swift
+    │   ├── SignalDotMePhoneNumberLink.swift
+    │   ├── SyncPushTokensJob.swift
+    │   ├── TSMessage+RenderableContent.swift
+    │   ├── TextHelper.swift
+    │   ├── VolumeButtons.swift
+    │   └── YYAnimatedImage+Duration.swift
+    └── views
+        ├── AnimatedProgressView.swift
+        ├── AvatarTableViewCell.swift
+        ├── BlurredToolbarContainer.swift
+        ├── EmojiMoodPickerView.swift
+        ├── ExpirationNagView.swift
+        ├── GetStartedBannerCell.swift
+        ├── GroupDescriptionPreviewView.swift
+        ├── JoinGroupCallPill.swift
+        ├── LottieToggleButton.swift
+        ├── MarqueeLabel.swift
+        ├── MediaTileDateFormatter.swift
+        ├── MockConversationView.swift
+        ├── NameCollisionReviewCell.swift
+        ├── PhotoGridViewCell.swift
+        ├── ReactionFlybyAnimation.swift
+        ├── SelectionButton.swift
+        ├── SettingsHeaderButton.swift
+        ├── TransferProgressView.swift
+        ├── TypingIndicatorView.swift
+        ├── VoiceMessageDraftView.swift
+        ├── VoiceMessageTooltip.swift
+        └── VoiceNoteLock.swift
+
+66 directories, 584 files
