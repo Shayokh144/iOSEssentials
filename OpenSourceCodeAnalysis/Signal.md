@@ -19,6 +19,9 @@
 - Mode to the `Signal-iOS` folder and run:
 
 `make dependencies`
+- While running above command, you might face error like this:
+`'urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]` . To solve it you need to follow [this answer](https://stackoverflow.com/a/70495761/4245112).
+
 
 - Open the `Signal.xcworkspace` in Xcode.
 - You can run `Signal` or `Signal-Staging` in the simulator.
@@ -68,8 +71,132 @@
 │       ├── RegistrationNavigationController.swift
 │       ├── RegistrationPermissionsView.swift
 ```
-- Details folder structure is [HERE](signal_res/signal_folder_structure.txt)
+- Details of folder structure is [HERE](signal_res/signal_folder_structure.txt)
 
 
 ### App Architecture
 <img src="signal_res/AppArc.png" alt="AppArc.png" />
+
+- In this Diagram `Request` means request for Data, Service or UI and `Response` may contain Data, Service or UI.
+
+#### Presentation layer
+- Presentation layer contains Views and business logics. Views contains ViewControllers, UIViews, SwiftUI views. This layer also contains Presenters, ViewModels, Coordinators.
+- This module mostly follows Model-View-Presenter (MVP) architecture, for example: `RegistrationVerificationViewController` acted as a `View` and there are `RegistrationVerificationPresenter` played as `Presenter` while `RegistrationVerificationState` and  `RegistrationVerificationValidationError` acted as `Model`.
+- Delegation(Protocol-Delegate) is used to maintain communication among the components. For example:
+	- `RegistrationVerificationViewController` contains presenter as a weak variable.
+
+`private weak var presenter: RegistrationVerificationPresenter?`
+
+	
+- Functionalities of `RegistrationVerificationPresenter` is implemented inside `RegistrationNavigationController` which also initiates the `RegistrationVerificationViewController` with state and presenter.
+- `RegistrationNavigationController` also contains coordintor through protocol `RegistrationCoordinator` and maintain navigation flow for registration. Implementation of `RegistrationCoordinator` is done in `RegistrationCoordinatorImpl`.
+
+- A demo class diagram with minimal code:
+
+
+
+
+
+
+
+```mermaid
+%%{init: {'theme': 'base', 'flowchart': { 'width': 1200, 'height': 2000 } } }%%
+classDiagram
+    class RegistrationCoordinatorImpl {
+        +init(mode: RegistrationCoordinatorLoaderImpl.Mode, loader: RegistrationCoordinatorLoaderDelegate, dependencies: RegistrationCoordinatorDependencies)
+        +switchToSecondaryDeviceLinking() Bool
+    }
+
+    class RegistrationCoordinator {
+        <<protocol>>
+        +switchToSecondaryDeviceLinking() Bool
+    }
+
+    class RegistrationNavigationController {
+        -appReadiness: AppReadinessSetter
+        -coordinator: RegistrationCoordinator
+        +withCoordinator(_: RegistrationCoordinator, appReadiness: AppReadinessSetter) RegistrationNavigationController
+        -init(coordinator: RegistrationCoordinator, appReadiness: AppReadinessSetter)
+        +viewDidLoad()
+        -controller(for: RegistrationStep) AnyController?
+    }
+
+    class RegistrationVerificationViewController {
+        -presenter: RegistrationVerificationPresenter?
+        +init(state: RegistrationVerificationState, presenter: RegistrationVerificationPresenter)
+    }
+
+    class RegistrationVerificationPresenter {
+        <<protocol>>
+        +returnToPhoneNumberEntry()
+    }
+
+    RegistrationCoordinatorImpl --|> RegistrationCoordinator : implements
+    RegistrationNavigationController --> RegistrationCoordinator : depends on
+    RegistrationNavigationController ..|> RegistrationVerificationPresenter : implements
+    RegistrationVerificationViewController --> RegistrationVerificationPresenter : depends on
+```
+
+
+
+
+### Singleton Instance: SignalApp
+### Dependency Injection
+- No 3rd party library is used to maintain dependency, it is fully managed manually. For example: in `AppDelegate` they initiate `DataBase` like this:
+
+```
+let databaseStorage: SDSDatabaseStorage
+do {
+    databaseStorage = try SDSDatabaseStorage(
+        appReadiness: appReadiness,
+        databaseFileUrl: SDSDatabaseStorage.grdbDatabaseFileUrl,
+        keychainStorage: keychainStorage
+    )
+} catch KeychainError.notAllowed where application.applicationState == .background {
+    notifyThatPhoneMustBeUnlocked()
+} catch {
+    // It's so corrupt that we can't even try to repair it.
+    didAppLaunchFail = true
+    Logger.error("Couldn't launch with broken database: \(error.grdbErrorForLogging)")
+    let viewController = terminalErrorViewController()
+    _ = initializeWindow(mainAppContext: mainAppContext, rootViewController: viewController)
+    presentDatabaseUnrecoverablyCorruptedError(from: viewController, action: .submitDebugLogsAndCrash)
+    return true
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
