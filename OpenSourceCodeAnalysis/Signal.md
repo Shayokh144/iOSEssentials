@@ -93,14 +93,7 @@
 
 - A demo class diagram with minimal code:
 
-
-
-
-
-
-
 ```mermaid
-%%{init: {'theme': 'base', 'flowchart': { 'width': 1200, 'height': 2000 } } }%%
 classDiagram
     class RegistrationCoordinatorImpl {
         +init(mode: RegistrationCoordinatorLoaderImpl.Mode, loader: RegistrationCoordinatorLoaderDelegate, dependencies: RegistrationCoordinatorDependencies)
@@ -136,11 +129,171 @@ classDiagram
     RegistrationNavigationController ..|> RegistrationVerificationPresenter : implements
     RegistrationVerificationViewController --> RegistrationVerificationPresenter : depends on
 ```
+#### Singleton Instance: SignalApp
+
+The SignalApp class is a central orchestrator in the Signal iOS app, managing app initialization, navigation, and high-level state transitions. It follows best practices like the singleton pattern, dependency injection, and modular design to ensure a clean and maintainable architecture. Its responsibilities range from handling app launch to managing conversations and resetting app data, making it a critical component of the Signal app. The class is designed to serve as a bridge between the app’s core services (like the database and caching systems) and the UI. Though it is a Singleton class still it is using Dependency Injection through methods like `performInitialSetup(appReadiness:)` It encapsulates:
+
+- Navigation and view management (launching the appropriate view controller based on user state).
+- Background preparation (warming caches and setting up UI readiness).
+- Maintenance tasks (resetting data, database integrity checks, exporting data)
+
+#### Class Diagram of SignalApp.shared
+
+```mermaid
+classDiagram
+    class SignalApp {
+        +shared: SignalApp
+        -conversationSplitViewController: ConversationSplitViewController?
+        +performInitialSetup(appReadiness: AppReadiness)
+        -warmCachesAsync()
+        +showLaunchInterface(_: LaunchInterface, appReadiness: AppReadinessSetter, launchStartedAt: TimeInterval)
+        +showConversationSplitView(appReadiness: AppReadinessSetter)
+        +dismissAllModals(animated: Bool, completion: (() -> Void)?)
+        +showRegistration(loader: RegistrationCoordinatorLoader, desiredMode: RegistrationMode, appReadiness: AppReadinessSetter)
+        +spamChallenge()
+        +showNewConversationView()
+        +presentConversationForAddress(_: SignalServiceAddress, action: ConversationViewAction, animated: Bool)
+        +presentConversationForThread(_: TSThread, action: ConversationViewAction, focusMessageId: String?, animated: Bool)
+        +showMyStories(animated: Bool)
+        +snapshotSplitViewController(afterScreenUpdates: Bool) -> UIView?
+        +resetAppDataWithUI(keyFetcher: GRDBKeyFetcher)
+        +resetLinkedAppDataWithUI(currentDeviceId: Int, keyFetcher: GRDBKeyFetcher)
+        +resetAppDataAndExit(keyFetcher: GRDBKeyFetcher) -> Never
+        +resetAppData(keyFetcher: GRDBKeyFetcher)
+        +showTransferCompleteAndExit()
+        +showSecondaryProvisioning(appReadiness: AppReadinessSetter)
+        +showExportDatabaseUI(from: UIViewController, completion: () -> Void)
+        +showDatabaseIntegrityCheckUI(from: UIViewController, databaseStorage: SDSDatabaseStorage, completion: () -> Void)
+    }
+
+    class LaunchInterface {
+        <<enumeration>>
+        +registration(RegistrationCoordinatorLoader, RegistrationMode)
+        +secondaryProvisioning
+        +chatList
+    }
+
+    class RegistrationCoordinatorLoader {
+        +coordinator(forDesiredMode: RegistrationMode, transaction: DBWriteTransaction) -> RegistrationCoordinator
+    }
+
+    class RegistrationCoordinator {
+        +start()
+    }
+
+    class ConversationSplitViewController {
+        +selectedThread: TSThread?
+        +selectedConversationViewController: ConversationViewController?
+        +presentThread(_: TSThread, action: ConversationViewAction, focusMessageId: String?, animated: Bool)
+        +showNewConversationView()
+        +showMyStoriesController(animated: Bool)
+    }
+
+    class AppReadiness {
+        +runNowOrWhenUIDidBecomeReadySync(_: () -> Void)
+    }
+
+    class AppReadinessSetter {
+        +setUIIsReady()
+    }
+
+    class SSKEnvironment {
+        +shared: SSKEnvironment
+        +preferencesRef: Preferences
+        +databaseStorageRef: SDSDatabaseStorage
+        +notificationPresenterRef: NotificationPresenter
+    }
+
+    class SpamCaptchaViewController {
+        +presentActionSheet(from: UIViewController)
+    }
+
+    class TSThread {
+        +uniqueId: String
+    }
+
+    class SignalServiceAddress {
+        +stringValue: String
+    }
+
+    class OWSFileSystem {
+        +deleteContents(ofDirectory: String)
+    }
+
+    class DebugLogger {
+        +wipeLogsAlways(appContext: AppContext)
+    }
+
+    SignalApp --> LaunchInterface : Determines launch interface
+    SignalApp --> ConversationSplitViewController : Manages main chat interface
+    SignalApp --> RegistrationCoordinatorLoader : Creates registration coordinator
+    SignalApp --> RegistrationCoordinator : Handles registration flow
+    SignalApp --> AppReadiness : Waits for app readiness
+    SignalApp --> AppReadinessSetter : Sets UI readiness
+    SignalApp --> SSKEnvironment : Accesses shared environment
+    SignalApp --> SpamCaptchaViewController : Handles spam challenges
+    SignalApp --> TSThread : Manages conversation threads
+    SignalApp --> SignalServiceAddress : Represents user addresses
+    SignalApp --> OWSFileSystem : Handles file system cleanup
+    SignalApp --> DebugLogger : Manages debug logs
+
+    ConversationSplitViewController --> TSThread : Displays selected thread
+    RegistrationCoordinatorLoader --> RegistrationCoordinator : Creates coordinator
+    SSKEnvironment --> SDSDatabaseStorage : Manages database
+    SSKEnvironment --> Preferences : Manages app preferences
+    SSKEnvironment --> NotificationPresenter : Manages notifications
+```
+
+##### Components
+- SignalApp: The central singleton class that manages app-wide behavior. Interacts with other components like ConversationSplitViewController, RegistrationCoordinator, and SSKEnvironment.
+
+- LaunchInterface: An enumeration that defines the possible launch states of the app (e.g., registration, chat list).
+
+- ConversationSplitViewController: Manages the main chat interface, including displaying threads and conversations.
+
+- RegistrationCoordinatorLoader and RegistrationCoordinator: Handle the registration flow for new or re-registering users.
+
+- AppReadiness and AppReadinessSetter: Ensure the app is ready before performing certain actions.
+
+- SSKEnvironment: Provides access to shared app components like the database, preferences, and notification presenter.
+
+- SpamCaptchaViewController: Handles spam challenges by presenting a captcha to the user.
+
+- TSThread and SignalServiceAddress: Represent chat threads and user addresses, respectively.
+
+- OWSFileSystem and DebugLogger: Handle file system operations and debug logging.
+
+#### Simplified Flow Diagram of SignalApp.shared
+
+```mermaid
+flowchart TD
+    A[SignalApp Shared Singleton]
+    B[performInitialSetup: appReadiness]
+    C[warmCachesAsync]
+    D[showLaunchInterface: launchInterface, appReadiness, launchStartedAt]
+    E{LaunchInterface Enum}
+    F[Registration Flow showRegistration]
+    G[Secondary Provisioning showSecondaryProvisioning]
+    H[Chat List showConversationSplitView]
+    I[Conversation Management]
+    J[Other Tasks: dismissAllModals, showAppSettings, etc]
+    K[Background Tasks Emoji cache warm-up]
+    
+    A --> B
+    B --> C
+    C --> K
+    B --> D
+    D --> E
+    E -- Registration --> F
+    E -- Secondary Provisioning --> G
+    E -- Chat List --> H
+    F --> I
+    H --> I
+    D --> J
+
+```
 
 
-
-
-### Singleton Instance: SignalApp
 ### Dependency Injection
 - No 3rd party library is used to maintain dependency, it is fully managed manually. For example: in `AppDelegate` they initiate `DataBase` like this:
 
