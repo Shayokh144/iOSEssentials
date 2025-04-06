@@ -319,12 +319,66 @@ do {
 ```
 
 
+- Most of the ViewControllers having method like `public static func load()` that is used to create an instance of the ViewController from outside. For example: 
+- `ConversationViewController` has a static load() method that takes some parameters and return the VC:
+
+```
+public static func load(
+    appReadiness: AppReadinessSetter,
+    threadViewModel: ThreadViewModel,
+    action: ConversationViewAction,
+    focusMessageId: String?,
+    tx: SDSAnyReadTransaction
+) -> ConversationViewController {
+    let thread = threadViewModel.threadRecord
+    
+    // CODES FOR CREATING OTHER ITEMS
+
+    let cvc = ConversationViewController(
+        appReadiness: appReadiness,
+        threadViewModel: threadViewModel,
+        conversationViewModel: conversationViewModel,
+        action: action,
+        conversationStyle: conversationStyle,
+        didAlreadyShowGroupCallTooltipEnoughTimes: didAlreadyShowGroupCallTooltipEnoughTimes,
+        loadAroundMessageId: loadAroundMessageId,
+        scrollToMessageId: scrollToMessageId,
+        oldestUnreadMessage: oldestUnreadMessage,
+        chatColor: chatColor,
+        wallpaperViewBuilder: wallpaperViewBuilder
+    )
+
+    return cvc
+}
 
 
+```
+
+- This loader is called from another class like this:
+```
+func createPreviewController(atIndexPath indexPath: IndexPath) -> UIViewController? {
+    guard let threadViewModel = tableDataSource.threadViewModel(forIndexPath: indexPath) else {
+        owsFailDebug("Missing threadViewModel.")
+        return nil
+    }
+    let vc = SSKEnvironment.shared.databaseStorageRef.read { tx in
+        ConversationViewController.load(
+            appReadiness: appReadiness,
+            threadViewModel: threadViewModel,
+            action: .none,
+            focusMessageId: nil,
+            tx: tx
+        )
+    }
+    vc.previewSetup()
+    return vc
+}
 
 
+```
 
 
+### Data Management
 
 
 
