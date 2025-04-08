@@ -377,10 +377,98 @@ func createPreviewController(atIndexPath indexPath: IndexPath) -> UIViewControll
 
 ```
 
+### Dependency List
 
-### Data Management
+- For managing dependency Signal iOS is using Cocoapods.
+- Most dependencies use explicit version tags (e.g., SwiftProtobuf 1.28.2)
+
+#### Important Signal Dependencies
+##### LibSignalClient
+- The fundamental encryption library from Signal contains platform-agnostic APIs used by the official Signal clients and servers, exposed as a Java, Swift, or TypeScript library. It ensures that only the sender and intended recipient(s) can read messages—not even Signal’s servers can decrypt them.
+- libsignal-protocol implements the Signal protocol, including the Double Ratchet algorithm. A replacement for libsignal-protocol-java and libsignal-metadata-java.
+- Support logic for Signal's device-to-device transfer feature.
+
+##### SignalRingRTC
+- SignalRingRTC is a middleware library providing Signal Messenger applications with video and voice calling services built on top of WebRTC.
 
 
+
+##### SQLCipher
+- SQLCipher is an open-source extension of SQLite that adds transparent, full-database encryption
+- It ensures all data written to disk is AES-256 encrypted, protecting user messages, contacts, and metadata if the device is compromised.
+
+```mermaid
+graph TD
+    Signal --> LibSignalClient
+    Signal --> SignalRingRTC
+    Signal --> SQLCipher
+    Signal --> GRDB[GRDB.swift/SQLCipher]
+    Signal --> BlurHash
+    
+    subgraph "Forked Dependencies"
+        Mantle
+        libPhoneNumber
+        YYImage
+        libwebp
+    end
+    
+    subgraph "UI Components"
+        BonMot
+        PureLayout
+        Lottie
+        LibMobileCoin
+        MobileCoin
+    end
+    
+    Signal --> Mantle
+    Signal --> libPhoneNumber[libPhoneNumber-iOS]
+    Signal --> YYImage
+    Signal --> libwebp
+    
+    Signal --> Reachability
+    
+    SQLCipher --> GRDB
+    YYImage --> libwebp
+    
+    Signal --> Extensions
+    Extensions --> SignalShareExtension
+    Extensions --> SignalUI
+    Extensions --> SignalServiceKit
+    Extensions --> SignalNSE
+    
+    SignalShareExtension --> UIComponents
+    SignalUI --> UIComponents
+    SignalServiceKit --> CocoaLumberjack
+    SignalServiceKit --> LibSignalClient
+    
+    subgraph "Extensions"
+        SignalShareExtension
+        SignalUI
+        SignalServiceKit
+        SignalNSE
+    end
+    
+    subgraph "Core Dependencies"
+        LibSignalClient
+        SignalRingRTC
+        SQLCipher
+        GRDB
+        BlurHash
+    end
+    
+    UIComponents --> BonMot
+    UIComponents --> PureLayout
+    UIComponents --> Lottie
+    UIComponents --> LibMobileCoin
+    UIComponents --> MobileCoin
+```
+
+### Service layer
+
+#### Data Management
+
+- Signal iOS is using a 3rd party library named [GRDB](https://github.com/groue/GRDB.swift) which is a toolkit for SQLite databases, with a focus on application development to store data.
+- They used UserDefaults too.
 
 
 
