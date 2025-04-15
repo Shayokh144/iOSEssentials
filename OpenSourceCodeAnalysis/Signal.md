@@ -658,22 +658,203 @@ classDiagram
 
 #### SDSDatabaseStorage
 
+- `SDSDatabaseStorage` is the primary database access layer for Signal, providing thread-safe read/write operations to SQLite via GRDB (GRDB.swift). It handles all database interactions including schema migrations, cross-process notifications, and change observation.
+- Wraps GRDB (SQLite) operations while providing a cleaner interface
+
+- Enforces proper threading patterns (main thread checks, background queue usage)
+
+- Designed for both Swift and Objective-C interoperability
+
+- Implements multiple async patterns (completion handlers, async/await, Promises)
+
+- Handles database corruption scenarios gracefully
+
+```mermaid
+classDiagram
+    %% Main Class
+    class SDSDatabaseStorage {
+        -asyncWriteQueue: DispatchQueue
+        -awaitableWriteQueue: ConcurrentTaskQueue
+        -hasPendingCrossProcessWrite: Bool
+        -crossProcess: SDSCrossProcess!
+        -appReadiness: AppReadiness
+        -_databaseChangeObserver: SDSDatabaseChangeObserver
+        +databaseFileUrl: URL
+        +keyFetcher: GRDBKeyFetcher
+        +grdbStorage: GRDBDatabaseStorageAdapter
+        +databaseChangeObserver: DatabaseChangeObserver
+
+        +init(appReadiness:databaseFileUrl:keychainStorage:)
+        +runGrdbSchemaMigrationsOnMainDatabase(completionScheduler:completion:)
+        +reopenGRDBStorage(completionScheduler:completion:)
+        +updateIdMapping(thread:transaction:)
+        +updateIdMapping(interaction:transaction:)
+        +touch(interaction:shouldReindex:transaction:)
+        +touch(thread:shouldReindex:shouldUpdateChatListUi:transaction:)
+        +touch(storyMessage:transaction:)
+        +readThrows(block:) throws
+        +read(block:)
+        +write(block:)
+        +asyncRead(block:completionQueue:completion:)
+        +asyncWrite(block:completion:)
+        +awaitableWrite(block:) async rethrows
+        +logFileSizes()
+        +databaseFileSize: UInt64
+        +databaseWALFileSize: UInt64
+    }
+
+    %% Related Protocols
+    class SDSDatabaseChangeObserver {
+        <<protocol>>
+        +didTouch(interaction:transaction:)
+        +didTouch(thread:shouldUpdateChatListUi:transaction:)
+        +didTouch(storyMessage:transaction:)
+        +updateIdMapping(thread:transaction:)
+        +updateIdMapping(interaction:transaction:)
+    }
+
+    class DatabaseChangeObserver {
+        <<protocol>>
+    }
+
+    class GRDBDatabaseStorageAdapter {
+        <<protocol>>
+        +read(block:)
+        +writeWithTxCompletion(block:)
+        +databaseFileSize: UInt64
+        +databaseWALFileSize: UInt64
+        +databaseSHMFileSize: UInt64
+    }
+
+    class TransactionCompletion~T~ {
+        <<enum>>
+        +commit(T)
+        +rollback(T)
+    }
+
+    %% External Dependencies
+    class SDSCrossProcess {
+        +notifyChanged()
+        +callback: () -> Void
+    }
+
+    class GRDBKeyFetcher {
+        +init(keychainStorage:)
+    }
+
+    class AppReadiness {
+        <<protocol>>
+    }
+
+    %% Relationships
+    SDSDatabaseStorage --> GRDBDatabaseStorageAdapter
+    SDSDatabaseStorage --> SDSDatabaseChangeObserver
+    SDSDatabaseStorage --> SDSCrossProcess
+    SDSDatabaseStorage --> GRDBKeyFetcher
+    SDSDatabaseStorage --> AppReadiness
+    SDSDatabaseStorage --> TransactionCompletion
+
+    SDSDatabaseChangeObserver --|> DatabaseChangeObserver
+    SDSDatabaseStorage ..> DatabaseChangeObserver : via databaseChangeObserver
+
+    %% Transaction Types
+    class SDSAnyReadTransaction {
+        <<protocol>>
+    }
+
+    class SDSAnyWriteTransaction {
+        <<protocol>>
+    }
+
+    SDSDatabaseStorage --> SDSAnyReadTransaction : uses
+    SDSDatabaseStorage --> SDSAnyWriteTransaction : uses
+
+    %% Notification Constants
+    class Notifications {
+        <<static constants>>
+        +didReceiveCrossProcessNotificationActiveAsync
+        +didReceiveCrossProcessNotificationAlwaysSync
+    }
+
+    SDSDatabaseStorage --> Notifications
+```
+
+`runGrdbSchemaMigrationsOnMainDatabase(completionScheduler:completion:)`
+- Runs any pending schema migrations for the main database using GRDBSchemaMigrator.
+- If migrations occur, it reopens the GRDB database to avoid stale connections.
+- Ensures the database is in sync with the app’s expected schema before use.
+- Executes the completion block on the provided completionScheduler.
 
 
+`reopenGRDBStorage(completionScheduler:completion:)`
+Recreates the internal GRDBDatabaseStorageAdapter, which:
 
+- Releases old database connections (to avoid stale readers/writers after migrations).
+- Re-initializes grdbStorage using the original config.
+- Invokes the completion block on the specified scheduler once done.
 
+`updateIdMapping(thread:transaction:)`
+- Updates the internal ID mapping for a TSThread inside the DatabaseChangeObserver.
 
+- Used to track and sync internal references to that thread during a write transaction.
 
+`updateIdMapping(interaction:transaction:)`
+- Same as above, but for a TSInteraction (e.g. messages).
 
+- Ensures consistent ID tracking for message interactions in storage and UI updates.
 
+`touch(interaction:shouldReindex:transaction:)`
+- Marks a TSInteraction as accessed/modified:
 
+- Notifies the change observer (didTouch)
 
+- Optionally triggers full-text reindexing if shouldReindex is true.
 
+`touch(thread:shouldReindex:shouldUpdateChatListUi:transaction:)`
+Marks a TSThread as modified:
+- Updates the change observer (with option to update chat list UI).
+- Reindexes the thread using the searchableNameIndexer if shouldReindex is true.
 
+`touch(storyMessage:transaction:)`
+- Signals that a StoryMessage was accessed or modified:
+- Notifies the DatabaseChangeObserver for this specific type of entity.
 
+`readThrows(block:) throws`
+- Performs a synchronous read operation:
+- Executes a block using a SDSAnyReadTransaction.
+- Propagates any thrown errors to the caller.
 
+`read(block:)`
+- Same as readThrows, but:
+- Catches errors internally.
+- Flags database corruption if an error occurs, instead of throwing it.
 
+`write(block:)`
+Performs a synchronous write transaction:
 
+- Executes the provided block with a SDSAnyWriteTransaction.
+- Auto-commits the transaction at the end.
+- Catches and logs any thrown errors (instead of rethrowing).
+
+`asyncRead(block:completionQueue:completion:)`
+Runs a read block on a background thread:
+
+- Executes the block with a SDSAnyReadTransaction.
+- Optionally delivers the result to completion on completionQueue.
+
+`asyncWrite(block:completion:)`
+Runs a write operation asynchronously using a background queue:
+
+- Accepts a block using SDSAnyWriteTransaction.
+- Auto-commits after execution.
+- Optionally delivers result via completion.
+
+`awaitableWrite(block:) async rethrows`
+Executes a write operation using Swift's async/await:
+
+- Ensures serialized execution via ConcurrentTaskQueue.
+- Supports throwing operations.
+- Auto-commits the transaction.
 
 
 
