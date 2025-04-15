@@ -470,11 +470,193 @@ graph TD
 - Signal iOS is using a 3rd party library named [GRDB](https://github.com/groue/GRDB.swift) which is a toolkit for SQLite databases, with a focus on application development to store data.
 - They used UserDefaults too.
 
+#### DB protocol
+- The DB protocol defines an abstraction layer for database operations and transactions, providing a unified interface that mimics the behavior of the underlying storage mechanism.
+
+- By defining a protocol that wraps transaction-based operations, the design allows high-level components to remain agnostic about how the data is persisted. Tests can replace the actual database implementation with stubs, ensuring that business logic can be validated without side effects caused by interacting with a real database.
 
 
+- The protocol separates the mechanics of executing SQL queries from the higher-level model and query classes (like the “FooFinder” or models conforming to SDSCodableModel). This way, the actual query implementation is delegated to lower-level helpers, while the rest of the system relies on the abstract transaction interface.
+
+- `SDSDB` conforms this protocol and use `SDSDatabaseStorage` to manage database related functionality.
+- In `AppDelegate` inside inside `didFinishLauncWithOption`, `SDSDatabaseStorage` is created like this:
+
+```
+let databaseStorage: SDSDatabaseStorage
+do {
+    databaseStorage = try SDSDatabaseStorage(
+        appReadiness: appReadiness,
+        databaseFileUrl: SDSDatabaseStorage.grdbDatabaseFileUrl,
+        keychainStorage: keychainStorage
+    )
+} catch KeychainError.notAllowed where application.applicationState == .background {
+    notifyThatPhoneMustBeUnlocked()
+}
+```
+- Then `SDSDB` is created like this:
+
+`let db = SDSDB(databaseStorage: databaseStorage`
+
+- For testing `InMemoryDB` implements DB protocol.
+- Its main purposes are to decouple the higher-level business logic from the specifics of SQL queries and to facilitate stubbing or testing of database interactions without performing real SQL operations.
+
+- Main features of DB:
+
+	- Transaction Types:
+
+		- ReadTransaction for read operations
+
+		- WriteTransaction for write operations
+
+	- Async Methods:
+
+		- asyncRead/asyncWrite: Perform operations asynchronously with completion handlers
+
+		- asyncWriteWithTxCompletion: Write with transaction completion handling
+
+	- Awaitable Methods (for async/await):
+
+		- awaitableWrite/awaitableWriteWithTxCompletion: Write operations that can be awaited
+
+	- Promise-based Methods:
+
+		- readPromise/writePromise: Return Promises for the operations
+
+	- Synchronous Methods:
+
+		- read/write: Perform operations synchronously
+
+	- writeWithTxCompletion: Synchronous write with transaction completion
+
+	- Observation:
+
+		- add(transactionObserver:): Add observers for database transactions
+
+	- Touching (marking objects as modified):
+
+		- Methods for TSInteraction, TSThread, and StoryMessage to update their timestamps and trigger reindexing/UI updates
+
+	- Convenience:
+
+		- Default parameters for file, function, and line (using #file, #function, #line)
+
+		- Overloads with simplified parameters (e.g., default shouldUpdateChatListUi for thread touching)
+```mermaid
+classDiagram
+    %% Protocol Definitions
+    class DB {
+        <<protocol>>
+        +ReadTransaction
+        +WriteTransaction
+        
+        +asyncRead(block:completionQueue:completion:)
+        +asyncWrite(block:completionQueue:completion:)
+        +asyncWriteWithTxCompletion(block:completionQueue:completion:)
+        +awaitableWrite(block:) async
+        +awaitableWriteWithTxCompletion(block:) async
+        +readPromise(block:)
+        +writePromise(block:)
+        +read(block:)
+        +write(block:)
+        +writeWithTxCompletion(block:)
+        +add(transactionObserver:extent:)
+        +touch(_:TSInteraction,shouldReindex:tx:)
+        +touch(_:TSThread,shouldReindex:shouldUpdateChatListUi:tx:)
+        +touch(_:StoryMessage,tx:)
+    }
+
+    class DBReadTransaction {
+        <<protocol>>
+        +databaseConnection: GRDB.Database
+    }
+
+    class DBWriteTransaction {
+        <<protocol>>
+        +addFinalization(forKey:block:)
+        +addSyncCompletion(_:)
+        +addAsyncCompletion(on:_:)
+    }
+
+    class TransactionObserver {
+        <<protocol>>
+        +observes(eventsOfKind:): Bool
+        +databaseDidChange(with:)
+        +databaseWillCommit() throws
+        +databaseDidCommit(_:)
+        +databaseDidRollback(_:)
+        +stopObservingDatabaseChangesUntilNextTransaction()
+    }
+
+    class TransactionCompletion~T~ {
+        <<enum>>
+        +commit(T)
+        +rollback(T)
+        +typeErased: TransactionCompletion~Void~
+        +asGRDBCompletion: GRDB.Database.TransactionCompletion
+    }
+
+    class TransactionObservation {
+        -extent: Database.TransactionObservationExtent
+        -isDisabled: Bool
+        -weakObserver: TransactionObserver?
+        -strongObserver: TransactionObserver?
+        +init(observer:extent:)
+        +isWrapping(_:): Bool
+        +observes(eventsOfKind:): Bool
+        +databaseDidChange(with:)
+        +databaseWillCommit() throws
+        +databaseDidCommit(_:)
+        +databaseDidRollback(_:)
+    }
+
+    %% Relationships
+    DB --> DBReadTransaction
+    DB --> DBWriteTransaction
+    DB --> TransactionObserver
+    DB --> TransactionCompletion
+
+    DBWriteTransaction --|> DBReadTransaction
+    
+    TransactionObservation o-- TransactionObserver
+    TransactionObservation --> Database.TransactionObservationExtent
+    
+    TransactionObserver <|.. DB : uses
+    TransactionCompletion <|.. DB : uses
+
+    %% GRDB Types (simplified representation)
+    class Database {
+        <<GRDB>>
+        +TransactionCompletion
+        +TransactionObservationExtent
+    }
+
+    class DatabaseEvent {
+        <<GRDB>>
+    }
+
+    class DatabaseEventKind {
+        <<GRDB>>
+    }
+
+    class DatabasePreUpdateEvent {
+        <<GRDB>>
+    }
+
+    %% External Dependencies
+    class Scheduler {
+        <<protocol>>
+    }
+
+    %% Relationships with GRDB types
+    DBReadTransaction --> Database
+    TransactionObserver --> DatabaseEvent
+    TransactionObserver --> DatabaseEventKind
+    TransactionObserver --> DatabasePreUpdateEvent
+    TransactionCompletion --> Database.TransactionCompletion
+```
 
 
-
+#### SDSDatabaseStorage
 
 
 
