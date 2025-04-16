@@ -858,3 +858,612 @@ Executes a write operation using Swift's async/await:
 
 
 
+## Foucs point
+### Sending a message
+
+- `tryToSendTextMessage is the starting point of a message sending flow`:
+
+```
+
+private func tryToSendTextMessage(_ messageBody: MessageBody, updateKeyboardState: Bool, untrustedThreshold: Date) {
+    AssertIsOnMainThread()
+
+    guard hasViewWillAppearEverBegun else {
+        owsFailDebug("View not yet ready.")
+        return
+    }
+    guard let inputToolbar = inputToolbar else {
+        owsFailDebug("Missing inputToolbar.")
+        return
+    }
+
+    guard !isBlockedConversation() else {
+        showUnblockConversationUI { [weak self] isBlocked in
+            if !isBlocked {
+                self?.tryToSendTextMessage(messageBody, updateKeyboardState: false, untrustedThreshold: untrustedThreshold)
+            }
+        }
+        return
+    }
+
+    let newUntrustedThreshold = Date()
+    let didShowSNAlert = showSafetyNumberConfirmationIfNecessary(
+        confirmationText: SafetyNumberStrings.confirmSendButton,
+        untrustedThreshold: untrustedThreshold
+    ) { [weak self] didConfirmIdentity in
+        guard let self = self else { return }
+        if didConfirmIdentity {
+            self.tryToSendTextMessage(messageBody, updateKeyboardState: false, untrustedThreshold: newUntrustedThreshold)
+        }
+    }
+    if didShowSNAlert {
+        return
+    }
+
+    guard !messageBody.text.isEmpty else {
+        return
+    }
+
+    let didAddToProfileWhitelist = ThreadUtil.addThreadToProfileWhitelistIfEmptyOrPendingRequestAndSetDefaultTimerWithSneakyTransaction(thread)
+
+    let editValidationError: EditSendValidationError? = SSKEnvironment.shared.databaseStorageRef.read { transaction in
+        if let editTarget = inputToolbar.editTarget {
+            return context.editManager.validateCanSendEdit(
+                targetMessageTimestamp: editTarget.timestamp,
+                thread: self.thread,
+                tx: transaction.asV2Read
+            )
+        }
+        return nil
+    }
+
+    if let error = editValidationError {
+        OWSActionSheets.showActionSheet(message: error.localizedDescription)
+        return
+    }
+
+    if let editTarget = inputToolbar.editTarget {
+        ThreadUtil.enqueueEditMessage(
+            body: messageBody,
+            thread: self.thread,
+            // If we have _any_ quoted reply populated, keep the existing quoted reply.
+            // If its cleared, "change" it to nothing (clear it).
+            quotedReplyEdit: inputToolbar.quotedReplyDraft == nil ? .change(()) : .keep,
+            linkPreviewDraft: inputToolbar.linkPreviewDraft,
+            editTarget: editTarget,
+            persistenceCompletionHandler: {
+                AssertIsOnMainThread()
+                self.loadCoordinator.enqueueReload()
+            }
+        )
+    } else {
+        ThreadUtil.enqueueMessage(
+            body: messageBody,
+            thread: self.thread,
+            quotedReplyDraft: inputToolbar.quotedReplyDraft,
+            linkPreviewDraft: inputToolbar.linkPreviewDraft,
+            persistenceCompletionHandler: {
+                AssertIsOnMainThread()
+                self.loadCoordinator.enqueueReload()
+            }
+        )
+    }
+
+    messageWasSent()
+
+    // Clearing the text message is a key part of the send animation.
+    // It takes 10-15ms, but we do it inline rather than dispatch async
+    // since the send can't feel "complete" without it.
+    inputToolbar.clearTextMessage(animated: true)
+
+    let thread = self.thread
+    SSKEnvironment.shared.databaseStorageRef.asyncWrite { transaction in
+        // Reload a fresh instance of the thread model; our models are not
+        // thread-safe, so it wouldn't be safe to update the model in an
+        // async write.
+        guard let thread = TSThread.anyFetch(uniqueId: thread.uniqueId, transaction: transaction) else {
+            owsFailDebug("Missing thread.")
+            return
+        }
+        thread.updateWithDraft(
+            draftMessageBody: nil,
+            replyInfo: nil,
+            editTargetTimestamp: nil,
+            transaction: transaction
+        )
+    }
+
+    if didAddToProfileWhitelist {
+        ensureBannerState()
+    }
+
+    NotificationCenter.default.post(name: ChatListViewController.clearSearch, object: nil)
+}
+
+```
+
+- Message sending flow:
+
+```mermaid
+flowchart TD
+    A[Start] --> B{View Ready?}
+    B -->|No| C[Fail]
+    B -->|Yes| D{Blocked?}
+    D -->|Yes| E[Show Unblock UI]
+    D -->|No| F{Untrusted?}
+    F -->|Yes| G[Show Safety Alert]
+    F -->|No| H{Valid Edit?}
+    H -->|No| I[Show Error]
+    H -->|Yes| J[Enqueue Message]
+    J --> K[Clear Input]
+    K --> L[Clear Drafts]
+    L --> M[Update UI]
+```
+
+- `ThreadUtil.enqueueMessage` method handles the asynchronous preparation and enqueueing of outgoing messages, ensuring all content (text/media/links) is validated and formatted correctly before sending: 
+
+```
+public class func enqueueMessage(
+    body messageBody: MessageBody?,
+    mediaAttachments: [SignalAttachment] = [],
+    thread: TSThread,
+    quotedReplyDraft: DraftQuotedReplyModel? = nil,
+    linkPreviewDraft: OWSLinkPreviewDraft? = nil,
+    persistenceCompletionHandler persistenceCompletion: PersistenceCompletion? = nil
+) {
+    let messageTimestamp = MessageTimestampGenerator.sharedInstance.generateTimestamp()
+
+    let benchEventId = sendMessageBenchEventStart(messageTimestamp: messageTimestamp)
+    self.enqueueSendQueue.async {
+        let unpreparedMessage: UnpreparedOutgoingMessage
+        do {
+            let messageBody = try messageBody.map {
+                try DependenciesBridge.shared.attachmentContentValidator
+                    .prepareOversizeTextIfNeeded(from: $0)
+            } ?? nil
+            let linkPreviewDataSource = try linkPreviewDraft.map {
+                try DependenciesBridge.shared.linkPreviewManager.buildDataSource(from: $0)
+            }
+            let mediaAttachments = try mediaAttachments.map {
+                try $0.forSending()
+            }
+            let quotedReplyDraft = try quotedReplyDraft.map {
+                try DependenciesBridge.shared.quotedReplyManager.prepareDraftForSending($0)
+            }
+
+            unpreparedMessage = SSKEnvironment.shared.databaseStorageRef.read { readTransaction in
+                UnpreparedOutgoingMessage.build(
+                    thread: thread,
+                    timestamp: messageTimestamp,
+                    messageBody: messageBody,
+                    mediaAttachments: mediaAttachments,
+                    quotedReplyDraft: quotedReplyDraft,
+                    linkPreviewDataSource: linkPreviewDataSource,
+                    transaction: readTransaction
+                )
+            }
+        } catch {
+            owsFailDebug("Failed to build message")
+            return
+        }
+
+        Self.enqueueMessageSync(
+            unpreparedMessage,
+            benchEventId: benchEventId,
+            thread: thread,
+            persistenceCompletionHandler: persistenceCompletion
+        )
+    }
+}
+
+```
+
+- `ThreadUtil.enqueueMessage` Sequence diagram:
+
+```
+sequenceDiagram
+    participant Caller
+    participant enqueueMessage
+    participant Validators
+    participant Database
+    participant SendQueue
+
+    Caller->>enqueueMessage: enqueueMessage(...)
+    enqueueMessage->>TimestampGenerator: Get timestamp
+    enqueueMessage->>Benchmark: Start tracking
+    enqueueMessage->>enqueueSendQueue: Dispatch async
+    enqueueSendQueue->>Validators: Validate text/media/links/quotes
+    Validators->>enqueueSendQueue: Prepared content
+    enqueueSendQueue->>Database: Read transaction
+    Database->>enqueueSendQueue: Thread/message data
+    enqueueSendQueue->>UnpreparedOutgoingMessage: Build message
+    enqueueSendQueue->>SendQueue: enqueueMessageSync(...)
+    SendQueue->>Database: Write message
+    SendQueue->>Caller: persistenceCompletion()
+    SendQueue->>Benchmark: End tracking
+```
+
+
+- `enqueueMessageSync` finalizes the message preparation process, persists the message to the database, and enqueues it for delivery. It is the final synchronous step in Signal's message-sending pipeline.
+
+
+
+- `prepareOversizeTextIfNeeded` used to build encrypted message before send it using `enqueueMessageSync`
+
+```
+public func prepareOversizeTextIfNeeded(
+    from messageBody: MessageBody
+) throws -> ValidatedMessageBody? {
+    guard !messageBody.text.isEmpty else {
+        return nil
+    }
+    let truncatedText = messageBody.text.trimmedIfNeeded(maxByteCount: Int(kOversizeTextMessageSizeThreshold))
+    guard let truncatedText else {
+        // No need to truncate
+        return .inline(messageBody)
+    }
+    let truncatedBody = MessageBody(text: truncatedText, ranges: messageBody.ranges)
+
+    guard let textData = messageBody.text.data(using: .utf8) else {
+        throw OWSAssertionError("Unable to encode text")
+    }
+    let input = Input.inMemory(textData)
+    let encryptionKey = Cryptography.randomAttachmentEncryptionKey()
+    let pendingAttachment = try self.validateContents(
+        input: input,
+        encryptionKey: encryptionKey,
+        mimeType: MimeType.textXSignalPlain.rawValue,
+        renderingFlag: .default,
+        sourceFilename: nil
+    )
+
+    return .oversize(truncated: truncatedBody, fullsize: pendingAttachment)
+}
+
+```
+
+- Inside `prepareOversizeTextIfNeeded` the method `validateContents` is being called.
+
+```
+private func validateContents(
+    input: Input,
+    encryptionKey: Data,
+    mimeType: String,
+    renderingFlag: AttachmentReference.RenderingFlag,
+    sourceFilename: String?
+) throws -> PendingAttachment {
+    var mimeType = mimeType
+    let contentTypeResult = try validateContentType(
+        input: input,
+        encryptionKey: encryptionKey,
+        mimeType: &mimeType
+    )
+    return try prepareAttachmentFiles(
+        input: input,
+        encryptionKey: encryptionKey,
+        mimeType: mimeType,
+        renderingFlag: renderingFlag,
+        sourceFilename: sourceFilename,
+        contentResult: contentTypeResult
+    )
+}
+```
+- Here `prepareAttachmentFiles` is being called which performs the encryption.
+
+```
+private func prepareAttachmentFiles(
+    input: Input,
+    encryptionKey: Data,
+    mimeType: String,
+    renderingFlag: AttachmentReference.RenderingFlag,
+    sourceFilename: String?,
+    contentResult: ContentTypeResult
+) throws -> PendingAttachmentImpl {
+    let primaryFilePlaintextHash = try computePlaintextHash(input: input)
+
+    // First encrypt the files that need encrypting.
+    let (primaryPendingFile, primaryFileMetadata) = try encryptPrimaryFile(
+        input: input,
+        encryptionKey: encryptionKey
+    )
+    guard let primaryFileDigest = primaryFileMetadata.digest else {
+        throw OWSAssertionError("No digest in output")
+    }
+    guard
+        let primaryPlaintextLength = primaryFileMetadata.plaintextLength
+            .map(UInt32.init(exactly:)) ?? nil
+    else {
+        throw OWSAssertionError("File too large")
+    }
+
+    guard
+        let primaryEncryptedLength = OWSFileSystem.fileSize(
+            of: primaryPendingFile.tmpFileUrl
+        )?.uint32Value
+    else {
+        throw OWSAssertionError("Couldn't determine size")
+    }
+
+    let orphanRecordId = try commitOrphanRecordWithSneakyTransaction(
+        primaryPendingFile: primaryPendingFile,
+        audioWaveformFile: contentResult.audioWaveformFile,
+        videoStillFrameFile: contentResult.videoStillFrameFile,
+        encryptionKey: encryptionKey
+    )
+
+    return PendingAttachmentImpl(
+        blurHash: contentResult.blurHash,
+        sha256ContentHash: primaryFilePlaintextHash,
+        encryptedByteCount: primaryEncryptedLength,
+        unencryptedByteCount: primaryPlaintextLength,
+        mimeType: mimeType,
+        encryptionKey: encryptionKey,
+        digestSHA256Ciphertext: primaryFileDigest,
+        localRelativeFilePath: primaryPendingFile.reservedRelativeFilePath,
+        renderingFlag: renderingFlag,
+        sourceFilename: sourceFilename,
+        validatedContentType: contentResult.contentType,
+        orphanRecordId: orphanRecordId
+    )
+}
+
+```
+
+- Encryption job took place inside `SignalServiceKit's` `Cryptography` module as the method `Cryptography.encrypt(..)` called form `encryptPrimaryFile()`.
+- Encryption methods:
+
+```
+    /// Encrypt input data in memory, producing the encrypted output data.
+    ///
+    /// - parameter input: The data to encrypt.
+    /// - parameter encryptionKey: The key to encrypt with; the AES key and the hmac key concatenated together.
+    ///     (The same format as ``EncryptionMetadata/key``). A random key will be generated if none is provided.
+    /// - parameter iv: the iv to use. If nil, a random iv is generated. If provided, but be of length ``Cryptography/aescbcIVLength``.
+    /// - parameter applyExtraPadding: If true, extra zero padding will be applied to ensure bucketing of file sizes,
+    ///     in addition to standard PKCS7 padding. If false, only standard PKCS7 padding is applied.
+    ///
+    /// - returns: The encrypted padded data prefixed with the random iv and postfixed with the hmac.
+    static func encrypt(
+        _ input: Data,
+        encryptionKey inputKey: Data? = nil,
+        iv: Data? = nil,
+        applyExtraPadding: Bool = false
+    ) throws -> (Data, EncryptionMetadata) {
+        if let inputKey, inputKey.count != Constants.concatenatedEncryptionKeyLength {
+            throw OWSAssertionError("Invalid encryption key length")
+        }
+
+        let inputKey = inputKey ?? randomAttachmentEncryptionKey()
+        let encryptionKey = inputKey.prefix(Constants.aesKeySize)
+        let hmacKey = inputKey.suffix(Constants.hmac256KeyLength)
+
+        var outputData = Data()
+        let encryptionMetadata = try _encryptAttachment(
+            enumerateInputInBlocks: { closure in
+                // Just run the whole input at once; its already in memory.
+                try closure(input)
+                return UInt(input.count)
+            },
+            output: { outputBlock in
+                outputData.append(outputBlock)
+            },
+            encryptionKey: encryptionKey,
+            hmacKey: hmacKey,
+            iv: iv,
+            applyExtraPadding: applyExtraPadding
+        )
+        return (outputData, encryptionMetadata)
+    }
+
+    /// Encrypt an attachment source to an output sink.
+    ///
+    /// - parameter enumerateInputInBlocks: The caller should enumerate blocks of the plaintext
+    /// input one at a time (size up to the caller) until the entire input has been provided, and then return the
+    /// byte length of the plaintext input.
+    /// - parameter output: Called by this method with each chunk of output ciphertext data.
+    /// - parameter encryptionKey: The key used for encryption. Must be of byte length ``Cryptography/aesKeySize``.
+    /// - parameter hmacKey: The key used for hmac. Must be of byte length ``Cryptography/hmac256KeyLength``.
+    /// - parameter iv: the iv to use. If nil, a random iv is generated. If provided, but be of length ``Cryptography/aescbcIVLength``.
+    /// - parameter applyExtraPadding: If true, additional padding is applied _before_ pkcs7 padding to obfuscate
+    /// the size of the encrypted file. If false, only standard pkcs7 padding is used.
+    private static func _encryptAttachment(
+        // Run the closure on blocks of the input until complete and then return input plaintext length.
+        enumerateInputInBlocks: ((Data) throws -> Void) throws -> UInt,
+        output: @escaping (Data) -> Void,
+        encryptionKey: Data,
+        hmacKey: Data,
+        iv inputIV: Data? = nil,
+        applyExtraPadding: Bool
+    ) throws -> EncryptionMetadata {
+
+        var totalOutputOffset: Int = 0
+        let output: (Data) -> Void = { outputData in
+            totalOutputOffset += outputData.count
+            output(outputData)
+        }
+
+        let iv: Data
+        if let inputIV {
+            if inputIV.count != Constants.aescbcIVLength {
+                throw OWSAssertionError("Invalid IV length")
+            }
+            iv = inputIV
+        } else {
+            iv = Randomness.generateRandomBytes(UInt(Constants.aescbcIVLength))
+        }
+
+        var hmac = HMAC<SHA256>(key: .init(data: hmacKey))
+        var sha256 = SHA256()
+        let cipherContext = try CipherContext(
+            operation: .encrypt,
+            algorithm: .aes,
+            options: .pkcs7Padding,
+            key: encryptionKey,
+            iv: iv
+        )
+
+        // We include our IV at the start of the file *and*
+        // in both the hmac and digest.
+        hmac.update(data: iv)
+        sha256.update(data: iv)
+        output(iv)
+
+        let unpaddedPlaintextLength: UInt
+
+        // Encrypt the file by enumerating blocks. We want to keep our
+        // memory footprint as small as possible during encryption.
+        do {
+            unpaddedPlaintextLength = try enumerateInputInBlocks { plaintextDataBlock in
+                let ciphertextBlock = try cipherContext.update(plaintextDataBlock)
+
+                hmac.update(data: ciphertextBlock)
+                sha256.update(data: ciphertextBlock)
+                output(ciphertextBlock)
+            }
+
+            // Add zero padding to the plaintext attachment data if necessary.
+            let paddedPlaintextLength = paddedSize(unpaddedSize: unpaddedPlaintextLength)
+            if applyExtraPadding, paddedPlaintextLength > unpaddedPlaintextLength {
+                let ciphertextBlock = try cipherContext.update(
+                    Data(repeating: 0, count: Int(paddedPlaintextLength - unpaddedPlaintextLength))
+                )
+
+                hmac.update(data: ciphertextBlock)
+                sha256.update(data: ciphertextBlock)
+                output(ciphertextBlock)
+            }
+
+            // Finalize the encryption and write out the last block.
+            // Every time we "update" the cipher context, it returns
+            // the ciphertext for the previous block so there will
+            // always be one block remaining when we "finalize".
+            let finalCiphertextBlock = try cipherContext.finalize()
+
+            hmac.update(data: finalCiphertextBlock)
+            sha256.update(data: finalCiphertextBlock)
+            output(finalCiphertextBlock)
+        }
+
+        // Calculate our HMAC. This will be used to verify the
+        // data after decryption.
+        // hmac of: iv || encrypted data
+        let hmacResult = Data(hmac.finalize())
+
+        // We write the hmac at the end of the file for the
+        // receiver to use for verification. We also include
+        // it in the digest.
+        sha256.update(data: hmacResult)
+        output(hmacResult)
+
+        // Calculate our digest. This will be used to verify
+        // the data after decryption.
+        // digest of: iv || encrypted data || hmac
+        let digest = Data(sha256.finalize())
+
+        return EncryptionMetadata(
+            key: encryptionKey + hmacKey,
+            digest: digest,
+            length: totalOutputOffset,
+            plaintextLength: Int(unpaddedPlaintextLength)
+        )
+    }
+
+```
+
+`encrypt(_:encryptionKey:iv:applyExtraPadding:)`
+
+
+This is the public-facing convenience method that encrypts an entire input data blob in memory. Its main responsibilities and flow are as follows:
+
+**Parameter Handling and Key Management:**
+
+- Input Data: The raw data to be encrypted.
+
+- Encryption Key: An optional key is provided. If a key is passed, it must have a specific length (concatenation of an AES key and an HMAC key). If not provided, a random key is generated.
+- IV (Initialization Vector): A provided IV must match the expected length. If the IV is nil, a random IV is generated.
+- Extra Padding: A Boolean flag determines whether extra zero-padding is applied besides the standard PKCS7 padding. This extra padding is used to "bucket" file sizes (i.e. obscure the true size of the plaintext).
+
+**Splitting the Key:**
+
+Once the key is available, the method splits it into two parts:
+
+- AES Encryption Key: The first part used for the actual encryption operation.
+- HMAC Key: The latter part used for generating an HMAC digest for authenticity/integrity.
+
+**Delegating the Encryption Process:**
+
+- The method builds an output Data instance that will accumulate the encrypted result.
+- It then calls the internal helper method _encryptAttachment (described below), passing in:
+- A closure (enumerateInputInBlocks) that simply feeds the entire input data to the encryption process in one go (since the data is already fully in memory).
+- An output closure that appends chunks of encrypted data to the outputData.
+- The split encryption key, HMAC key, IV, and the padding option.
+
+**Return Value:**
+
+The function returns a tuple containing:
+
+- The final encrypted data (which includes the IV at the beginning and the computed HMAC at the end).
+- An EncryptionMetadata object containing details like the final digest, the concatenated key used, total output length, and the original plaintext length.
+
+
+
+`_encryptAttachment(enumerateInputInBlocks:output:encryptionKey:hmacKey:iv:applyExtraPadding:)`
+
+
+Implements the low-level encryption process using block processing. It initializes cryptographic contexts for AES encryption, HMAC, and SHA256, processes plaintext blocks, applies extra padding if needed, finalizes encryption, appends a computed HMAC, and computes a final digest. This method ensures that all necessary cryptographic elements (IV, ciphertext, HMAC, digest) are produced for secure, verifiable encryption.
+
+**Initialization and IV Handling:**
+
+- The method checks whether an IV is provided. If not, it generates a random IV of the required length.
+- It immediately writes the IV to the output (and includes it in the HMAC and SHA256 digest computations). This ensures the IV is part of the final file format so that decryption can use it later.
+
+**Setting Up HMAC and SHA256:**
+
+- It initializes both an HMAC (using SHA256) and a SHA256 digest calculator.
+- The IV is fed to both the HMAC and the SHA256, ensuring the IV is cryptographically included in their outputs.
+
+**Cipher Context Initialization:**
+
+- A cipher context is created to handle AES encryption with PKCS7 padding. This context will process the plaintext in chunks.
+- The options indicate that PKCS7 padding is expected; this is the standard padding mode, but extra zero padding might be applied before it if requested.
+
+**Processing Plaintext Blocks:**
+
+- The method uses the provided enumerateInputInBlocks closure to iterate over the plaintext data. In each iteration:
+- It encrypts a block using the cipher context.
+- Updates both HMAC and SHA256 with the ciphertext block.
+- Writes the ciphertext block to the output.
+- The closure is designed to keep memory usage low by processing data in blocks rather than loading everything at once.
+
+**Applying Extra Padding:**
+
+- After processing the plaintext, the method calculates the padded size (i.e. the total size after any extra zero-padding is applied).
+- If the applyExtraPadding flag is true and the padded size exceeds the original plaintext length, it creates a block of zero bytes to fill the gap. This block is then encrypted, processed by the HMAC and SHA256, and appended to the output.
+
+**Finalizing Encryption:**
+
+- The cipher context is finalized to process any remaining bytes (note that in block ciphers, there’s often a “final” block produced when finalizing).
+- This final ciphertext block is also included in the HMAC, SHA256, and appended to the output.
+
+**Appending HMAC:**
+
+- After all ciphertext blocks have been output, the final HMAC is computed. This HMAC covers the IV and all the encrypted data.
+- The HMAC is appended (and its value is also included in the digest calculation).
+
+**Computing the Digest:**
+
+The SHA256 digest is finalized after updating it with the entire output (IV, encrypted data, and HMAC). This digest is used to verify data integrity after decryption.
+
+**Output Metadata:**
+
+The method calculates and returns an EncryptionMetadata object that includes:
+
+- The combined encryption key (AES key concatenated with HMAC key).
+- The digest computed over all necessary bytes.
+- The overall length of the output data.
+- The original (unpadded) plaintext length.
+
+
+
+
+
