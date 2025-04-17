@@ -1060,7 +1060,7 @@ public class func enqueueMessage(
 
 - `ThreadUtil.enqueueMessage` Sequence diagram:
 
-```
+```mermaid
 sequenceDiagram
     participant Caller
     participant enqueueMessage
@@ -1462,6 +1462,147 @@ The method calculates and returns an EncryptionMetadata object that includes:
 - The digest computed over all necessary bytes.
 - The overall length of the output data.
 - The original (unpadded) plaintext length.
+
+
+
+## The Signal Protocol 
+- The Signal Protocol, described as an “end-to-end ratcheting forward secrecy protocol that works in synchronous and asynchronous messaging environments” has recently been adopted by most of the messaging applications, including WhatsApp, Facebook Messenger etc.
+- Forward Secrecy is a feature of specific key agreement protocols that gives assurances that session keys will not be compromised even if long-term secrets used in the session key exchange are compromised.
+- End-to-end encryption is a method of secure communication that prevents third-parties from accessing data while it’s transferred from one end system or device to another.
+- In E2E encryption, the data is encrypted on the sender’s system or device and only the recipient is able to decrypt it, which is a fact that guaranties the confidentiality and integrity of the exchanged data.
+-The Signal Protocol is a hybrid cryptographic system that combines:
+
+	- **X3DH (Extended Triple Diffie-Hellman):** For initial key agreement.
+	- **Double Ratchet Algorithm:** For secure message exchange after a session is established.
+	- **Prekeys:** For allowing asynchronous communication (you can message someone even if they’re offline).
+
+### X3DH
+- X3DH is a key agreement protocol. It establishes a shared secret between two parties using a combination of three or four Diffie-Hellman calculations.
+- X3DH is used once at the beginning of a Signal session. After this, all messages use the Double Ratchet.
+
+```mermaid
+sequenceDiagram
+    participant Server
+    participant Alice(Sender)
+    participant Bob(Recipient)
+
+    Bob(Recipient)->>Server: Upload IK, SPK (signed), [OPK1, OPK2, ...]
+    Alice(Sender)->>Server: Request Bob's Prekey Bundle
+    Server-->>Alice(Sender): {IK_Bob, SPK_Bob, OPK_Bob}
+
+    Alice(Sender)->>Alice(Sender): Generate EK_Alice
+    Alice(Sender)->>Alice(Sender): Perform DH1, DH2, DH3, [DH4]
+    Alice(Sender)->>Alice(Sender): Derive shared secret
+    Alice(Sender)->>Bob(Recipient): Send Initial Message + EK_Alice
+
+    Bob(Recipient)->>Bob(Recipient): Perform same DH steps
+    Bob(Recipient)->>Bob(Recipient): Derive shared secret
+
+```
+
+### Prekeys
+
+- In the Double Ratchet Algorithm, a prekey is a pre-public key used to establish an initial shared secret between two parties. It's part of the asymmetric key exchange that helps initialize the ratcheting process.
+
+**Role of Prekeys in Double Ratchet (Signal Protocol)**
+
+
+**Initial Key Exchange:**
+
+- Before communication starts, one party (typically the server or the recipient) generates a bundle of prekeys and publishes them.
+- The sender fetches one of these prekeys and uses it to compute a shared secret via Diffie-Hellman (DH).
+
+
+**One-Time Use:**
+
+- Each prekey is used only once to prevent replay attacks.
+- Once used, it is discarded, and the next session uses a different prekey.
+
+**Combined with Identity Key:**
+
+- The recipient also has a long-term identity key.
+- The sender performs two DH operations:
+- Between their ephemeral key and the prekey.
+- Between their ephemeral key and the recipient's identity key.
+- This ensures forward secrecy and authenticity.
+
+
+### [Double Ratchet Algorithm](https://signal.org/docs/specifications/doubleratchet/)
+The Double Ratchet provides end-to-end encrypted messaging.
+#### Components
+
+**KDF**
+
+A Key Derivation Function is a cryptographic algorithm that takes some input material (like a secret or password) and derives one or more strong, secure cryptographic keys from it.
+
+It’s kind of like a blender that takes in a seed ingredient (e.g., shared secret from a Diffie-Hellman exchange) and produces a smoothie (i.e., multiple secure keys) you can use for encryption, authentication, etc.
+
+**Ratchet Key Pairs**
+
+- DHs: your current Diffie‑Hellman key pair (private + public)
+- DHR: the last ratchet public key you received from your correspondent
+
+
+**Diffie‑Hellman Operation**
+
+- DH(dh_pair, dh_pub): an ECDH (e.g. X25519) that takes your private key and the other party’s public key to compute a shared secret
+
+
+**Root Key (RK)**
+
+- A 32‑byte symmetric key that represents the state of the “root” KDF chain; it’s updated every time a new ratchet public key arrives
+
+
+**Root‑Chain KDF**
+
+- KDF_RK(rk, dh_out) → (new_RK, new_CK)
+- Takes the old root key plus the fresh DH output, and yields both a new root key and an initial chain key for the next symmetric ratchet
+
+
+**Chain Keys (CKs, CKr)**
+
+- CKs: the sending‑chain key derived from the root KDF; used to kick off your outbound symmetric ratchet
+- CKr: the receiving‑chain key derived likewise; used when processing inbound messages
+
+
+
+#### High level diagram
+
+```mermaid
+sequenceDiagram
+    participant A as Alice
+    participant B as Bob
+
+    Note over A,B: 1. Initial X3DH Handshake
+    A->>B: A's identity key, ephemeral key, B's prekey
+    B->>A: B's ephemeral key + prekey signature
+    Note left of A: Compute shared root key (RK)
+
+    loop Double Ratchet Phase
+        Note over A,B: 2. Alice Sends Message
+        A->>A: Generate new DH key pair (A_new)
+        A->>A: RK = KDF(RK, DH(A_new, B_last_public))
+        A->>A: Sending Chain → MessageKey1
+        A->>B: Encrypted Msg1 + A_new (public)
+        
+        Note over B: 3. Bob Receives
+        B->>B: RK = KDF(RK, DH(B_last_private, A_new))
+        B->>B: Receiving Chain → MessageKey1
+        B-->>A: Decrypt Msg1
+        
+        Note over A,B: 4. Bob Replies
+        B->>B: Generate new DH key pair (B_new)
+        B->>B: Sending Chain → MessageKey2
+        B->>A: Encrypted Msg2 + B_new (public)
+        
+        Note over A: 5. Alice Receives
+        A->>A: RK = KDF(RK, DH(A_last_private, B_new))
+        A->>A: Receiving Chain → MessageKey2
+        A-->>B: Decrypt Msg2
+    end
+```
+
+- In Signal iOS app [libsignal](https://github.com/signalapp/libsignal?tab=readme-ov-file) library, which is added using cocoapod with then name LibSignalClient, implements the Signal protocol, including the Double Ratchet algorithm.
 
 
 
